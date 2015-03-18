@@ -15,6 +15,14 @@ I participated this competition to wrap-up and study the recent deep learning te
 ## My approach
 I will explain my approach in following order (like the blog post of the winning solution!). I basically used Caffe (http://caffe.berkeleyvision.org/). 
 
+1. First ordered list item
+2. Another item
+⋅⋅* Unordered sub-list. 
+1. Actual numbers don't matter, just that it's a number
+⋅⋅1. Ordered sub-list
+4. And another item.
+
+
 1. Data preprocessing and Data augmentation
 * Scaling
 * Affine transformation (and resizing to 96 by 96)
