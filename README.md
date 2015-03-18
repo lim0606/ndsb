@@ -16,9 +16,9 @@ I participated this competition to wrap-up and study the recent deep learning te
 I will explain my approach in following order (like the blog post of the winning solution!). I basically used Caffe (http://caffe.berkeleyvision.org/). 
 
 1. Data preprocessing and Data augmentation
-⋅⋅* Scaling
-⋅⋅* Affine transformation (and resizing to 96 by 96)
-⋅⋅* Offline data augmentation vs Online data augmentation
+* Scaling
+* Affine transformation (and resizing to 96 by 96)
+* Offline data augmentation vs Online data augmentation
 2. Network architectures
 ⋅⋅* Variations of cxx_net
 ⋅⋅* GoogLeNet for NDSB
