@@ -5,29 +5,43 @@ I participated this competition to wrap-up and study the recent deep learning te
 
 ## Kaggle NDSB competition
 - See following the competition page :) 
+
  http://www.kaggle.com/c/datasciencebowl
+
 - the blog post of the winning solution
+
  http://benanne.github.io/2015/03/17/plankton.html
  
 ## My approach
 I will explain my approach in following order (like the blog post of the winning solution!). I basically used Caffe (http://caffe.berkeleyvision.org/). 
 1. Data preprocessing and Data augmentation
+ 
 - Scaling
 - Affine transformation (and resizing to 96 by 96)
 - Offline data augmentation vs Online data augmentation
+
 2. Network architectures
+
 - Variations of cxx_net
 - GoogLeNet for NDSB
+
 3. Training
+
 - Batch normalization
+
 4. Inference
+
 - Batch normalization
 - Multiple inference from single input
 - Model averaging (from a single network architecture)
 - Model averaging 
+
 5. Miscellany
+
 - Change interpolation methods in image transformation (in Caffe) from linear interpolation to cubic. 
+
 6. Final submissions
+
 - Model averaging of 18 GoogLeNets (for NDSB) and 14 cxx\_net variants. 
 
 ### Data preprocessing and Data augmentation
