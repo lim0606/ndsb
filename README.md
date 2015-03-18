@@ -27,8 +27,8 @@ I will explain my approach in following order (like the blog post of the winning
 - Model averaging 
 5. Miscellany
 - Change interpolation methods in image transformation (in Caffe) from linear interpolation to cubic. 
-6. Final submission
-- Model averaging of 18 GoogLeNets (for NDSB) and 14 cxx\_net variation models. 
+6. Final submissions
+- Model averaging of 18 GoogLeNets (for NDSB) and 14 cxx\_net variants. 
 
 ### Data preprocessing and Data augmentation
 - Scaling
@@ -72,12 +72,29 @@ The xavier initialization was also important for maximizing the usefulness of ba
 - Model averaging (from a single network architecture)
 - Model averaging 
 
-As I explained above, I further modifed the batch normalization layer (https://github.com/ChenglongChen/batch_normalization) to use it in inference. See the batch normalization for the inference 
+As I explained above, I further modifed the batch normalization layer (https://github.com/ChenglongChen/batch_normalization) to use it in inference. See the paper (http://arxiv.org/abs/1502.03167) to understand the batch normalization in inference. 
+See `codes_for_caffe/predict_bn.cpp` and `codes_for_caffe/test_bn.cpp` for the implementation of batch normalization in inference. 
+See `models/train_val_googlenet_bn_var3.prototxt` for how I applied this in the model. 
 
+During the competition, I saw this post http://www.kaggle.com/c/datasciencebowl/forums/t/12652/cnn, and followed the link in it https://github.com/msegala/Kaggle-National_Data_Science_Bowl. This implemetation described the multiple inference from single image with single model. This means that when you read an image, augment this data to multiple different image as you did in training, and averaging the predictions for each of them. I implemented this one for caffe. See `codes_for_caffe/avg_probs_layer.cpp`, `image_data_multi_infer_layer.cpp`, and `models/predict_googlenet_bn_var3_loss_avg.prototxt` fot the implementation. 
+
+So, I applied 8 multiple inferences, and produced highly better results. Any further inference not make improvement.
+
+Model averaging of different initialization for a single network architecture is well-known techniques, and I used it. 
 
 ### Miscellany
 - Change interpolation methods in image transformation (in Caffe) from linear interpolation to cubic. 
 
-### Final submission
-- Model averaging of 18 GoogLeNets (for NDSB) and 14 cxx\_net variation models. 
-I 
+Original caffe master branch and caffe-dev bracn use linear interpolation when they have to resize or transform `cv::Mat` images. By changing it to bicubic interpolation, I got several percents of improvement :) Please change it if you are using Caffe!  
+
+### Final submissions
+- Model averaging of 18 GoogLeNets (for NDSB) and 14 cxx\_net variants. 
+1. For single model of model5 (cxx\_net variant) with offline augmentation produced about 74% accuracy(?) and 0.79 loss.
+2. For single model of model5 (cxx\_net variant) with online augmentation produced about 0.78 loss.
+3. For single model of model5 (cxx\_net variant) with online augmentation and multiple inference (8 inference) produced about 0.73 loss. 
+4. Two models of 3 produced 0.71 loss
+5. Four models of 3 produced 0.70 loss
+5. 10 models of 3 produced 0.69 loss
+6. For single model of GoogLeNet for NDSB produced about 75% accuracy and 0.80 loss. 
+6. For single model of GoogLeNet for NDSB and a single model of model5 (cxx\_net variant) with online augmentation and multiple inference (8 inference) produced 0.68 loss. 
+7. Model averaging of 18 GoogLeNets (for NDSB) and 14 cxx\_net variants produced 0.639206 loss. 
