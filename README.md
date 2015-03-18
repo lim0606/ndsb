@@ -55,16 +55,25 @@ From the models, I increased the number of features in convolution layer, especi
 
 I also tried GoogLeNet for this competition because it is cool!!! I changed the size of convolution at the first convolution layer from 7 to 4 (since I thought the finer lower level features are required in this competition, and it was!), and changed some pooling and padding parameters. See `models/train_val_googlenet_bn_var3.prototxt`
 
-There is a reason I used two different models in final submission. The predictions of GoogLeNet always produces better accuracy in validation data (randomly selected from 10% of training data) than 
+There is a reason I used two different models in final submission. The predictions of GoogLeNet always produced better accuracy in validation data (randomly selected from 10% of training data) than model5, but the GoogLeNet always had larger loss (multinomial log loss). Averaging the predictions of those two network architectures made much better accuracy and loss. The issue of loss and accuracy is also considered in the winning solution of this competition; see their blog post http://benanne.github.io/2015/03/17/plankton.html. 
 
 ### Training
 - Batch normalization
 
+The main focus of myself to participate this competition is to wrap-up new deep learning techniques, and I really wanted to try GoogLeNet with batch normalization (http://arxiv.org/abs/1502.03167). Fortunately, there was a caffe implemetation of the batch normalization for caffe master branch (https://github.com/ChenglongChen/batch_normalization). There is now caffe-dev branch version of it, but there wasn't when I started to use. So, I modified the codes. I further modifed his batch normalization layer because his version does not support batch normalization for inference. 
+
+Anyway, batch normalization (with xavier initialization) was awesomely cool!!!!!! I personally tested the trainings of GoogLeNet with and without batch normaliztion for NDSB dataset. The convergence speeds of the batch nomalization applied one is way way faster as the paper reported. So, it seems true :) 
+
+The xavier initialization was also important for maximizing the usefulness of batch normalization. For better optimizatino SGD, we should have stable and consistenty gradients, and the batch normalization make them possible by providing stable backpropagation signals via activity normalization. The xavier initialization is the result of the consideration to provide sufficient size of backprob signal by weight values. For further explanation, see this paper http://arxiv.org/abs/1502.01852.
 
 ### Inference
+- Batch normalization
 - Multiple inference from single input
 - Model averaging (from a single network architecture)
 - Model averaging 
+
+As I explained above, I further modifed the batch normalization layer (https://github.com/ChenglongChen/batch_normalization) to use it in inference. See the batch normalization for the inference 
+
 
 ### Miscellany
 - Change interpolation methods in image transformation (in Caffe) from linear interpolation to cubic. 
