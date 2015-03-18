@@ -51,24 +51,24 @@ I will explain my approach in following order (like the blog post of the winning
 * Variations of cxx_net
 * GoogLeNet for NDSB
 
-I used following models; `models/train_model5_bn_realtime_aug.prototxt` and `models/train_val_googlenet_bn_var3.prototxt`
+  I used following models; `models/train_model5_bn_realtime_aug.prototxt` and `models/train_val_googlenet_bn_var3.prototxt`
 
-At first, I started from the model called cxx\_net that are shared by Bing Xi (http://www.kaggle.com/users/43581/bing-xu). See https://github.com/antinucleon/cxxnet/tree/master/example/kaggle_bowl
+  At first, I started from the model called cxx\_net that are shared by Bing Xi (http://www.kaggle.com/users/43581/bing-xu). See https://github.com/antinucleon/cxxnet/tree/master/example/kaggle_bowl
 
-From the models, I increased the number of features in convolution layer, especially the first layer. I also applied the network in network layer (http://openreview.net/document/9b05a3bb-3a5e-49cb-91f7-0f482af65aea) to the variation of cxx_net. I used the caffe implementation of nin descibed in https://github.com/BVLC/caffe/wiki/Model-Zoo. I annotated the model as model5 in may files. See `models/train_model5_bn_realtime_aug.prototxt`
+  From the models, I increased the number of features in convolution layer, especially the first layer. I also applied the network in network layer (http://openreview.net/document/9b05a3bb-3a5e-49cb-91f7-0f482af65aea) to the variation of cxx_net. I used the caffe implementation of nin descibed in https://github.com/BVLC/caffe/wiki/Model-Zoo. I annotated the model as model5 in may files. See `models/train_model5_bn_realtime_aug.prototxt`
 
-I also tried GoogLeNet for this competition because it is cool!!! I changed the size of convolution at the first convolution layer from 7 to 4 (since I thought the finer lower level features are required in this competition, and it was!), and changed some pooling and padding parameters. See `models/train_val_googlenet_bn_var3.prototxt`
+  I also tried GoogLeNet for this competition because it is cool!!! I changed the size of convolution at the first convolution layer from 7 to 4 (since I thought the finer lower level features are required in this competition, and it was!), and changed some pooling and padding parameters. See `models/train_val_googlenet_bn_var3.prototxt`
 
-There is a reason I used two different models in final submission. The predictions of GoogLeNet always produced better accuracy in validation data (randomly selected from 10% of training data) than model5, but the GoogLeNet always had larger loss (multinomial log loss). Averaging the predictions of those two network architectures made much better accuracy and loss. The issue of loss and accuracy is also considered in the winning solution of this competition; see their blog post http://benanne.github.io/2015/03/17/plankton.html. 
+  There is a reason I used two different models in final submission. The predictions of GoogLeNet always produced better accuracy in validation data (randomly selected from 10% of training data) than model5, but the GoogLeNet always had larger loss (multinomial log loss). Averaging the predictions of those two network architectures made much better accuracy and loss. The issue of loss and accuracy is also considered in the winning solution of this competition; see their blog post http://benanne.github.io/2015/03/17/plankton.html. 
 
 ### Training
 * Batch normalization
 
-The main focus of myself to participate this competition is to wrap-up new deep learning techniques, and I really wanted to try GoogLeNet with batch normalization (http://arxiv.org/abs/1502.03167). Fortunately, there was a caffe implemetation of the batch normalization for caffe master branch (https://github.com/ChenglongChen/batch_normalization). There is now caffe-dev branch version of it, but there wasn't when I started to use. So, I modified the codes. I further modifed his batch normalization layer because his version does not support batch normalization for inference. 
+  The main focus of myself to participate this competition is to wrap-up new deep learning techniques, and I really wanted to try GoogLeNet with batch normalization (http://arxiv.org/abs/1502.03167). Fortunately, there was a caffe implemetation of the batch normalization for caffe master branch (https://github.com/ChenglongChen/batch_normalization). There is now caffe-dev branch version of it, but there wasn't when I started to use. So, I modified the codes. I further modifed his batch normalization layer because his version does not support batch normalization for inference. 
 
-Anyway, batch normalization (with xavier initialization) was awesomely cool!!!!!! I personally tested the trainings of GoogLeNet with and without batch normaliztion for NDSB dataset. The convergence speeds of the batch nomalization applied one is way way faster as the paper reported. So, it seems true :) 
+  Anyway, batch normalization (with xavier initialization) was awesomely cool!!!!!! I personally tested the trainings of GoogLeNet with and without batch normaliztion for NDSB dataset. The convergence speeds of the batch nomalization applied one is way way faster as the paper reported. So, it seems true :) 
 
-The xavier initialization was also important for maximizing the usefulness of batch normalization. For better optimizatino SGD, we should have stable and consistenty gradients, and the batch normalization make them possible by providing stable backpropagation signals via activity normalization. The xavier initialization is the result of the consideration to provide sufficient size of backprob signal by weight values. For further explanation, see this paper http://arxiv.org/abs/1502.01852.
+  The xavier initialization was also important for maximizing the usefulness of batch normalization. For better optimizatino SGD, we should have stable and consistenty gradients, and the batch normalization make them possible by providing stable backpropagation signals via activity normalization. The xavier initialization is the result of the consideration to provide sufficient size of backprob signal by weight values. For further explanation, see this paper http://arxiv.org/abs/1502.01852.
 
 ### Inference
 * Batch normalization
@@ -76,20 +76,18 @@ The xavier initialization was also important for maximizing the usefulness of ba
 * Model averaging (from a single network architecture)
 * Model averaging 
 
-As I explained above, I further modifed the batch normalization layer (https://github.com/ChenglongChen/batch_normalization) to use it in inference. See the paper (http://arxiv.org/abs/1502.03167) to understand the batch normalization in inference. 
-See `codes_for_caffe/predict_bn.cpp` and `codes_for_caffe/test_bn.cpp` for the implementation of batch normalization in inference. 
-See `models/train_val_googlenet_bn_var3.prototxt` for how I applied this in the model. 
+  As I explained above, I further modifed the batch normalization layer (https://github.com/ChenglongChen/batch_normalization) to use it in inference. See the paper (http://arxiv.org/abs/1502.03167) to understand the batch normalization in inference. See `codes_for_caffe/predict_bn.cpp` and `codes_for_caffe/test_bn.cpp` for the implementation of batch normalization in inference. See `models/train_val_googlenet_bn_var3.prototxt` for how I applied this in the model. 
 
-During the competition, I saw this post http://www.kaggle.com/c/datasciencebowl/forums/t/12652/cnn, and followed the link in it https://github.com/msegala/Kaggle-National_Data_Science_Bowl. This implemetation described the multiple inference from single image with single model. This means that when you read an image, augment this data to multiple different image as you did in training, and averaging the predictions for each of them. I implemented this one for caffe. See `codes_for_caffe/avg_probs_layer.cpp`, `image_data_multi_infer_layer.cpp`, and `models/predict_googlenet_bn_var3_loss_avg.prototxt` fot the implementation. 
+  During the competition, I saw this post http://www.kaggle.com/c/datasciencebowl/forums/t/12652/cnn, and followed the link in it https://github.com/msegala/Kaggle-National_Data_Science_Bowl. This implemetation described the multiple inference from single image with single model. This means that when you read an image, augment this data to multiple different image as you did in training, and averaging the predictions for each of them. I implemented this one for caffe. See `codes_for_caffe/avg_probs_layer.cpp`, `image_data_multi_infer_layer.cpp`, and `models/predict_googlenet_bn_var3_loss_avg.prototxt` fot the implementation. 
 
-So, I applied 8 multiple inferences, and produced highly better results. Any further inference not make improvement.
+  So, I applied 8 multiple inferences, and produced highly better results. Any further inference not make improvement.
 
-Model averaging of different initialization for a single network architecture is well-known techniques, and I used it. 
+  Model averaging of different initialization for a single network architecture is well-known techniques, and I used it. 
 
 ### Miscellany
 * Change interpolation methods in image transformation (in Caffe) from linear interpolation to cubic. 
 
-Original caffe master branch and caffe-dev bracn use linear interpolation when they have to resize or transform `cv::Mat` images. By changing it to bicubic interpolation, I got several percents of improvement :) Please change it if you are using Caffe!  
+  Original caffe master branch and caffe-dev bracn use linear interpolation when they have to resize or transform `cv::Mat` images. By changing it to bicubic interpolation, I got several percents of improvement :) Please change it if you are using Caffe!  
 
 ### Final submissions
 - Model averaging of 18 GoogLeNets (for NDSB) and 14 cxx\_net variants. 
