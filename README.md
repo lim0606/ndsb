@@ -32,14 +32,17 @@ I will explain my approach in following order (like the blog post of the winning
 - Scaling
 - Affine transformation (and resizing to 96 by 96)
 - Offline data augmentation vs Online data augmentation
+
   I simply re-scales pixel values from 0-255 to 0-1. Actually, I didn't compared the difference between results of the original images and re-scaled ones. However, re-scaling has been known for one of the standard pre-processing for image classification. I would be better to try zero-whitenning or some others, but I didin't. 
-  From the beginning, I decided to use affine transformation for the data augmentation because of the observation from the winning solution of Kaggle CIFAR-10 competition (https://www.kaggle.com/c/cifar-10). I randomly stretch the image in x and y-axis with ratio 0.99~1.01, and rotate them. see `codes_for_caffe/image_data_affine_layer.cpp` and 'models/train_val_googlenet_bn_var3.prototxt'. 
+  
+  From the beginning, I decided to use affine transformation for the data augmentation because of the observation from the winning solution of Kaggle CIFAR-10 competition (https://www.kaggle.com/c/cifar-10). I randomly stretch the image in x and y-axis with ratio 0.99~1.01, and rotate them. See `codes_for_caffe/image_data_affine_layer.cpp` and `models/train_val_googlenet_bn_var3.prototxt` for implementation.
+  
+  A thread from the kaggle ndsb forum (http://www.kaggle.com/c/datasciencebowl/forums/t/12597/differences-between-real-time-augmentation-and-preprocess-augmentation/65673) discribed that the online data augumentation consistently made better results, so I decided to do that. I made a new layer for it :). See `codes_for_caffe/image_data_affine_layer.cpp` for the implementation. My personal comparisons between online and offline also showed that the online one produces consistently better results! 
 
 ### Network architectures
 - Variations of cxx_net
 
-At first, I started from the model called cxx_net that are shared by Bing Xi (http://www.kaggle.com/users/43581/bing-xu). 
-- see https://github.com/antinucleon/cxxnet/tree/master/example/kaggle_bowl
+At first, I started from the model called cxx\_net that are shared by Bing Xi (http://www.kaggle.com/users/43581/bing-xu). See https://github.com/antinucleon/cxxnet/tree/master/example/kaggle_bowl
 
 - GoogLeNet for NDSB
 
