@@ -1,0 +1,2534 @@
+Log file created at: 2015/03/05 15:36:22
+Running on machine: jaehyun-ETRI-Workstation
+Log line format: [IWEF]mmdd hh:mm:ss.uuuuuu threadid file:line] msg
+I0305 15:36:22.755206 28078 caffe.cpp:99] Use GPU with device ID 0
+I0305 15:36:23.013928 28078 caffe.cpp:107] Starting Optimization
+I0305 15:36:23.014116 28078 solver.cpp:32] Initializing solver from parameters: 
+base_lr: 0.05
+display: 20
+max_iter: 600000
+lr_policy: "step"
+gamma: 0.866
+momentum: 0.9
+weight_decay: 0.0005
+stepsize: 1500
+snapshot: 6000
+snapshot_prefix: "snapshots/model5_bn_realtime_aug"
+solver_mode: GPU
+net: "model/train_model5_bn_realtime_aug.prototxt"
+solver_type: SGD
+I0305 15:36:23.014201 28078 solver.cpp:70] Creating training net from net file: model/train_model5_bn_realtime_aug.prototxt
+I0305 15:36:23.015336 28078 net.cpp:39] Initializing net from parameters: 
+name: "model5_bn_realtime_aug"
+layers {
+  top: "data"
+  top: "label"
+  name: "data"
+  type: IMAGE_DATA_AFFINE
+  transform_param {
+    mirror: true
+    mean_file: "/media/data/kaggle/nationalDataScienceBowl/data/typeF/train_mean.binaryproto"
+    affine_param {
+      x_stretch_unirnd_range: 0.2
+      y_stretch_unirnd_range: 0.2
+      rotation_unirnd_range: 180
+      max_translation: 16
+      background_color: 255
+    }
+  }
+  image_data_affine_param {
+    source: "/media/data/kaggle/nationalDataScienceBowl/data/typeF/train.txt"
+    scale: 0.00390625
+    batch_size: 128
+    shuffle: true
+    new_size: 96
+    is_color: false
+    root_folder: "/media/data/kaggle/nationalDataScienceBowl/data/typeF/"
+  }
+}
+layers {
+  bottom: "data"
+  top: "conv1"
+  name: "conv1"
+  type: CONVOLUTION
+  blobs_lr: 1
+  blobs_lr: 2
+  weight_decay: 1
+  weight_decay: 0
+  convolution_param {
+    num_output: 256
+    kernel_size: 4
+    stride: 2
+    weight_filler {
+      type: "xavier"
+    }
+    bias_filler {
+      type: "constant"
+    }
+  }
+}
+layers {
+  bottom: "conv1"
+  top: "conv1_bn"
+  name: "conv1_bn"
+  type: BN
+  blobs_lr: 1
+  blobs_lr: 1
+  weight_decay: 0
+  weight_decay: 0
+  bn_param {
+    scale_filler {
+      type: "constant"
+      value: 1
+    }
+    shift_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+}
+layers {
+  bottom: "conv1_bn"
+  top: "conv1_bn"
+  name: "relu1"
+  type: RELU
+  relu_param {
+    negative_slope: 0.1
+  }
+}
+layers {
+  bottom: "conv1_bn"
+  top: "cccp1"
+  name: "cccp1"
+  type: CONVOLUTION
+  blobs_lr: 1
+  blobs_lr: 2
+  weight_decay: 1
+  weight_decay: 0
+  convolution_param {
+    num_output: 256
+    kernel_size: 1
+    group: 1
+    stride: 1
+    weight_filler {
+      type: "xavier"
+    }
+    bias_filler {
+      type: "constant"
+    }
+  }
+}
+layers {
+  bottom: "cccp1"
+  top: "cccp1_bn"
+  name: "cccp1_bn"
+  type: BN
+  blobs_lr: 1
+  blobs_lr: 1
+  weight_decay: 0
+  weight_decay: 0
+  bn_param {
+    scale_filler {
+      type: "constant"
+      value: 1
+    }
+    shift_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+}
+layers {
+  bottom: "cccp1_bn"
+  top: "cccp1_bn"
+  name: "relu_cccp1"
+  type: RELU
+  relu_param {
+    negative_slope: 0.1
+  }
+}
+layers {
+  bottom: "cccp1_bn"
+  top: "pool1"
+  name: "pool1"
+  type: POOLING
+  pooling_param {
+    pool: MAX
+    kernel_size: 3
+    stride: 2
+  }
+}
+layers {
+  bottom: "pool1"
+  top: "conv2"
+  name: "conv2"
+  type: CONVOLUTION
+  blobs_lr: 1
+  blobs_lr: 2
+  weight_decay: 1
+  weight_decay: 0
+  convolution_param {
+    num_output: 256
+    kernel_size: 3
+    weight_filler {
+      type: "xavier"
+    }
+    bias_filler {
+      type: "constant"
+    }
+  }
+}
+layers {
+  bottom: "conv2"
+  top: "conv2_bn"
+  name: "conv2_bn"
+  type: BN
+  blobs_lr: 1
+  blobs_lr: 1
+  weight_decay: 0
+  weight_decay: 0
+  bn_param {
+    scale_filler {
+      type: "constant"
+      value: 1
+    }
+    shift_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+}
+layers {
+  bottom: "conv2_bn"
+  top: "conv2_bn"
+  name: "relu2"
+  type: RELU
+  relu_param {
+    negative_slope: 0.1
+  }
+}
+layers {
+  bottom: "conv2_bn"
+  top: "cccp2"
+  name: "cccp2"
+  type: CONVOLUTION
+  blobs_lr: 1
+  blobs_lr: 2
+  weight_decay: 1
+  weight_decay: 0
+  convolution_param {
+    num_output: 256
+    kernel_size: 1
+    group: 1
+    stride: 1
+    weight_filler {
+      type: "xavier"
+    }
+    bias_filler {
+      type: "constant"
+    }
+  }
+}
+layers {
+  bottom: "cccp2"
+  top: "cccp2_bn"
+  name: "cccp2_bn"
+  type: BN
+  blobs_lr: 1
+  blobs_lr: 1
+  weight_decay: 0
+  weight_decay: 0
+  bn_param {
+    scale_filler {
+      type: "constant"
+      value: 1
+    }
+    shift_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+}
+layers {
+  bottom: "cccp2_bn"
+  top: "cccp2_bn"
+  name: "relu_cccp2"
+  type: RELU
+  relu_param {
+    negative_slope: 0.1
+  }
+}
+layers {
+  bottom: "cccp2_bn"
+  top: "conv3"
+  name: "conv3"
+  type: CONVOLUTION
+  blobs_lr: 1
+  blobs_lr: 2
+  weight_decay: 1
+  weight_decay: 0
+  convolution_param {
+    num_output: 256
+    kernel_size: 3
+    weight_filler {
+      type: "xavier"
+    }
+    bias_filler {
+      type: "constant"
+    }
+  }
+}
+layers {
+  bottom: "conv3"
+  top: "conv3_bn"
+  name: "conv3_bn"
+  type: BN
+  blobs_lr: 1
+  blobs_lr: 1
+  weight_decay: 0
+  weight_decay: 0
+  bn_param {
+    scale_filler {
+      type: "constant"
+      value: 1
+    }
+    shift_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+}
+layers {
+  bottom: "conv3_bn"
+  top: "conv3_bn"
+  name: "relu3"
+  type: RELU
+  relu_param {
+    negative_slope: 0.1
+  }
+}
+layers {
+  bottom: "conv3_bn"
+  top: "cccp3"
+  name: "cccp3"
+  type: CONVOLUTION
+  blobs_lr: 1
+  blobs_lr: 2
+  weight_decay: 1
+  weight_decay: 0
+  convolution_param {
+    num_output: 256
+    kernel_size: 1
+    group: 1
+    stride: 1
+    weight_filler {
+      type: "xavier"
+    }
+    bias_filler {
+      type: "constant"
+    }
+  }
+}
+layers {
+  bottom: "cccp3"
+  top: "cccp3_bn"
+  name: "cccp3_bn"
+  type: BN
+  blobs_lr: 1
+  blobs_lr: 1
+  weight_decay: 0
+  weight_decay: 0
+  bn_param {
+    scale_filler {
+      type: "constant"
+      value: 1
+    }
+    shift_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+}
+layers {
+  bottom: "cccp3_bn"
+  top: "cccp3_bn"
+  name: "relu_cccp3"
+  type: RELU
+  relu_param {
+    negative_slope: 0.1
+  }
+}
+layers {
+  bottom: "cccp3_bn"
+  top: "pool3"
+  name: "pool3"
+  type: POOLING
+  pooling_param {
+    pool: MAX
+    kernel_size: 3
+    stride: 2
+  }
+}
+layers {
+  bottom: "pool3"
+  top: "fc4"
+  name: "fc4"
+  type: INNER_PRODUCT
+  blobs_lr: 1
+  blobs_lr: 2
+  weight_decay: 1
+  weight_decay: 0
+  inner_product_param {
+    num_output: 512
+    weight_filler {
+      type: "xavier"
+    }
+    bias_filler {
+      type: "constant"
+    }
+  }
+}
+layers {
+  bottom: "fc4"
+  top: "fc4"
+  name: "relu4"
+  type: RELU
+  relu_param {
+    negative_slope: 0.1
+  }
+}
+layers {
+  bottom: "fc4"
+  top: "fc4"
+  name: "drop4"
+  type: DROPOUT
+  dropout_param {
+    dropout_ratio: 0.5
+  }
+}
+layers {
+  bottom: "fc4"
+  top: "fc5"
+  name: "fc5"
+  type: INNER_PRODUCT
+  blobs_lr: 1
+  blobs_lr: 2
+  weight_decay: 1
+  weight_decay: 0
+  inner_product_param {
+    num_output: 512
+    weight_filler {
+      type: "xavier"
+    }
+    bias_filler {
+      type: "constant"
+    }
+  }
+}
+layers {
+  bottom: "fc5"
+  top: "fc5"
+  name: "relu5"
+  type: RELU
+  relu_param {
+    negative_slope: 0.1
+  }
+}
+layers {
+  bottom: "fc5"
+  top: "fc5"
+  name: "drop5"
+  type: DROPOUT
+  dropout_param {
+    dropout_ratio: 0.5
+  }
+}
+layers {
+  bottom: "fc5"
+  top: "fc6"
+  name: "fc6"
+  type: INNER_PRODUCT
+  blobs_lr: 1
+  blobs_lr: 2
+  weight_decay: 1
+  weight_decay: 0
+  inner_product_param {
+    num_output: 121
+    weight_filler {
+      type: "xavier"
+    }
+    bias_filler {
+      type: "constant"
+    }
+  }
+}
+layers {
+  bottom: "fc6"
+  bottom: "label"
+  top: "loss"
+  name: "loss"
+  type: SOFTMAX_LOSS
+}
+state {
+  phase: TRAIN
+}
+I0305 15:36:23.016942 28078 layer_factory.hpp:78] Creating layer data
+I0305 15:36:23.016973 28078 data_transformer.cpp:24] Loading mean file from/media/data/kaggle/nationalDataScienceBowl/data/typeF/train_mean.binaryproto
+I0305 15:36:23.017174 28078 net.cpp:68] Creating Layer data
+I0305 15:36:23.017199 28078 net.cpp:357] data -> data
+I0305 15:36:23.017230 28078 net.cpp:357] data -> label
+I0305 15:36:23.017253 28078 net.cpp:97] Setting up data
+I0305 15:36:23.017271 28078 image_data_affine_layer.cpp:36] Opening file /media/data/kaggle/nationalDataScienceBowl/data/typeF/train.txt
+I0305 15:36:23.031047 28078 image_data_affine_layer.cpp:46] Shuffling data
+I0305 15:36:23.034045 28078 image_data_affine_layer.cpp:51] A total of 27302 images.
+I0305 15:36:23.036288 28078 image_data_affine_layer.cpp:80] output data size: 128,1,96,96
+I0305 15:36:23.038441 28078 net.cpp:104] Top shape: 128 1 96 96 (1179648)
+I0305 15:36:23.038480 28078 net.cpp:104] Top shape: 128 1 1 1 (128)
+I0305 15:36:23.038504 28078 layer_factory.hpp:78] Creating layer conv1
+I0305 15:36:23.038534 28078 net.cpp:68] Creating Layer conv1
+I0305 15:36:23.038548 28078 net.cpp:395] conv1 <- data
+I0305 15:36:23.038578 28078 net.cpp:357] conv1 -> conv1
+I0305 15:36:23.038602 28078 net.cpp:97] Setting up conv1
+I0305 15:36:23.078547 28078 net.cpp:104] Top shape: 128 256 47 47 (72384512)
+I0305 15:36:23.078644 28078 layer_factory.hpp:78] Creating layer conv1_bn
+I0305 15:36:23.078677 28078 net.cpp:68] Creating Layer conv1_bn
+I0305 15:36:23.078698 28078 net.cpp:395] conv1_bn <- conv1
+I0305 15:36:23.078717 28078 net.cpp:357] conv1_bn -> conv1_bn
+I0305 15:36:23.078742 28078 net.cpp:97] Setting up conv1_bn
+I0305 15:36:23.078775 28078 net.cpp:104] Top shape: 128 256 47 47 (72384512)
+I0305 15:36:23.078794 28078 layer_factory.hpp:78] Creating layer relu1
+I0305 15:36:23.078814 28078 net.cpp:68] Creating Layer relu1
+I0305 15:36:23.078825 28078 net.cpp:395] relu1 <- conv1_bn
+I0305 15:36:23.078842 28078 net.cpp:346] relu1 -> conv1_bn (in-place)
+I0305 15:36:23.078858 28078 net.cpp:97] Setting up relu1
+I0305 15:36:23.078884 28078 net.cpp:104] Top shape: 128 256 47 47 (72384512)
+I0305 15:36:23.078903 28078 layer_factory.hpp:78] Creating layer cccp1
+I0305 15:36:23.078922 28078 net.cpp:68] Creating Layer cccp1
+I0305 15:36:23.078935 28078 net.cpp:395] cccp1 <- conv1_bn
+I0305 15:36:23.078954 28078 net.cpp:357] cccp1 -> cccp1
+I0305 15:36:23.078972 28078 net.cpp:97] Setting up cccp1
+I0305 15:36:23.079751 28078 net.cpp:104] Top shape: 128 256 47 47 (72384512)
+I0305 15:36:23.079780 28078 layer_factory.hpp:78] Creating layer cccp1_bn
+I0305 15:36:23.079797 28078 net.cpp:68] Creating Layer cccp1_bn
+I0305 15:36:23.079812 28078 net.cpp:395] cccp1_bn <- cccp1
+I0305 15:36:23.079849 28078 net.cpp:357] cccp1_bn -> cccp1_bn
+I0305 15:36:23.079867 28078 net.cpp:97] Setting up cccp1_bn
+I0305 15:36:23.079903 28078 net.cpp:104] Top shape: 128 256 47 47 (72384512)
+I0305 15:36:23.079921 28078 layer_factory.hpp:78] Creating layer relu_cccp1
+I0305 15:36:23.079946 28078 net.cpp:68] Creating Layer relu_cccp1
+I0305 15:36:23.079958 28078 net.cpp:395] relu_cccp1 <- cccp1_bn
+I0305 15:36:23.079972 28078 net.cpp:346] relu_cccp1 -> cccp1_bn (in-place)
+I0305 15:36:23.079988 28078 net.cpp:97] Setting up relu_cccp1
+I0305 15:36:23.080004 28078 net.cpp:104] Top shape: 128 256 47 47 (72384512)
+I0305 15:36:23.080018 28078 layer_factory.hpp:78] Creating layer pool1
+I0305 15:36:23.080039 28078 net.cpp:68] Creating Layer pool1
+I0305 15:36:23.080062 28078 net.cpp:395] pool1 <- cccp1_bn
+I0305 15:36:23.080080 28078 net.cpp:357] pool1 -> pool1
+I0305 15:36:23.080096 28078 net.cpp:97] Setting up pool1
+I0305 15:36:23.080143 28078 net.cpp:104] Top shape: 128 256 23 23 (17334272)
+I0305 15:36:23.080160 28078 layer_factory.hpp:78] Creating layer conv2
+I0305 15:36:23.080180 28078 net.cpp:68] Creating Layer conv2
+I0305 15:36:23.080193 28078 net.cpp:395] conv2 <- pool1
+I0305 15:36:23.080209 28078 net.cpp:357] conv2 -> conv2
+I0305 15:36:23.080224 28078 net.cpp:97] Setting up conv2
+I0305 15:36:23.087198 28078 net.cpp:104] Top shape: 128 256 21 21 (14450688)
+I0305 15:36:23.087236 28078 layer_factory.hpp:78] Creating layer conv2_bn
+I0305 15:36:23.087257 28078 net.cpp:68] Creating Layer conv2_bn
+I0305 15:36:23.087272 28078 net.cpp:395] conv2_bn <- conv2
+I0305 15:36:23.087287 28078 net.cpp:357] conv2_bn -> conv2_bn
+I0305 15:36:23.087309 28078 net.cpp:97] Setting up conv2_bn
+I0305 15:36:23.087340 28078 net.cpp:104] Top shape: 128 256 21 21 (14450688)
+I0305 15:36:23.087357 28078 layer_factory.hpp:78] Creating layer relu2
+I0305 15:36:23.087375 28078 net.cpp:68] Creating Layer relu2
+I0305 15:36:23.087389 28078 net.cpp:395] relu2 <- conv2_bn
+I0305 15:36:23.087404 28078 net.cpp:346] relu2 -> conv2_bn (in-place)
+I0305 15:36:23.087417 28078 net.cpp:97] Setting up relu2
+I0305 15:36:23.087434 28078 net.cpp:104] Top shape: 128 256 21 21 (14450688)
+I0305 15:36:23.087504 28078 layer_factory.hpp:78] Creating layer cccp2
+I0305 15:36:23.087522 28078 net.cpp:68] Creating Layer cccp2
+I0305 15:36:23.087534 28078 net.cpp:395] cccp2 <- conv2_bn
+I0305 15:36:23.087549 28078 net.cpp:357] cccp2 -> cccp2
+I0305 15:36:23.087568 28078 net.cpp:97] Setting up cccp2
+I0305 15:36:23.088361 28078 net.cpp:104] Top shape: 128 256 21 21 (14450688)
+I0305 15:36:23.088387 28078 layer_factory.hpp:78] Creating layer cccp2_bn
+I0305 15:36:23.088407 28078 net.cpp:68] Creating Layer cccp2_bn
+I0305 15:36:23.088420 28078 net.cpp:395] cccp2_bn <- cccp2
+I0305 15:36:23.088435 28078 net.cpp:357] cccp2_bn -> cccp2_bn
+I0305 15:36:23.088451 28078 net.cpp:97] Setting up cccp2_bn
+I0305 15:36:23.088475 28078 net.cpp:104] Top shape: 128 256 21 21 (14450688)
+I0305 15:36:23.088493 28078 layer_factory.hpp:78] Creating layer relu_cccp2
+I0305 15:36:23.088508 28078 net.cpp:68] Creating Layer relu_cccp2
+I0305 15:36:23.088521 28078 net.cpp:395] relu_cccp2 <- cccp2_bn
+I0305 15:36:23.088533 28078 net.cpp:346] relu_cccp2 -> cccp2_bn (in-place)
+I0305 15:36:23.088548 28078 net.cpp:97] Setting up relu_cccp2
+I0305 15:36:23.088563 28078 net.cpp:104] Top shape: 128 256 21 21 (14450688)
+I0305 15:36:23.088575 28078 layer_factory.hpp:78] Creating layer conv3
+I0305 15:36:23.088593 28078 net.cpp:68] Creating Layer conv3
+I0305 15:36:23.088605 28078 net.cpp:395] conv3 <- cccp2_bn
+I0305 15:36:23.088620 28078 net.cpp:357] conv3 -> conv3
+I0305 15:36:23.088635 28078 net.cpp:97] Setting up conv3
+I0305 15:36:23.094805 28078 net.cpp:104] Top shape: 128 256 19 19 (11829248)
+I0305 15:36:23.094846 28078 layer_factory.hpp:78] Creating layer conv3_bn
+I0305 15:36:23.094866 28078 net.cpp:68] Creating Layer conv3_bn
+I0305 15:36:23.094880 28078 net.cpp:395] conv3_bn <- conv3
+I0305 15:36:23.094895 28078 net.cpp:357] conv3_bn -> conv3_bn
+I0305 15:36:23.094912 28078 net.cpp:97] Setting up conv3_bn
+I0305 15:36:23.094933 28078 net.cpp:104] Top shape: 128 256 19 19 (11829248)
+I0305 15:36:23.094949 28078 layer_factory.hpp:78] Creating layer relu3
+I0305 15:36:23.094969 28078 net.cpp:68] Creating Layer relu3
+I0305 15:36:23.094984 28078 net.cpp:395] relu3 <- conv3_bn
+I0305 15:36:23.094996 28078 net.cpp:346] relu3 -> conv3_bn (in-place)
+I0305 15:36:23.095011 28078 net.cpp:97] Setting up relu3
+I0305 15:36:23.095026 28078 net.cpp:104] Top shape: 128 256 19 19 (11829248)
+I0305 15:36:23.095038 28078 layer_factory.hpp:78] Creating layer cccp3
+I0305 15:36:23.095053 28078 net.cpp:68] Creating Layer cccp3
+I0305 15:36:23.095067 28078 net.cpp:395] cccp3 <- conv3_bn
+I0305 15:36:23.095083 28078 net.cpp:357] cccp3 -> cccp3
+I0305 15:36:23.095099 28078 net.cpp:97] Setting up cccp3
+I0305 15:36:23.096071 28078 net.cpp:104] Top shape: 128 256 19 19 (11829248)
+I0305 15:36:23.096101 28078 layer_factory.hpp:78] Creating layer cccp3_bn
+I0305 15:36:23.096120 28078 net.cpp:68] Creating Layer cccp3_bn
+I0305 15:36:23.096134 28078 net.cpp:395] cccp3_bn <- cccp3
+I0305 15:36:23.096149 28078 net.cpp:357] cccp3_bn -> cccp3_bn
+I0305 15:36:23.096165 28078 net.cpp:97] Setting up cccp3_bn
+I0305 15:36:23.096189 28078 net.cpp:104] Top shape: 128 256 19 19 (11829248)
+I0305 15:36:23.096204 28078 layer_factory.hpp:78] Creating layer relu_cccp3
+I0305 15:36:23.096218 28078 net.cpp:68] Creating Layer relu_cccp3
+I0305 15:36:23.096230 28078 net.cpp:395] relu_cccp3 <- cccp3_bn
+I0305 15:36:23.096246 28078 net.cpp:346] relu_cccp3 -> cccp3_bn (in-place)
+I0305 15:36:23.096261 28078 net.cpp:97] Setting up relu_cccp3
+I0305 15:36:23.096277 28078 net.cpp:104] Top shape: 128 256 19 19 (11829248)
+I0305 15:36:23.096289 28078 layer_factory.hpp:78] Creating layer pool3
+I0305 15:36:23.096305 28078 net.cpp:68] Creating Layer pool3
+I0305 15:36:23.096317 28078 net.cpp:395] pool3 <- cccp3_bn
+I0305 15:36:23.096330 28078 net.cpp:357] pool3 -> pool3
+I0305 15:36:23.096345 28078 net.cpp:97] Setting up pool3
+I0305 15:36:23.096364 28078 net.cpp:104] Top shape: 128 256 9 9 (2654208)
+I0305 15:36:23.096376 28078 layer_factory.hpp:78] Creating layer fc4
+I0305 15:36:23.096397 28078 net.cpp:68] Creating Layer fc4
+I0305 15:36:23.096431 28078 net.cpp:395] fc4 <- pool3
+I0305 15:36:23.096451 28078 net.cpp:357] fc4 -> fc4
+I0305 15:36:23.096470 28078 net.cpp:97] Setting up fc4
+I0305 15:36:23.197973 28078 net.cpp:104] Top shape: 128 512 1 1 (65536)
+I0305 15:36:23.198067 28078 layer_factory.hpp:78] Creating layer relu4
+I0305 15:36:23.198092 28078 net.cpp:68] Creating Layer relu4
+I0305 15:36:23.198107 28078 net.cpp:395] relu4 <- fc4
+I0305 15:36:23.198127 28078 net.cpp:346] relu4 -> fc4 (in-place)
+I0305 15:36:23.198145 28078 net.cpp:97] Setting up relu4
+I0305 15:36:23.198180 28078 net.cpp:104] Top shape: 128 512 1 1 (65536)
+I0305 15:36:23.198194 28078 layer_factory.hpp:78] Creating layer drop4
+I0305 15:36:23.198211 28078 net.cpp:68] Creating Layer drop4
+I0305 15:36:23.198225 28078 net.cpp:395] drop4 <- fc4
+I0305 15:36:23.198241 28078 net.cpp:346] drop4 -> fc4 (in-place)
+I0305 15:36:23.198256 28078 net.cpp:97] Setting up drop4
+I0305 15:36:23.198271 28078 net.cpp:104] Top shape: 128 512 1 1 (65536)
+I0305 15:36:23.198284 28078 layer_factory.hpp:78] Creating layer fc5
+I0305 15:36:23.198300 28078 net.cpp:68] Creating Layer fc5
+I0305 15:36:23.198312 28078 net.cpp:395] fc5 <- fc4
+I0305 15:36:23.198330 28078 net.cpp:357] fc5 -> fc5
+I0305 15:36:23.198348 28078 net.cpp:97] Setting up fc5
+I0305 15:36:23.201133 28078 net.cpp:104] Top shape: 128 512 1 1 (65536)
+I0305 15:36:23.201159 28078 layer_factory.hpp:78] Creating layer relu5
+I0305 15:36:23.201174 28078 net.cpp:68] Creating Layer relu5
+I0305 15:36:23.201186 28078 net.cpp:395] relu5 <- fc5
+I0305 15:36:23.201200 28078 net.cpp:346] relu5 -> fc5 (in-place)
+I0305 15:36:23.201215 28078 net.cpp:97] Setting up relu5
+I0305 15:36:23.201231 28078 net.cpp:104] Top shape: 128 512 1 1 (65536)
+I0305 15:36:23.201244 28078 layer_factory.hpp:78] Creating layer drop5
+I0305 15:36:23.201258 28078 net.cpp:68] Creating Layer drop5
+I0305 15:36:23.201270 28078 net.cpp:395] drop5 <- fc5
+I0305 15:36:23.201284 28078 net.cpp:346] drop5 -> fc5 (in-place)
+I0305 15:36:23.201299 28078 net.cpp:97] Setting up drop5
+I0305 15:36:23.201311 28078 net.cpp:104] Top shape: 128 512 1 1 (65536)
+I0305 15:36:23.201323 28078 layer_factory.hpp:78] Creating layer fc6
+I0305 15:36:23.201340 28078 net.cpp:68] Creating Layer fc6
+I0305 15:36:23.201354 28078 net.cpp:395] fc6 <- fc5
+I0305 15:36:23.201367 28078 net.cpp:357] fc6 -> fc6
+I0305 15:36:23.201382 28078 net.cpp:97] Setting up fc6
+I0305 15:36:23.202044 28078 net.cpp:104] Top shape: 128 121 1 1 (15488)
+I0305 15:36:23.202067 28078 layer_factory.hpp:78] Creating layer loss
+I0305 15:36:23.202086 28078 net.cpp:68] Creating Layer loss
+I0305 15:36:23.202100 28078 net.cpp:395] loss <- fc6
+I0305 15:36:23.202112 28078 net.cpp:395] loss <- label
+I0305 15:36:23.202131 28078 net.cpp:357] loss -> loss
+I0305 15:36:23.202148 28078 net.cpp:97] Setting up loss
+I0305 15:36:23.202164 28078 layer_factory.hpp:78] Creating layer loss
+I0305 15:36:23.202232 28078 net.cpp:104] Top shape: 1 1 1 1 (1)
+I0305 15:36:23.202249 28078 net.cpp:110]     with loss weight 1
+I0305 15:36:23.202307 28078 net.cpp:171] loss needs backward computation.
+I0305 15:36:23.202322 28078 net.cpp:171] fc6 needs backward computation.
+I0305 15:36:23.202333 28078 net.cpp:171] drop5 needs backward computation.
+I0305 15:36:23.202344 28078 net.cpp:171] relu5 needs backward computation.
+I0305 15:36:23.202355 28078 net.cpp:171] fc5 needs backward computation.
+I0305 15:36:23.202368 28078 net.cpp:171] drop4 needs backward computation.
+I0305 15:36:23.202378 28078 net.cpp:171] relu4 needs backward computation.
+I0305 15:36:23.202389 28078 net.cpp:171] fc4 needs backward computation.
+I0305 15:36:23.202400 28078 net.cpp:171] pool3 needs backward computation.
+I0305 15:36:23.202412 28078 net.cpp:171] relu_cccp3 needs backward computation.
+I0305 15:36:23.202425 28078 net.cpp:171] cccp3_bn needs backward computation.
+I0305 15:36:23.202437 28078 net.cpp:171] cccp3 needs backward computation.
+I0305 15:36:23.202450 28078 net.cpp:171] relu3 needs backward computation.
+I0305 15:36:23.202461 28078 net.cpp:171] conv3_bn needs backward computation.
+I0305 15:36:23.202473 28078 net.cpp:171] conv3 needs backward computation.
+I0305 15:36:23.202546 28078 net.cpp:171] relu_cccp2 needs backward computation.
+I0305 15:36:23.202559 28078 net.cpp:171] cccp2_bn needs backward computation.
+I0305 15:36:23.202571 28078 net.cpp:171] cccp2 needs backward computation.
+I0305 15:36:23.202584 28078 net.cpp:171] relu2 needs backward computation.
+I0305 15:36:23.202594 28078 net.cpp:171] conv2_bn needs backward computation.
+I0305 15:36:23.202606 28078 net.cpp:171] conv2 needs backward computation.
+I0305 15:36:23.202617 28078 net.cpp:171] pool1 needs backward computation.
+I0305 15:36:23.202630 28078 net.cpp:171] relu_cccp1 needs backward computation.
+I0305 15:36:23.202641 28078 net.cpp:171] cccp1_bn needs backward computation.
+I0305 15:36:23.202654 28078 net.cpp:171] cccp1 needs backward computation.
+I0305 15:36:23.202666 28078 net.cpp:171] relu1 needs backward computation.
+I0305 15:36:23.202678 28078 net.cpp:171] conv1_bn needs backward computation.
+I0305 15:36:23.202689 28078 net.cpp:171] conv1 needs backward computation.
+I0305 15:36:23.202702 28078 net.cpp:173] data does not need backward computation.
+I0305 15:36:23.202713 28078 net.cpp:209] This network produces output loss
+I0305 15:36:23.202745 28078 net.cpp:468] Collecting Learning Rate and Weight Decay.
+I0305 15:36:23.202765 28078 net.cpp:220] Network initialization done.
+I0305 15:36:23.202776 28078 net.cpp:221] Memory required for data: 2454254596
+I0305 15:36:23.202870 28078 solver.cpp:42] Solver scaffolding done.
+I0305 15:36:23.202930 28078 solver.cpp:222] Solving model5_bn_realtime_aug
+I0305 15:36:23.202944 28078 solver.cpp:223] Learning Rate Policy: step
+I0305 15:36:23.492620 28078 solver.cpp:188] Iteration 0, loss = 4.7958
+I0305 15:36:23.492743 28078 solver.cpp:203]     Train net output #0: loss = 4.7958 (* 1 = 4.7958 loss)
+I0305 15:36:23.492775 28078 solver.cpp:454] Iteration 0, lr = 0.05
+I0305 15:36:35.355551 28078 solver.cpp:188] Iteration 20, loss = 4.48665
+I0305 15:36:35.355643 28078 solver.cpp:203]     Train net output #0: loss = 4.48665 (* 1 = 4.48665 loss)
+I0305 15:36:35.355664 28078 solver.cpp:454] Iteration 20, lr = 0.05
+I0305 15:36:47.254662 28078 solver.cpp:188] Iteration 40, loss = 4.11803
+I0305 15:36:47.254781 28078 solver.cpp:203]     Train net output #0: loss = 4.11803 (* 1 = 4.11803 loss)
+I0305 15:36:47.254803 28078 solver.cpp:454] Iteration 40, lr = 0.05
+I0305 15:36:59.146090 28078 solver.cpp:188] Iteration 60, loss = 3.64627
+I0305 15:36:59.146244 28078 solver.cpp:203]     Train net output #0: loss = 3.64627 (* 1 = 3.64627 loss)
+I0305 15:36:59.146268 28078 solver.cpp:454] Iteration 60, lr = 0.05
+I0305 15:37:11.054078 28078 solver.cpp:188] Iteration 80, loss = 3.44509
+I0305 15:37:11.054184 28078 solver.cpp:203]     Train net output #0: loss = 3.44509 (* 1 = 3.44509 loss)
+I0305 15:37:11.054219 28078 solver.cpp:454] Iteration 80, lr = 0.05
+I0305 15:37:22.956534 28078 solver.cpp:188] Iteration 100, loss = 3.51313
+I0305 15:37:22.956627 28078 solver.cpp:203]     Train net output #0: loss = 3.51313 (* 1 = 3.51313 loss)
+I0305 15:37:22.956650 28078 solver.cpp:454] Iteration 100, lr = 0.05
+I0305 15:37:34.857818 28078 solver.cpp:188] Iteration 120, loss = 3.47604
+I0305 15:37:34.858153 28078 solver.cpp:203]     Train net output #0: loss = 3.47604 (* 1 = 3.47604 loss)
+I0305 15:37:34.858180 28078 solver.cpp:454] Iteration 120, lr = 0.05
+I0305 15:37:46.756408 28078 solver.cpp:188] Iteration 140, loss = 3.01416
+I0305 15:37:46.756479 28078 solver.cpp:203]     Train net output #0: loss = 3.01416 (* 1 = 3.01416 loss)
+I0305 15:37:46.756500 28078 solver.cpp:454] Iteration 140, lr = 0.05
+I0305 15:37:58.660472 28078 solver.cpp:188] Iteration 160, loss = 2.76791
+I0305 15:37:58.660559 28078 solver.cpp:203]     Train net output #0: loss = 2.76791 (* 1 = 2.76791 loss)
+I0305 15:37:58.660580 28078 solver.cpp:454] Iteration 160, lr = 0.05
+I0305 15:38:10.582543 28078 solver.cpp:188] Iteration 180, loss = 2.96704
+I0305 15:38:10.582819 28078 solver.cpp:203]     Train net output #0: loss = 2.96704 (* 1 = 2.96704 loss)
+I0305 15:38:10.582844 28078 solver.cpp:454] Iteration 180, lr = 0.05
+I0305 15:38:23.140867 28078 solver.cpp:188] Iteration 200, loss = 2.70083
+I0305 15:38:23.140956 28078 solver.cpp:203]     Train net output #0: loss = 2.70083 (* 1 = 2.70083 loss)
+I0305 15:38:23.140977 28078 solver.cpp:454] Iteration 200, lr = 0.05
+I0305 15:38:35.698279 28078 solver.cpp:188] Iteration 220, loss = 2.77694
+I0305 15:38:35.698365 28078 solver.cpp:203]     Train net output #0: loss = 2.77694 (* 1 = 2.77694 loss)
+I0305 15:38:35.698395 28078 solver.cpp:454] Iteration 220, lr = 0.05
+I0305 15:38:48.179869 28078 solver.cpp:188] Iteration 240, loss = 2.51608
+I0305 15:38:48.180222 28078 solver.cpp:203]     Train net output #0: loss = 2.51608 (* 1 = 2.51608 loss)
+I0305 15:38:48.180264 28078 solver.cpp:454] Iteration 240, lr = 0.05
+I0305 15:39:00.650570 28078 solver.cpp:188] Iteration 260, loss = 2.68449
+I0305 15:39:00.650661 28078 solver.cpp:203]     Train net output #0: loss = 2.68449 (* 1 = 2.68449 loss)
+I0305 15:39:00.650683 28078 solver.cpp:454] Iteration 260, lr = 0.05
+I0305 15:39:13.193886 28078 solver.cpp:188] Iteration 280, loss = 2.49232
+I0305 15:39:13.193976 28078 solver.cpp:203]     Train net output #0: loss = 2.49232 (* 1 = 2.49232 loss)
+I0305 15:39:13.194001 28078 solver.cpp:454] Iteration 280, lr = 0.05
+I0305 15:39:25.909863 28078 solver.cpp:188] Iteration 300, loss = 2.5164
+I0305 15:39:25.910219 28078 solver.cpp:203]     Train net output #0: loss = 2.5164 (* 1 = 2.5164 loss)
+I0305 15:39:25.910269 28078 solver.cpp:454] Iteration 300, lr = 0.05
+I0305 15:39:38.623096 28078 solver.cpp:188] Iteration 320, loss = 2.40721
+I0305 15:39:38.623191 28078 solver.cpp:203]     Train net output #0: loss = 2.40721 (* 1 = 2.40721 loss)
+I0305 15:39:38.623214 28078 solver.cpp:454] Iteration 320, lr = 0.05
+I0305 15:39:51.406451 28078 solver.cpp:188] Iteration 340, loss = 2.43921
+I0305 15:39:51.406530 28078 solver.cpp:203]     Train net output #0: loss = 2.43921 (* 1 = 2.43921 loss)
+I0305 15:39:51.406554 28078 solver.cpp:454] Iteration 340, lr = 0.05
+I0305 15:40:04.244171 28078 solver.cpp:188] Iteration 360, loss = 2.45409
+I0305 15:40:04.244529 28078 solver.cpp:203]     Train net output #0: loss = 2.45409 (* 1 = 2.45409 loss)
+I0305 15:40:04.244565 28078 solver.cpp:454] Iteration 360, lr = 0.05
+I0305 15:40:17.193958 28078 solver.cpp:188] Iteration 380, loss = 2.21636
+I0305 15:40:17.194093 28078 solver.cpp:203]     Train net output #0: loss = 2.21636 (* 1 = 2.21636 loss)
+I0305 15:40:17.194115 28078 solver.cpp:454] Iteration 380, lr = 0.05
+I0305 15:40:30.151139 28078 solver.cpp:188] Iteration 400, loss = 2.33381
+I0305 15:40:30.151242 28078 solver.cpp:203]     Train net output #0: loss = 2.33381 (* 1 = 2.33381 loss)
+I0305 15:40:30.151269 28078 solver.cpp:454] Iteration 400, lr = 0.05
+I0305 15:40:42.889348 28078 solver.cpp:188] Iteration 420, loss = 2.28902
+I0305 15:40:42.889691 28078 solver.cpp:203]     Train net output #0: loss = 2.28902 (* 1 = 2.28902 loss)
+I0305 15:40:42.889740 28078 solver.cpp:454] Iteration 420, lr = 0.05
+I0305 15:40:55.360779 28078 solver.cpp:188] Iteration 440, loss = 2.07643
+I0305 15:40:55.360846 28078 solver.cpp:203]     Train net output #0: loss = 2.07643 (* 1 = 2.07643 loss)
+I0305 15:40:55.360867 28078 solver.cpp:454] Iteration 440, lr = 0.05
+I0305 15:41:07.997799 28078 solver.cpp:188] Iteration 460, loss = 1.91488
+I0305 15:41:07.997884 28078 solver.cpp:203]     Train net output #0: loss = 1.91488 (* 1 = 1.91488 loss)
+I0305 15:41:07.997906 28078 solver.cpp:454] Iteration 460, lr = 0.05
+I0305 15:41:20.703236 28078 solver.cpp:188] Iteration 480, loss = 2.41255
+I0305 15:41:20.703464 28078 solver.cpp:203]     Train net output #0: loss = 2.41255 (* 1 = 2.41255 loss)
+I0305 15:41:20.703488 28078 solver.cpp:454] Iteration 480, lr = 0.05
+I0305 15:41:33.376981 28078 solver.cpp:188] Iteration 500, loss = 2.00782
+I0305 15:41:33.377054 28078 solver.cpp:203]     Train net output #0: loss = 2.00782 (* 1 = 2.00782 loss)
+I0305 15:41:33.377076 28078 solver.cpp:454] Iteration 500, lr = 0.05
+I0305 15:41:45.980680 28078 solver.cpp:188] Iteration 520, loss = 2.16892
+I0305 15:41:45.980792 28078 solver.cpp:203]     Train net output #0: loss = 2.16892 (* 1 = 2.16892 loss)
+I0305 15:41:45.980811 28078 solver.cpp:454] Iteration 520, lr = 0.05
+I0305 15:41:58.583160 28078 solver.cpp:188] Iteration 540, loss = 2.13552
+I0305 15:41:58.583436 28078 solver.cpp:203]     Train net output #0: loss = 2.13552 (* 1 = 2.13552 loss)
+I0305 15:41:58.583457 28078 solver.cpp:454] Iteration 540, lr = 0.05
+I0305 15:42:11.176949 28078 solver.cpp:188] Iteration 560, loss = 2.24214
+I0305 15:42:11.177029 28078 solver.cpp:203]     Train net output #0: loss = 2.24214 (* 1 = 2.24214 loss)
+I0305 15:42:11.177048 28078 solver.cpp:454] Iteration 560, lr = 0.05
+I0305 15:42:23.774369 28078 solver.cpp:188] Iteration 580, loss = 2.21616
+I0305 15:42:23.774441 28078 solver.cpp:203]     Train net output #0: loss = 2.21616 (* 1 = 2.21616 loss)
+I0305 15:42:23.774462 28078 solver.cpp:454] Iteration 580, lr = 0.05
+I0305 15:42:36.367910 28078 solver.cpp:188] Iteration 600, loss = 2.29161
+I0305 15:42:36.368166 28078 solver.cpp:203]     Train net output #0: loss = 2.29161 (* 1 = 2.29161 loss)
+I0305 15:42:36.368191 28078 solver.cpp:454] Iteration 600, lr = 0.05
+I0305 15:42:48.973531 28078 solver.cpp:188] Iteration 620, loss = 2.26431
+I0305 15:42:48.973623 28078 solver.cpp:203]     Train net output #0: loss = 2.26431 (* 1 = 2.26431 loss)
+I0305 15:42:48.973644 28078 solver.cpp:454] Iteration 620, lr = 0.05
+I0305 15:43:01.575011 28078 solver.cpp:188] Iteration 640, loss = 2.1301
+I0305 15:43:01.575083 28078 solver.cpp:203]     Train net output #0: loss = 2.1301 (* 1 = 2.1301 loss)
+I0305 15:43:01.575103 28078 solver.cpp:454] Iteration 640, lr = 0.05
+I0305 15:43:14.198298 28078 solver.cpp:188] Iteration 660, loss = 1.98067
+I0305 15:43:14.198547 28078 solver.cpp:203]     Train net output #0: loss = 1.98067 (* 1 = 1.98067 loss)
+I0305 15:43:14.198572 28078 solver.cpp:454] Iteration 660, lr = 0.05
+I0305 15:43:26.909831 28078 solver.cpp:188] Iteration 680, loss = 1.82091
+I0305 15:43:26.909943 28078 solver.cpp:203]     Train net output #0: loss = 1.82091 (* 1 = 1.82091 loss)
+I0305 15:43:26.909966 28078 solver.cpp:454] Iteration 680, lr = 0.05
+I0305 15:43:39.594499 28078 solver.cpp:188] Iteration 700, loss = 1.96901
+I0305 15:43:39.594586 28078 solver.cpp:203]     Train net output #0: loss = 1.96901 (* 1 = 1.96901 loss)
+I0305 15:43:39.594610 28078 solver.cpp:454] Iteration 700, lr = 0.05
+I0305 15:43:52.198328 28078 solver.cpp:188] Iteration 720, loss = 2.29592
+I0305 15:43:52.198591 28078 solver.cpp:203]     Train net output #0: loss = 2.29592 (* 1 = 2.29592 loss)
+I0305 15:43:52.198617 28078 solver.cpp:454] Iteration 720, lr = 0.05
+I0305 15:44:04.799610 28078 solver.cpp:188] Iteration 740, loss = 2.00464
+I0305 15:44:04.799729 28078 solver.cpp:203]     Train net output #0: loss = 2.00464 (* 1 = 2.00464 loss)
+I0305 15:44:04.799752 28078 solver.cpp:454] Iteration 740, lr = 0.05
+I0305 15:44:17.407655 28078 solver.cpp:188] Iteration 760, loss = 2.2055
+I0305 15:44:17.407735 28078 solver.cpp:203]     Train net output #0: loss = 2.2055 (* 1 = 2.2055 loss)
+I0305 15:44:17.407757 28078 solver.cpp:454] Iteration 760, lr = 0.05
+I0305 15:44:30.016902 28078 solver.cpp:188] Iteration 780, loss = 2.1503
+I0305 15:44:30.017159 28078 solver.cpp:203]     Train net output #0: loss = 2.1503 (* 1 = 2.1503 loss)
+I0305 15:44:30.017185 28078 solver.cpp:454] Iteration 780, lr = 0.05
+I0305 15:44:42.652150 28078 solver.cpp:188] Iteration 800, loss = 1.92121
+I0305 15:44:42.652243 28078 solver.cpp:203]     Train net output #0: loss = 1.92121 (* 1 = 1.92121 loss)
+I0305 15:44:42.652266 28078 solver.cpp:454] Iteration 800, lr = 0.05
+I0305 15:44:55.251691 28078 solver.cpp:188] Iteration 820, loss = 1.70719
+I0305 15:44:55.251781 28078 solver.cpp:203]     Train net output #0: loss = 1.70719 (* 1 = 1.70719 loss)
+I0305 15:44:55.251803 28078 solver.cpp:454] Iteration 820, lr = 0.05
+I0305 15:45:07.809839 28078 solver.cpp:188] Iteration 840, loss = 1.9689
+I0305 15:45:07.810220 28078 solver.cpp:203]     Train net output #0: loss = 1.9689 (* 1 = 1.9689 loss)
+I0305 15:45:07.810288 28078 solver.cpp:454] Iteration 840, lr = 0.05
+I0305 15:45:20.260208 28078 solver.cpp:188] Iteration 860, loss = 1.98332
+I0305 15:45:20.260360 28078 solver.cpp:203]     Train net output #0: loss = 1.98332 (* 1 = 1.98332 loss)
+I0305 15:45:20.260403 28078 solver.cpp:454] Iteration 860, lr = 0.05
+I0305 15:45:32.735081 28078 solver.cpp:188] Iteration 880, loss = 1.98573
+I0305 15:45:32.735174 28078 solver.cpp:203]     Train net output #0: loss = 1.98573 (* 1 = 1.98573 loss)
+I0305 15:45:32.735198 28078 solver.cpp:454] Iteration 880, lr = 0.05
+I0305 15:45:45.329814 28078 solver.cpp:188] Iteration 900, loss = 1.82432
+I0305 15:45:45.330140 28078 solver.cpp:203]     Train net output #0: loss = 1.82432 (* 1 = 1.82432 loss)
+I0305 15:45:45.330168 28078 solver.cpp:454] Iteration 900, lr = 0.05
+I0305 15:45:57.934535 28078 solver.cpp:188] Iteration 920, loss = 1.89539
+I0305 15:45:57.934622 28078 solver.cpp:203]     Train net output #0: loss = 1.89539 (* 1 = 1.89539 loss)
+I0305 15:45:57.934643 28078 solver.cpp:454] Iteration 920, lr = 0.05
+I0305 15:46:10.442912 28078 solver.cpp:188] Iteration 940, loss = 1.91435
+I0305 15:46:10.443065 28078 solver.cpp:203]     Train net output #0: loss = 1.91435 (* 1 = 1.91435 loss)
+I0305 15:46:10.443095 28078 solver.cpp:454] Iteration 940, lr = 0.05
+I0305 15:46:22.892459 28078 solver.cpp:188] Iteration 960, loss = 1.89455
+I0305 15:46:22.892776 28078 solver.cpp:203]     Train net output #0: loss = 1.89455 (* 1 = 1.89455 loss)
+I0305 15:46:22.892804 28078 solver.cpp:454] Iteration 960, lr = 0.05
+I0305 15:46:35.342720 28078 solver.cpp:188] Iteration 980, loss = 2.00092
+I0305 15:46:35.342798 28078 solver.cpp:203]     Train net output #0: loss = 2.00092 (* 1 = 2.00092 loss)
+I0305 15:46:35.342820 28078 solver.cpp:454] Iteration 980, lr = 0.05
+I0305 15:46:47.787749 28078 solver.cpp:188] Iteration 1000, loss = 2.18173
+I0305 15:46:47.787825 28078 solver.cpp:203]     Train net output #0: loss = 2.18173 (* 1 = 2.18173 loss)
+I0305 15:46:47.787848 28078 solver.cpp:454] Iteration 1000, lr = 0.05
+I0305 15:47:00.240241 28078 solver.cpp:188] Iteration 1020, loss = 2.04201
+I0305 15:47:00.240488 28078 solver.cpp:203]     Train net output #0: loss = 2.04201 (* 1 = 2.04201 loss)
+I0305 15:47:00.240520 28078 solver.cpp:454] Iteration 1020, lr = 0.05
+I0305 15:47:12.691038 28078 solver.cpp:188] Iteration 1040, loss = 1.8586
+I0305 15:47:12.691113 28078 solver.cpp:203]     Train net output #0: loss = 1.8586 (* 1 = 1.8586 loss)
+I0305 15:47:12.691136 28078 solver.cpp:454] Iteration 1040, lr = 0.05
+I0305 15:47:25.136900 28078 solver.cpp:188] Iteration 1060, loss = 1.8286
+I0305 15:47:25.136986 28078 solver.cpp:203]     Train net output #0: loss = 1.8286 (* 1 = 1.8286 loss)
+I0305 15:47:25.137006 28078 solver.cpp:454] Iteration 1060, lr = 0.05
+I0305 15:47:37.584992 28078 solver.cpp:188] Iteration 1080, loss = 2.16418
+I0305 15:47:37.585271 28078 solver.cpp:203]     Train net output #0: loss = 2.16418 (* 1 = 2.16418 loss)
+I0305 15:47:37.585299 28078 solver.cpp:454] Iteration 1080, lr = 0.05
+I0305 15:47:50.058987 28078 solver.cpp:188] Iteration 1100, loss = 1.7109
+I0305 15:47:50.059062 28078 solver.cpp:203]     Train net output #0: loss = 1.7109 (* 1 = 1.7109 loss)
+I0305 15:47:50.059082 28078 solver.cpp:454] Iteration 1100, lr = 0.05
+I0305 15:48:02.505749 28078 solver.cpp:188] Iteration 1120, loss = 1.885
+I0305 15:48:02.505822 28078 solver.cpp:203]     Train net output #0: loss = 1.885 (* 1 = 1.885 loss)
+I0305 15:48:02.505846 28078 solver.cpp:454] Iteration 1120, lr = 0.05
+I0305 15:48:14.914712 28078 solver.cpp:188] Iteration 1140, loss = 1.95915
+I0305 15:48:14.915017 28078 solver.cpp:203]     Train net output #0: loss = 1.95915 (* 1 = 1.95915 loss)
+I0305 15:48:14.915047 28078 solver.cpp:454] Iteration 1140, lr = 0.05
+I0305 15:48:27.241364 28078 solver.cpp:188] Iteration 1160, loss = 1.63226
+I0305 15:48:27.241444 28078 solver.cpp:203]     Train net output #0: loss = 1.63226 (* 1 = 1.63226 loss)
+I0305 15:48:27.241464 28078 solver.cpp:454] Iteration 1160, lr = 0.05
+I0305 15:48:39.599079 28078 solver.cpp:188] Iteration 1180, loss = 1.74071
+I0305 15:48:39.599170 28078 solver.cpp:203]     Train net output #0: loss = 1.74071 (* 1 = 1.74071 loss)
+I0305 15:48:39.599189 28078 solver.cpp:454] Iteration 1180, lr = 0.05
+I0305 15:48:52.040285 28078 solver.cpp:188] Iteration 1200, loss = 1.9914
+I0305 15:48:52.040719 28078 solver.cpp:203]     Train net output #0: loss = 1.9914 (* 1 = 1.9914 loss)
+I0305 15:48:52.040771 28078 solver.cpp:454] Iteration 1200, lr = 0.05
+I0305 15:49:04.482553 28078 solver.cpp:188] Iteration 1220, loss = 1.85926
+I0305 15:49:04.482625 28078 solver.cpp:203]     Train net output #0: loss = 1.85926 (* 1 = 1.85926 loss)
+I0305 15:49:04.482647 28078 solver.cpp:454] Iteration 1220, lr = 0.05
+I0305 15:49:16.927860 28078 solver.cpp:188] Iteration 1240, loss = 1.9147
+I0305 15:49:16.927988 28078 solver.cpp:203]     Train net output #0: loss = 1.9147 (* 1 = 1.9147 loss)
+I0305 15:49:16.928010 28078 solver.cpp:454] Iteration 1240, lr = 0.05
+I0305 15:49:29.390868 28078 solver.cpp:188] Iteration 1260, loss = 2.00087
+I0305 15:49:29.391187 28078 solver.cpp:203]     Train net output #0: loss = 2.00087 (* 1 = 2.00087 loss)
+I0305 15:49:29.391211 28078 solver.cpp:454] Iteration 1260, lr = 0.05
+I0305 15:49:41.803463 28078 solver.cpp:188] Iteration 1280, loss = 1.5974
+I0305 15:49:41.803555 28078 solver.cpp:203]     Train net output #0: loss = 1.5974 (* 1 = 1.5974 loss)
+I0305 15:49:41.803577 28078 solver.cpp:454] Iteration 1280, lr = 0.05
+I0305 15:49:54.143748 28078 solver.cpp:188] Iteration 1300, loss = 1.8668
+I0305 15:49:54.143857 28078 solver.cpp:203]     Train net output #0: loss = 1.8668 (* 1 = 1.8668 loss)
+I0305 15:49:54.143898 28078 solver.cpp:454] Iteration 1300, lr = 0.05
+I0305 15:50:06.477825 28078 solver.cpp:188] Iteration 1320, loss = 1.853
+I0305 15:50:06.478144 28078 solver.cpp:203]     Train net output #0: loss = 1.853 (* 1 = 1.853 loss)
+I0305 15:50:06.478170 28078 solver.cpp:454] Iteration 1320, lr = 0.05
+I0305 15:50:18.815222 28078 solver.cpp:188] Iteration 1340, loss = 1.85319
+I0305 15:50:18.815330 28078 solver.cpp:203]     Train net output #0: loss = 1.85319 (* 1 = 1.85319 loss)
+I0305 15:50:18.815351 28078 solver.cpp:454] Iteration 1340, lr = 0.05
+I0305 15:50:31.239048 28078 solver.cpp:188] Iteration 1360, loss = 1.59312
+I0305 15:50:31.239143 28078 solver.cpp:203]     Train net output #0: loss = 1.59312 (* 1 = 1.59312 loss)
+I0305 15:50:31.239163 28078 solver.cpp:454] Iteration 1360, lr = 0.05
+I0305 15:50:43.684088 28078 solver.cpp:188] Iteration 1380, loss = 1.95308
+I0305 15:50:43.684403 28078 solver.cpp:203]     Train net output #0: loss = 1.95308 (* 1 = 1.95308 loss)
+I0305 15:50:43.684427 28078 solver.cpp:454] Iteration 1380, lr = 0.05
+I0305 15:50:56.126413 28078 solver.cpp:188] Iteration 1400, loss = 1.81418
+I0305 15:50:56.126510 28078 solver.cpp:203]     Train net output #0: loss = 1.81418 (* 1 = 1.81418 loss)
+I0305 15:50:56.126529 28078 solver.cpp:454] Iteration 1400, lr = 0.05
+I0305 15:51:08.488180 28078 solver.cpp:188] Iteration 1420, loss = 1.47545
+I0305 15:51:08.488260 28078 solver.cpp:203]     Train net output #0: loss = 1.47545 (* 1 = 1.47545 loss)
+I0305 15:51:08.488281 28078 solver.cpp:454] Iteration 1420, lr = 0.05
+I0305 15:51:20.829586 28078 solver.cpp:188] Iteration 1440, loss = 1.6997
+I0305 15:51:20.829854 28078 solver.cpp:203]     Train net output #0: loss = 1.6997 (* 1 = 1.6997 loss)
+I0305 15:51:20.829877 28078 solver.cpp:454] Iteration 1440, lr = 0.05
+I0305 15:51:33.153916 28078 solver.cpp:188] Iteration 1460, loss = 1.83428
+I0305 15:51:33.154007 28078 solver.cpp:203]     Train net output #0: loss = 1.83428 (* 1 = 1.83428 loss)
+I0305 15:51:33.154027 28078 solver.cpp:454] Iteration 1460, lr = 0.05
+I0305 15:51:45.498250 28078 solver.cpp:188] Iteration 1480, loss = 1.7566
+I0305 15:51:45.498374 28078 solver.cpp:203]     Train net output #0: loss = 1.7566 (* 1 = 1.7566 loss)
+I0305 15:51:45.498396 28078 solver.cpp:454] Iteration 1480, lr = 0.05
+I0305 15:51:57.954234 28078 solver.cpp:188] Iteration 1500, loss = 1.68383
+I0305 15:51:57.954643 28078 solver.cpp:203]     Train net output #0: loss = 1.68383 (* 1 = 1.68383 loss)
+I0305 15:51:57.954687 28078 solver.cpp:454] Iteration 1500, lr = 0.0433
+I0305 15:52:10.405513 28078 solver.cpp:188] Iteration 1520, loss = 1.81174
+I0305 15:52:10.405613 28078 solver.cpp:203]     Train net output #0: loss = 1.81174 (* 1 = 1.81174 loss)
+I0305 15:52:10.405637 28078 solver.cpp:454] Iteration 1520, lr = 0.0433
+I0305 15:52:22.820935 28078 solver.cpp:188] Iteration 1540, loss = 1.62025
+I0305 15:52:22.821024 28078 solver.cpp:203]     Train net output #0: loss = 1.62025 (* 1 = 1.62025 loss)
+I0305 15:52:22.821046 28078 solver.cpp:454] Iteration 1540, lr = 0.0433
+I0305 15:52:35.168251 28078 solver.cpp:188] Iteration 1560, loss = 1.58926
+I0305 15:52:35.168516 28078 solver.cpp:203]     Train net output #0: loss = 1.58926 (* 1 = 1.58926 loss)
+I0305 15:52:35.168544 28078 solver.cpp:454] Iteration 1560, lr = 0.0433
+I0305 15:52:47.527544 28078 solver.cpp:188] Iteration 1580, loss = 1.59505
+I0305 15:52:47.527686 28078 solver.cpp:203]     Train net output #0: loss = 1.59505 (* 1 = 1.59505 loss)
+I0305 15:52:47.527727 28078 solver.cpp:454] Iteration 1580, lr = 0.0433
+I0305 15:52:59.872875 28078 solver.cpp:188] Iteration 1600, loss = 1.9439
+I0305 15:52:59.872967 28078 solver.cpp:203]     Train net output #0: loss = 1.9439 (* 1 = 1.9439 loss)
+I0305 15:52:59.872987 28078 solver.cpp:454] Iteration 1600, lr = 0.0433
+I0305 15:53:12.208751 28078 solver.cpp:188] Iteration 1620, loss = 1.89873
+I0305 15:53:12.209069 28078 solver.cpp:203]     Train net output #0: loss = 1.89873 (* 1 = 1.89873 loss)
+I0305 15:53:12.209095 28078 solver.cpp:454] Iteration 1620, lr = 0.0433
+I0305 15:53:24.539652 28078 solver.cpp:188] Iteration 1640, loss = 1.71537
+I0305 15:53:24.539733 28078 solver.cpp:203]     Train net output #0: loss = 1.71537 (* 1 = 1.71537 loss)
+I0305 15:53:24.539755 28078 solver.cpp:454] Iteration 1640, lr = 0.0433
+I0305 15:53:36.869773 28078 solver.cpp:188] Iteration 1660, loss = 1.90321
+I0305 15:53:36.869846 28078 solver.cpp:203]     Train net output #0: loss = 1.90321 (* 1 = 1.90321 loss)
+I0305 15:53:36.869868 28078 solver.cpp:454] Iteration 1660, lr = 0.0433
+I0305 15:53:49.196087 28078 solver.cpp:188] Iteration 1680, loss = 1.76218
+I0305 15:53:49.196382 28078 solver.cpp:203]     Train net output #0: loss = 1.76218 (* 1 = 1.76218 loss)
+I0305 15:53:49.196432 28078 solver.cpp:454] Iteration 1680, lr = 0.0433
+I0305 15:54:01.527631 28078 solver.cpp:188] Iteration 1700, loss = 1.57331
+I0305 15:54:01.527716 28078 solver.cpp:203]     Train net output #0: loss = 1.57331 (* 1 = 1.57331 loss)
+I0305 15:54:01.527736 28078 solver.cpp:454] Iteration 1700, lr = 0.0433
+I0305 15:54:13.863186 28078 solver.cpp:188] Iteration 1720, loss = 1.46381
+I0305 15:54:13.863265 28078 solver.cpp:203]     Train net output #0: loss = 1.46381 (* 1 = 1.46381 loss)
+I0305 15:54:13.863286 28078 solver.cpp:454] Iteration 1720, lr = 0.0433
+I0305 15:54:26.206190 28078 solver.cpp:188] Iteration 1740, loss = 1.70615
+I0305 15:54:26.206503 28078 solver.cpp:203]     Train net output #0: loss = 1.70615 (* 1 = 1.70615 loss)
+I0305 15:54:26.206533 28078 solver.cpp:454] Iteration 1740, lr = 0.0433
+I0305 15:54:38.546504 28078 solver.cpp:188] Iteration 1760, loss = 1.58668
+I0305 15:54:38.546603 28078 solver.cpp:203]     Train net output #0: loss = 1.58668 (* 1 = 1.58668 loss)
+I0305 15:54:38.546623 28078 solver.cpp:454] Iteration 1760, lr = 0.0433
+I0305 15:54:50.882915 28078 solver.cpp:188] Iteration 1780, loss = 1.85929
+I0305 15:54:50.883044 28078 solver.cpp:203]     Train net output #0: loss = 1.85929 (* 1 = 1.85929 loss)
+I0305 15:54:50.883065 28078 solver.cpp:454] Iteration 1780, lr = 0.0433
+I0305 15:55:03.221863 28078 solver.cpp:188] Iteration 1800, loss = 1.68381
+I0305 15:55:03.222165 28078 solver.cpp:203]     Train net output #0: loss = 1.68381 (* 1 = 1.68381 loss)
+I0305 15:55:03.222192 28078 solver.cpp:454] Iteration 1800, lr = 0.0433
+I0305 15:55:15.553596 28078 solver.cpp:188] Iteration 1820, loss = 1.56514
+I0305 15:55:15.553673 28078 solver.cpp:203]     Train net output #0: loss = 1.56514 (* 1 = 1.56514 loss)
+I0305 15:55:15.553696 28078 solver.cpp:454] Iteration 1820, lr = 0.0433
+I0305 15:55:27.894736 28078 solver.cpp:188] Iteration 1840, loss = 1.66474
+I0305 15:55:27.894889 28078 solver.cpp:203]     Train net output #0: loss = 1.66474 (* 1 = 1.66474 loss)
+I0305 15:55:27.894933 28078 solver.cpp:454] Iteration 1840, lr = 0.0433
+I0305 15:55:40.231910 28078 solver.cpp:188] Iteration 1860, loss = 1.92104
+I0305 15:55:40.232298 28078 solver.cpp:203]     Train net output #0: loss = 1.92104 (* 1 = 1.92104 loss)
+I0305 15:55:40.232357 28078 solver.cpp:454] Iteration 1860, lr = 0.0433
+I0305 15:55:52.563729 28078 solver.cpp:188] Iteration 1880, loss = 1.65748
+I0305 15:55:52.563818 28078 solver.cpp:203]     Train net output #0: loss = 1.65748 (* 1 = 1.65748 loss)
+I0305 15:55:52.563840 28078 solver.cpp:454] Iteration 1880, lr = 0.0433
+I0305 15:56:04.906769 28078 solver.cpp:188] Iteration 1900, loss = 1.69242
+I0305 15:56:04.906859 28078 solver.cpp:203]     Train net output #0: loss = 1.69242 (* 1 = 1.69242 loss)
+I0305 15:56:04.906880 28078 solver.cpp:454] Iteration 1900, lr = 0.0433
+I0305 15:56:17.249303 28078 solver.cpp:188] Iteration 1920, loss = 1.56604
+I0305 15:56:17.249567 28078 solver.cpp:203]     Train net output #0: loss = 1.56604 (* 1 = 1.56604 loss)
+I0305 15:56:17.249595 28078 solver.cpp:454] Iteration 1920, lr = 0.0433
+I0305 15:56:29.588425 28078 solver.cpp:188] Iteration 1940, loss = 1.99198
+I0305 15:56:29.588523 28078 solver.cpp:203]     Train net output #0: loss = 1.99198 (* 1 = 1.99198 loss)
+I0305 15:56:29.588546 28078 solver.cpp:454] Iteration 1940, lr = 0.0433
+I0305 15:56:41.930644 28078 solver.cpp:188] Iteration 1960, loss = 1.63204
+I0305 15:56:41.930742 28078 solver.cpp:203]     Train net output #0: loss = 1.63204 (* 1 = 1.63204 loss)
+I0305 15:56:41.930764 28078 solver.cpp:454] Iteration 1960, lr = 0.0433
+I0305 15:56:54.268322 28078 solver.cpp:188] Iteration 1980, loss = 1.71017
+I0305 15:56:54.268610 28078 solver.cpp:203]     Train net output #0: loss = 1.71017 (* 1 = 1.71017 loss)
+I0305 15:56:54.268636 28078 solver.cpp:454] Iteration 1980, lr = 0.0433
+I0305 15:57:06.606914 28078 solver.cpp:188] Iteration 2000, loss = 1.41537
+I0305 15:57:06.607010 28078 solver.cpp:203]     Train net output #0: loss = 1.41537 (* 1 = 1.41537 loss)
+I0305 15:57:06.607033 28078 solver.cpp:454] Iteration 2000, lr = 0.0433
+I0305 15:57:18.944600 28078 solver.cpp:188] Iteration 2020, loss = 1.84462
+I0305 15:57:18.944691 28078 solver.cpp:203]     Train net output #0: loss = 1.84462 (* 1 = 1.84462 loss)
+I0305 15:57:18.944712 28078 solver.cpp:454] Iteration 2020, lr = 0.0433
+I0305 15:57:31.271769 28078 solver.cpp:188] Iteration 2040, loss = 1.51188
+I0305 15:57:31.272003 28078 solver.cpp:203]     Train net output #0: loss = 1.51188 (* 1 = 1.51188 loss)
+I0305 15:57:31.272027 28078 solver.cpp:454] Iteration 2040, lr = 0.0433
+I0305 15:57:43.601423 28078 solver.cpp:188] Iteration 2060, loss = 1.75394
+I0305 15:57:43.601492 28078 solver.cpp:203]     Train net output #0: loss = 1.75394 (* 1 = 1.75394 loss)
+I0305 15:57:43.601513 28078 solver.cpp:454] Iteration 2060, lr = 0.0433
+I0305 15:57:55.937893 28078 solver.cpp:188] Iteration 2080, loss = 1.73119
+I0305 15:57:55.937988 28078 solver.cpp:203]     Train net output #0: loss = 1.73119 (* 1 = 1.73119 loss)
+I0305 15:57:55.938009 28078 solver.cpp:454] Iteration 2080, lr = 0.0433
+I0305 15:58:08.275235 28078 solver.cpp:188] Iteration 2100, loss = 1.58344
+I0305 15:58:08.275502 28078 solver.cpp:203]     Train net output #0: loss = 1.58344 (* 1 = 1.58344 loss)
+I0305 15:58:08.275524 28078 solver.cpp:454] Iteration 2100, lr = 0.0433
+I0305 15:58:20.609926 28078 solver.cpp:188] Iteration 2120, loss = 1.84952
+I0305 15:58:20.610059 28078 solver.cpp:203]     Train net output #0: loss = 1.84952 (* 1 = 1.84952 loss)
+I0305 15:58:20.610101 28078 solver.cpp:454] Iteration 2120, lr = 0.0433
+I0305 15:58:32.938741 28078 solver.cpp:188] Iteration 2140, loss = 1.24029
+I0305 15:58:32.938827 28078 solver.cpp:203]     Train net output #0: loss = 1.24029 (* 1 = 1.24029 loss)
+I0305 15:58:32.938848 28078 solver.cpp:454] Iteration 2140, lr = 0.0433
+I0305 15:58:45.281561 28078 solver.cpp:188] Iteration 2160, loss = 1.57728
+I0305 15:58:45.281946 28078 solver.cpp:203]     Train net output #0: loss = 1.57728 (* 1 = 1.57728 loss)
+I0305 15:58:45.281997 28078 solver.cpp:454] Iteration 2160, lr = 0.0433
+I0305 15:58:57.628545 28078 solver.cpp:188] Iteration 2180, loss = 1.94172
+I0305 15:58:57.628631 28078 solver.cpp:203]     Train net output #0: loss = 1.94172 (* 1 = 1.94172 loss)
+I0305 15:58:57.628651 28078 solver.cpp:454] Iteration 2180, lr = 0.0433
+I0305 15:59:09.959182 28078 solver.cpp:188] Iteration 2200, loss = 1.35096
+I0305 15:59:09.959270 28078 solver.cpp:203]     Train net output #0: loss = 1.35096 (* 1 = 1.35096 loss)
+I0305 15:59:09.959291 28078 solver.cpp:454] Iteration 2200, lr = 0.0433
+I0305 15:59:22.291545 28078 solver.cpp:188] Iteration 2220, loss = 1.81504
+I0305 15:59:22.291800 28078 solver.cpp:203]     Train net output #0: loss = 1.81504 (* 1 = 1.81504 loss)
+I0305 15:59:22.291826 28078 solver.cpp:454] Iteration 2220, lr = 0.0433
+I0305 15:59:34.624508 28078 solver.cpp:188] Iteration 2240, loss = 1.78662
+I0305 15:59:34.624625 28078 solver.cpp:203]     Train net output #0: loss = 1.78662 (* 1 = 1.78662 loss)
+I0305 15:59:34.624666 28078 solver.cpp:454] Iteration 2240, lr = 0.0433
+I0305 15:59:46.977066 28078 solver.cpp:188] Iteration 2260, loss = 1.61368
+I0305 15:59:46.977164 28078 solver.cpp:203]     Train net output #0: loss = 1.61368 (* 1 = 1.61368 loss)
+I0305 15:59:46.977185 28078 solver.cpp:454] Iteration 2260, lr = 0.0433
+I0305 15:59:59.317771 28078 solver.cpp:188] Iteration 2280, loss = 1.66657
+I0305 15:59:59.318008 28078 solver.cpp:203]     Train net output #0: loss = 1.66657 (* 1 = 1.66657 loss)
+I0305 15:59:59.318032 28078 solver.cpp:454] Iteration 2280, lr = 0.0433
+I0305 16:00:11.661833 28078 solver.cpp:188] Iteration 2300, loss = 1.79443
+I0305 16:00:11.661952 28078 solver.cpp:203]     Train net output #0: loss = 1.79443 (* 1 = 1.79443 loss)
+I0305 16:00:11.661998 28078 solver.cpp:454] Iteration 2300, lr = 0.0433
+I0305 16:00:24.029152 28078 solver.cpp:188] Iteration 2320, loss = 1.74289
+I0305 16:00:24.029291 28078 solver.cpp:203]     Train net output #0: loss = 1.74289 (* 1 = 1.74289 loss)
+I0305 16:00:24.029314 28078 solver.cpp:454] Iteration 2320, lr = 0.0433
+I0305 16:00:36.431792 28078 solver.cpp:188] Iteration 2340, loss = 1.70359
+I0305 16:00:36.431959 28078 solver.cpp:203]     Train net output #0: loss = 1.70359 (* 1 = 1.70359 loss)
+I0305 16:00:36.431983 28078 solver.cpp:454] Iteration 2340, lr = 0.0433
+I0305 16:00:48.836614 28078 solver.cpp:188] Iteration 2360, loss = 1.51127
+I0305 16:00:48.836738 28078 solver.cpp:203]     Train net output #0: loss = 1.51127 (* 1 = 1.51127 loss)
+I0305 16:00:48.836788 28078 solver.cpp:454] Iteration 2360, lr = 0.0433
+I0305 16:01:01.198820 28078 solver.cpp:188] Iteration 2380, loss = 1.49073
+I0305 16:01:01.198909 28078 solver.cpp:203]     Train net output #0: loss = 1.49073 (* 1 = 1.49073 loss)
+I0305 16:01:01.198932 28078 solver.cpp:454] Iteration 2380, lr = 0.0433
+I0305 16:01:13.586127 28078 solver.cpp:188] Iteration 2400, loss = 1.36116
+I0305 16:01:13.586498 28078 solver.cpp:203]     Train net output #0: loss = 1.36116 (* 1 = 1.36116 loss)
+I0305 16:01:13.586525 28078 solver.cpp:454] Iteration 2400, lr = 0.0433
+I0305 16:01:25.960351 28078 solver.cpp:188] Iteration 2420, loss = 1.54558
+I0305 16:01:25.960440 28078 solver.cpp:203]     Train net output #0: loss = 1.54558 (* 1 = 1.54558 loss)
+I0305 16:01:25.960461 28078 solver.cpp:454] Iteration 2420, lr = 0.0433
+I0305 16:01:38.347512 28078 solver.cpp:188] Iteration 2440, loss = 1.54075
+I0305 16:01:38.347601 28078 solver.cpp:203]     Train net output #0: loss = 1.54075 (* 1 = 1.54075 loss)
+I0305 16:01:38.347626 28078 solver.cpp:454] Iteration 2440, lr = 0.0433
+I0305 16:01:50.748339 28078 solver.cpp:188] Iteration 2460, loss = 1.46045
+I0305 16:01:50.748648 28078 solver.cpp:203]     Train net output #0: loss = 1.46045 (* 1 = 1.46045 loss)
+I0305 16:01:50.748677 28078 solver.cpp:454] Iteration 2460, lr = 0.0433
+I0305 16:02:03.130970 28078 solver.cpp:188] Iteration 2480, loss = 1.58428
+I0305 16:02:03.131062 28078 solver.cpp:203]     Train net output #0: loss = 1.58428 (* 1 = 1.58428 loss)
+I0305 16:02:03.131084 28078 solver.cpp:454] Iteration 2480, lr = 0.0433
+I0305 16:02:15.479496 28078 solver.cpp:188] Iteration 2500, loss = 1.68961
+I0305 16:02:15.479574 28078 solver.cpp:203]     Train net output #0: loss = 1.68961 (* 1 = 1.68961 loss)
+I0305 16:02:15.479596 28078 solver.cpp:454] Iteration 2500, lr = 0.0433
+I0305 16:02:27.868262 28078 solver.cpp:188] Iteration 2520, loss = 1.27615
+I0305 16:02:27.868587 28078 solver.cpp:203]     Train net output #0: loss = 1.27615 (* 1 = 1.27615 loss)
+I0305 16:02:27.868612 28078 solver.cpp:454] Iteration 2520, lr = 0.0433
+I0305 16:02:40.214500 28078 solver.cpp:188] Iteration 2540, loss = 1.65908
+I0305 16:02:40.214601 28078 solver.cpp:203]     Train net output #0: loss = 1.65908 (* 1 = 1.65908 loss)
+I0305 16:02:40.214622 28078 solver.cpp:454] Iteration 2540, lr = 0.0433
+I0305 16:02:52.551159 28078 solver.cpp:188] Iteration 2560, loss = 1.66921
+I0305 16:02:52.551237 28078 solver.cpp:203]     Train net output #0: loss = 1.66921 (* 1 = 1.66921 loss)
+I0305 16:02:52.551260 28078 solver.cpp:454] Iteration 2560, lr = 0.0433
+I0305 16:03:04.891463 28078 solver.cpp:188] Iteration 2580, loss = 1.64453
+I0305 16:03:04.891741 28078 solver.cpp:203]     Train net output #0: loss = 1.64453 (* 1 = 1.64453 loss)
+I0305 16:03:04.891764 28078 solver.cpp:454] Iteration 2580, lr = 0.0433
+I0305 16:03:17.237046 28078 solver.cpp:188] Iteration 2600, loss = 1.69378
+I0305 16:03:17.237118 28078 solver.cpp:203]     Train net output #0: loss = 1.69378 (* 1 = 1.69378 loss)
+I0305 16:03:17.237139 28078 solver.cpp:454] Iteration 2600, lr = 0.0433
+I0305 16:03:29.577105 28078 solver.cpp:188] Iteration 2620, loss = 1.51176
+I0305 16:03:29.577186 28078 solver.cpp:203]     Train net output #0: loss = 1.51176 (* 1 = 1.51176 loss)
+I0305 16:03:29.577209 28078 solver.cpp:454] Iteration 2620, lr = 0.0433
+I0305 16:03:41.931228 28078 solver.cpp:188] Iteration 2640, loss = 1.68842
+I0305 16:03:41.931543 28078 solver.cpp:203]     Train net output #0: loss = 1.68842 (* 1 = 1.68842 loss)
+I0305 16:03:41.931574 28078 solver.cpp:454] Iteration 2640, lr = 0.0433
+I0305 16:03:54.280637 28078 solver.cpp:188] Iteration 2660, loss = 1.38001
+I0305 16:03:54.280714 28078 solver.cpp:203]     Train net output #0: loss = 1.38001 (* 1 = 1.38001 loss)
+I0305 16:03:54.280735 28078 solver.cpp:454] Iteration 2660, lr = 0.0433
+I0305 16:04:06.634009 28078 solver.cpp:188] Iteration 2680, loss = 1.83422
+I0305 16:04:06.634093 28078 solver.cpp:203]     Train net output #0: loss = 1.83422 (* 1 = 1.83422 loss)
+I0305 16:04:06.634109 28078 solver.cpp:454] Iteration 2680, lr = 0.0433
+I0305 16:04:18.972481 28078 solver.cpp:188] Iteration 2700, loss = 1.50079
+I0305 16:04:18.972720 28078 solver.cpp:203]     Train net output #0: loss = 1.50079 (* 1 = 1.50079 loss)
+I0305 16:04:18.972746 28078 solver.cpp:454] Iteration 2700, lr = 0.0433
+I0305 16:04:31.341145 28078 solver.cpp:188] Iteration 2720, loss = 1.51841
+I0305 16:04:31.341227 28078 solver.cpp:203]     Train net output #0: loss = 1.51841 (* 1 = 1.51841 loss)
+I0305 16:04:31.341248 28078 solver.cpp:454] Iteration 2720, lr = 0.0433
+I0305 16:04:43.712553 28078 solver.cpp:188] Iteration 2740, loss = 1.65985
+I0305 16:04:43.712635 28078 solver.cpp:203]     Train net output #0: loss = 1.65985 (* 1 = 1.65985 loss)
+I0305 16:04:43.712656 28078 solver.cpp:454] Iteration 2740, lr = 0.0433
+I0305 16:04:56.052150 28078 solver.cpp:188] Iteration 2760, loss = 1.50891
+I0305 16:04:56.052430 28078 solver.cpp:203]     Train net output #0: loss = 1.50891 (* 1 = 1.50891 loss)
+I0305 16:04:56.052459 28078 solver.cpp:454] Iteration 2760, lr = 0.0433
+I0305 16:05:08.393789 28078 solver.cpp:188] Iteration 2780, loss = 1.60257
+I0305 16:05:08.393873 28078 solver.cpp:203]     Train net output #0: loss = 1.60257 (* 1 = 1.60257 loss)
+I0305 16:05:08.393898 28078 solver.cpp:454] Iteration 2780, lr = 0.0433
+I0305 16:05:20.757735 28078 solver.cpp:188] Iteration 2800, loss = 1.48796
+I0305 16:05:20.757836 28078 solver.cpp:203]     Train net output #0: loss = 1.48796 (* 1 = 1.48796 loss)
+I0305 16:05:20.757858 28078 solver.cpp:454] Iteration 2800, lr = 0.0433
+I0305 16:05:33.193323 28078 solver.cpp:188] Iteration 2820, loss = 1.62594
+I0305 16:05:33.193653 28078 solver.cpp:203]     Train net output #0: loss = 1.62594 (* 1 = 1.62594 loss)
+I0305 16:05:33.193686 28078 solver.cpp:454] Iteration 2820, lr = 0.0433
+I0305 16:05:45.554435 28078 solver.cpp:188] Iteration 2840, loss = 1.55958
+I0305 16:05:45.554525 28078 solver.cpp:203]     Train net output #0: loss = 1.55958 (* 1 = 1.55958 loss)
+I0305 16:05:45.554545 28078 solver.cpp:454] Iteration 2840, lr = 0.0433
+I0305 16:05:57.897230 28078 solver.cpp:188] Iteration 2860, loss = 1.52509
+I0305 16:05:57.897368 28078 solver.cpp:203]     Train net output #0: loss = 1.52509 (* 1 = 1.52509 loss)
+I0305 16:05:57.897413 28078 solver.cpp:454] Iteration 2860, lr = 0.0433
+I0305 16:06:10.233716 28078 solver.cpp:188] Iteration 2880, loss = 1.2298
+I0305 16:06:10.234063 28078 solver.cpp:203]     Train net output #0: loss = 1.2298 (* 1 = 1.2298 loss)
+I0305 16:06:10.234097 28078 solver.cpp:454] Iteration 2880, lr = 0.0433
+I0305 16:06:22.564756 28078 solver.cpp:188] Iteration 2900, loss = 1.34138
+I0305 16:06:22.564858 28078 solver.cpp:203]     Train net output #0: loss = 1.34138 (* 1 = 1.34138 loss)
+I0305 16:06:22.564880 28078 solver.cpp:454] Iteration 2900, lr = 0.0433
+I0305 16:06:34.904479 28078 solver.cpp:188] Iteration 2920, loss = 1.68564
+I0305 16:06:34.904559 28078 solver.cpp:203]     Train net output #0: loss = 1.68564 (* 1 = 1.68564 loss)
+I0305 16:06:34.904580 28078 solver.cpp:454] Iteration 2920, lr = 0.0433
+I0305 16:06:47.281956 28078 solver.cpp:188] Iteration 2940, loss = 1.35035
+I0305 16:06:47.282276 28078 solver.cpp:203]     Train net output #0: loss = 1.35035 (* 1 = 1.35035 loss)
+I0305 16:06:47.282310 28078 solver.cpp:454] Iteration 2940, lr = 0.0433
+I0305 16:06:59.619822 28078 solver.cpp:188] Iteration 2960, loss = 1.67149
+I0305 16:06:59.619922 28078 solver.cpp:203]     Train net output #0: loss = 1.67149 (* 1 = 1.67149 loss)
+I0305 16:06:59.619954 28078 solver.cpp:454] Iteration 2960, lr = 0.0433
+I0305 16:07:11.959246 28078 solver.cpp:188] Iteration 2980, loss = 1.58862
+I0305 16:07:11.959355 28078 solver.cpp:203]     Train net output #0: loss = 1.58862 (* 1 = 1.58862 loss)
+I0305 16:07:11.959377 28078 solver.cpp:454] Iteration 2980, lr = 0.0433
+I0305 16:07:24.323302 28078 solver.cpp:188] Iteration 3000, loss = 1.60306
+I0305 16:07:24.323542 28078 solver.cpp:203]     Train net output #0: loss = 1.60306 (* 1 = 1.60306 loss)
+I0305 16:07:24.323566 28078 solver.cpp:454] Iteration 3000, lr = 0.0374978
+I0305 16:07:36.685412 28078 solver.cpp:188] Iteration 3020, loss = 1.63759
+I0305 16:07:36.685502 28078 solver.cpp:203]     Train net output #0: loss = 1.63759 (* 1 = 1.63759 loss)
+I0305 16:07:36.685523 28078 solver.cpp:454] Iteration 3020, lr = 0.0374978
+I0305 16:07:49.077342 28078 solver.cpp:188] Iteration 3040, loss = 1.51226
+I0305 16:07:49.077474 28078 solver.cpp:203]     Train net output #0: loss = 1.51226 (* 1 = 1.51226 loss)
+I0305 16:07:49.077520 28078 solver.cpp:454] Iteration 3040, lr = 0.0374978
+I0305 16:08:01.440611 28078 solver.cpp:188] Iteration 3060, loss = 1.42516
+I0305 16:08:01.440768 28078 solver.cpp:203]     Train net output #0: loss = 1.42516 (* 1 = 1.42516 loss)
+I0305 16:08:01.440789 28078 solver.cpp:454] Iteration 3060, lr = 0.0374978
+I0305 16:08:13.864323 28078 solver.cpp:188] Iteration 3080, loss = 1.42512
+I0305 16:08:13.864418 28078 solver.cpp:203]     Train net output #0: loss = 1.42512 (* 1 = 1.42512 loss)
+I0305 16:08:13.864439 28078 solver.cpp:454] Iteration 3080, lr = 0.0374978
+I0305 16:08:26.204146 28078 solver.cpp:188] Iteration 3100, loss = 1.71192
+I0305 16:08:26.204221 28078 solver.cpp:203]     Train net output #0: loss = 1.71192 (* 1 = 1.71192 loss)
+I0305 16:08:26.204241 28078 solver.cpp:454] Iteration 3100, lr = 0.0374978
+I0305 16:08:38.567158 28078 solver.cpp:188] Iteration 3120, loss = 1.44547
+I0305 16:08:38.567409 28078 solver.cpp:203]     Train net output #0: loss = 1.44547 (* 1 = 1.44547 loss)
+I0305 16:08:38.567432 28078 solver.cpp:454] Iteration 3120, lr = 0.0374978
+I0305 16:08:50.912389 28078 solver.cpp:188] Iteration 3140, loss = 1.46315
+I0305 16:08:50.912473 28078 solver.cpp:203]     Train net output #0: loss = 1.46315 (* 1 = 1.46315 loss)
+I0305 16:08:50.912494 28078 solver.cpp:454] Iteration 3140, lr = 0.0374978
+I0305 16:09:03.257243 28078 solver.cpp:188] Iteration 3160, loss = 1.6188
+I0305 16:09:03.257323 28078 solver.cpp:203]     Train net output #0: loss = 1.6188 (* 1 = 1.6188 loss)
+I0305 16:09:03.257345 28078 solver.cpp:454] Iteration 3160, lr = 0.0374978
+I0305 16:09:15.593857 28078 solver.cpp:188] Iteration 3180, loss = 1.60146
+I0305 16:09:15.594247 28078 solver.cpp:203]     Train net output #0: loss = 1.60146 (* 1 = 1.60146 loss)
+I0305 16:09:15.594300 28078 solver.cpp:454] Iteration 3180, lr = 0.0374978
+I0305 16:09:27.923171 28078 solver.cpp:188] Iteration 3200, loss = 1.44575
+I0305 16:09:27.923255 28078 solver.cpp:203]     Train net output #0: loss = 1.44575 (* 1 = 1.44575 loss)
+I0305 16:09:27.923275 28078 solver.cpp:454] Iteration 3200, lr = 0.0374978
+I0305 16:09:40.262495 28078 solver.cpp:188] Iteration 3220, loss = 1.53408
+I0305 16:09:40.262598 28078 solver.cpp:203]     Train net output #0: loss = 1.53408 (* 1 = 1.53408 loss)
+I0305 16:09:40.262619 28078 solver.cpp:454] Iteration 3220, lr = 0.0374978
+I0305 16:09:52.602448 28078 solver.cpp:188] Iteration 3240, loss = 1.31011
+I0305 16:09:52.602751 28078 solver.cpp:203]     Train net output #0: loss = 1.31011 (* 1 = 1.31011 loss)
+I0305 16:09:52.602777 28078 solver.cpp:454] Iteration 3240, lr = 0.0374978
+I0305 16:10:04.844791 28078 solver.cpp:188] Iteration 3260, loss = 1.49321
+I0305 16:10:04.844871 28078 solver.cpp:203]     Train net output #0: loss = 1.49321 (* 1 = 1.49321 loss)
+I0305 16:10:04.844892 28078 solver.cpp:454] Iteration 3260, lr = 0.0374978
+I0305 16:10:17.096076 28078 solver.cpp:188] Iteration 3280, loss = 1.18515
+I0305 16:10:17.096150 28078 solver.cpp:203]     Train net output #0: loss = 1.18515 (* 1 = 1.18515 loss)
+I0305 16:10:17.096171 28078 solver.cpp:454] Iteration 3280, lr = 0.0374978
+I0305 16:10:29.419894 28078 solver.cpp:188] Iteration 3300, loss = 1.58871
+I0305 16:10:29.420155 28078 solver.cpp:203]     Train net output #0: loss = 1.58871 (* 1 = 1.58871 loss)
+I0305 16:10:29.420181 28078 solver.cpp:454] Iteration 3300, lr = 0.0374978
+I0305 16:10:41.746568 28078 solver.cpp:188] Iteration 3320, loss = 1.37362
+I0305 16:10:41.746641 28078 solver.cpp:203]     Train net output #0: loss = 1.37362 (* 1 = 1.37362 loss)
+I0305 16:10:41.746662 28078 solver.cpp:454] Iteration 3320, lr = 0.0374978
+I0305 16:10:54.072980 28078 solver.cpp:188] Iteration 3340, loss = 1.62719
+I0305 16:10:54.073052 28078 solver.cpp:203]     Train net output #0: loss = 1.62719 (* 1 = 1.62719 loss)
+I0305 16:10:54.073073 28078 solver.cpp:454] Iteration 3340, lr = 0.0374978
+I0305 16:11:06.401442 28078 solver.cpp:188] Iteration 3360, loss = 1.58824
+I0305 16:11:06.401756 28078 solver.cpp:203]     Train net output #0: loss = 1.58824 (* 1 = 1.58824 loss)
+I0305 16:11:06.401782 28078 solver.cpp:454] Iteration 3360, lr = 0.0374978
+I0305 16:11:18.735355 28078 solver.cpp:188] Iteration 3380, loss = 1.56477
+I0305 16:11:18.735442 28078 solver.cpp:203]     Train net output #0: loss = 1.56477 (* 1 = 1.56477 loss)
+I0305 16:11:18.735465 28078 solver.cpp:454] Iteration 3380, lr = 0.0374978
+I0305 16:11:31.062176 28078 solver.cpp:188] Iteration 3400, loss = 1.58055
+I0305 16:11:31.062260 28078 solver.cpp:203]     Train net output #0: loss = 1.58055 (* 1 = 1.58055 loss)
+I0305 16:11:31.062281 28078 solver.cpp:454] Iteration 3400, lr = 0.0374978
+I0305 16:11:43.390991 28078 solver.cpp:188] Iteration 3420, loss = 1.33324
+I0305 16:11:43.391367 28078 solver.cpp:203]     Train net output #0: loss = 1.33324 (* 1 = 1.33324 loss)
+I0305 16:11:43.391418 28078 solver.cpp:454] Iteration 3420, lr = 0.0374978
+I0305 16:11:55.784550 28078 solver.cpp:188] Iteration 3440, loss = 1.43222
+I0305 16:11:55.784683 28078 solver.cpp:203]     Train net output #0: loss = 1.43222 (* 1 = 1.43222 loss)
+I0305 16:11:55.784713 28078 solver.cpp:454] Iteration 3440, lr = 0.0374978
+I0305 16:12:08.572211 28078 solver.cpp:188] Iteration 3460, loss = 1.36228
+I0305 16:12:08.572401 28078 solver.cpp:203]     Train net output #0: loss = 1.36228 (* 1 = 1.36228 loss)
+I0305 16:12:08.572430 28078 solver.cpp:454] Iteration 3460, lr = 0.0374978
+I0305 16:12:20.958256 28078 solver.cpp:188] Iteration 3480, loss = 1.44153
+I0305 16:12:20.958685 28078 solver.cpp:203]     Train net output #0: loss = 1.44153 (* 1 = 1.44153 loss)
+I0305 16:12:20.958729 28078 solver.cpp:454] Iteration 3480, lr = 0.0374978
+I0305 16:12:33.384627 28078 solver.cpp:188] Iteration 3500, loss = 1.58174
+I0305 16:12:33.384712 28078 solver.cpp:203]     Train net output #0: loss = 1.58174 (* 1 = 1.58174 loss)
+I0305 16:12:33.384733 28078 solver.cpp:454] Iteration 3500, lr = 0.0374978
+I0305 16:12:45.709019 28078 solver.cpp:188] Iteration 3520, loss = 1.41144
+I0305 16:12:45.709151 28078 solver.cpp:203]     Train net output #0: loss = 1.41144 (* 1 = 1.41144 loss)
+I0305 16:12:45.709193 28078 solver.cpp:454] Iteration 3520, lr = 0.0374978
+I0305 16:12:58.057122 28078 solver.cpp:188] Iteration 3540, loss = 1.29688
+I0305 16:12:58.057456 28078 solver.cpp:203]     Train net output #0: loss = 1.29688 (* 1 = 1.29688 loss)
+I0305 16:12:58.057499 28078 solver.cpp:454] Iteration 3540, lr = 0.0374978
+I0305 16:13:10.556143 28078 solver.cpp:188] Iteration 3560, loss = 1.65715
+I0305 16:13:10.556234 28078 solver.cpp:203]     Train net output #0: loss = 1.65715 (* 1 = 1.65715 loss)
+I0305 16:13:10.556265 28078 solver.cpp:454] Iteration 3560, lr = 0.0374978
+I0305 16:13:23.646510 28078 solver.cpp:188] Iteration 3580, loss = 1.67076
+I0305 16:13:23.646621 28078 solver.cpp:203]     Train net output #0: loss = 1.67076 (* 1 = 1.67076 loss)
+I0305 16:13:23.646643 28078 solver.cpp:454] Iteration 3580, lr = 0.0374978
+I0305 16:13:36.168761 28078 solver.cpp:188] Iteration 3600, loss = 1.3721
+I0305 16:13:36.169013 28078 solver.cpp:203]     Train net output #0: loss = 1.3721 (* 1 = 1.3721 loss)
+I0305 16:13:36.169039 28078 solver.cpp:454] Iteration 3600, lr = 0.0374978
+I0305 16:13:48.703907 28078 solver.cpp:188] Iteration 3620, loss = 1.61994
+I0305 16:13:48.703992 28078 solver.cpp:203]     Train net output #0: loss = 1.61994 (* 1 = 1.61994 loss)
+I0305 16:13:48.704016 28078 solver.cpp:454] Iteration 3620, lr = 0.0374978
+I0305 16:14:01.236778 28078 solver.cpp:188] Iteration 3640, loss = 1.15738
+I0305 16:14:01.236860 28078 solver.cpp:203]     Train net output #0: loss = 1.15738 (* 1 = 1.15738 loss)
+I0305 16:14:01.236881 28078 solver.cpp:454] Iteration 3640, lr = 0.0374978
+I0305 16:14:13.994562 28078 solver.cpp:188] Iteration 3660, loss = 1.47172
+I0305 16:14:13.994752 28078 solver.cpp:203]     Train net output #0: loss = 1.47172 (* 1 = 1.47172 loss)
+I0305 16:14:13.994776 28078 solver.cpp:454] Iteration 3660, lr = 0.0374978
+I0305 16:14:26.506922 28078 solver.cpp:188] Iteration 3680, loss = 1.32222
+I0305 16:14:26.507033 28078 solver.cpp:203]     Train net output #0: loss = 1.32222 (* 1 = 1.32222 loss)
+I0305 16:14:26.507056 28078 solver.cpp:454] Iteration 3680, lr = 0.0374978
+I0305 16:14:39.024803 28078 solver.cpp:188] Iteration 3700, loss = 1.5934
+I0305 16:14:39.024896 28078 solver.cpp:203]     Train net output #0: loss = 1.5934 (* 1 = 1.5934 loss)
+I0305 16:14:39.024917 28078 solver.cpp:454] Iteration 3700, lr = 0.0374978
+I0305 16:14:51.357246 28078 solver.cpp:188] Iteration 3720, loss = 1.27667
+I0305 16:14:51.357558 28078 solver.cpp:203]     Train net output #0: loss = 1.27667 (* 1 = 1.27667 loss)
+I0305 16:14:51.357583 28078 solver.cpp:454] Iteration 3720, lr = 0.0374978
+I0305 16:15:04.052337 28078 solver.cpp:188] Iteration 3740, loss = 1.45469
+I0305 16:15:04.052415 28078 solver.cpp:203]     Train net output #0: loss = 1.45469 (* 1 = 1.45469 loss)
+I0305 16:15:04.052438 28078 solver.cpp:454] Iteration 3740, lr = 0.0374978
+I0305 16:15:16.964946 28078 solver.cpp:188] Iteration 3760, loss = 1.64002
+I0305 16:15:16.965044 28078 solver.cpp:203]     Train net output #0: loss = 1.64002 (* 1 = 1.64002 loss)
+I0305 16:15:16.965066 28078 solver.cpp:454] Iteration 3760, lr = 0.0374978
+I0305 16:15:29.656832 28078 solver.cpp:188] Iteration 3780, loss = 1.54173
+I0305 16:15:29.657181 28078 solver.cpp:203]     Train net output #0: loss = 1.54173 (* 1 = 1.54173 loss)
+I0305 16:15:29.657212 28078 solver.cpp:454] Iteration 3780, lr = 0.0374978
+I0305 16:15:42.096673 28078 solver.cpp:188] Iteration 3800, loss = 1.58924
+I0305 16:15:42.096747 28078 solver.cpp:203]     Train net output #0: loss = 1.58924 (* 1 = 1.58924 loss)
+I0305 16:15:42.096767 28078 solver.cpp:454] Iteration 3800, lr = 0.0374978
+I0305 16:15:54.343157 28078 solver.cpp:188] Iteration 3820, loss = 1.51975
+I0305 16:15:54.343245 28078 solver.cpp:203]     Train net output #0: loss = 1.51975 (* 1 = 1.51975 loss)
+I0305 16:15:54.343266 28078 solver.cpp:454] Iteration 3820, lr = 0.0374978
+I0305 16:16:06.873819 28078 solver.cpp:188] Iteration 3840, loss = 1.54465
+I0305 16:16:06.874097 28078 solver.cpp:203]     Train net output #0: loss = 1.54465 (* 1 = 1.54465 loss)
+I0305 16:16:06.874121 28078 solver.cpp:454] Iteration 3840, lr = 0.0374978
+I0305 16:16:19.352571 28078 solver.cpp:188] Iteration 3860, loss = 1.51081
+I0305 16:16:19.352665 28078 solver.cpp:203]     Train net output #0: loss = 1.51081 (* 1 = 1.51081 loss)
+I0305 16:16:19.352685 28078 solver.cpp:454] Iteration 3860, lr = 0.0374978
+I0305 16:16:31.762982 28078 solver.cpp:188] Iteration 3880, loss = 1.25962
+I0305 16:16:31.763129 28078 solver.cpp:203]     Train net output #0: loss = 1.25962 (* 1 = 1.25962 loss)
+I0305 16:16:31.763152 28078 solver.cpp:454] Iteration 3880, lr = 0.0374978
+I0305 16:16:44.207190 28078 solver.cpp:188] Iteration 3900, loss = 1.55552
+I0305 16:16:44.207473 28078 solver.cpp:203]     Train net output #0: loss = 1.55552 (* 1 = 1.55552 loss)
+I0305 16:16:44.207507 28078 solver.cpp:454] Iteration 3900, lr = 0.0374978
+I0305 16:16:56.507752 28078 solver.cpp:188] Iteration 3920, loss = 1.23269
+I0305 16:16:56.507849 28078 solver.cpp:203]     Train net output #0: loss = 1.23269 (* 1 = 1.23269 loss)
+I0305 16:16:56.507874 28078 solver.cpp:454] Iteration 3920, lr = 0.0374978
+I0305 16:17:08.777983 28078 solver.cpp:188] Iteration 3940, loss = 1.62294
+I0305 16:17:08.778074 28078 solver.cpp:203]     Train net output #0: loss = 1.62294 (* 1 = 1.62294 loss)
+I0305 16:17:08.778095 28078 solver.cpp:454] Iteration 3940, lr = 0.0374978
+I0305 16:17:21.112421 28078 solver.cpp:188] Iteration 3960, loss = 1.5502
+I0305 16:17:21.112715 28078 solver.cpp:203]     Train net output #0: loss = 1.5502 (* 1 = 1.5502 loss)
+I0305 16:17:21.112741 28078 solver.cpp:454] Iteration 3960, lr = 0.0374978
+I0305 16:17:33.450763 28078 solver.cpp:188] Iteration 3980, loss = 1.45202
+I0305 16:17:33.450897 28078 solver.cpp:203]     Train net output #0: loss = 1.45202 (* 1 = 1.45202 loss)
+I0305 16:17:33.450942 28078 solver.cpp:454] Iteration 3980, lr = 0.0374978
+I0305 16:17:45.776159 28078 solver.cpp:188] Iteration 4000, loss = 1.37508
+I0305 16:17:45.776267 28078 solver.cpp:203]     Train net output #0: loss = 1.37508 (* 1 = 1.37508 loss)
+I0305 16:17:45.776289 28078 solver.cpp:454] Iteration 4000, lr = 0.0374978
+I0305 16:17:58.107151 28078 solver.cpp:188] Iteration 4020, loss = 1.57816
+I0305 16:17:58.107523 28078 solver.cpp:203]     Train net output #0: loss = 1.57816 (* 1 = 1.57816 loss)
+I0305 16:17:58.107560 28078 solver.cpp:454] Iteration 4020, lr = 0.0374978
+I0305 16:18:10.440608 28078 solver.cpp:188] Iteration 4040, loss = 1.37118
+I0305 16:18:10.440690 28078 solver.cpp:203]     Train net output #0: loss = 1.37118 (* 1 = 1.37118 loss)
+I0305 16:18:10.440711 28078 solver.cpp:454] Iteration 4040, lr = 0.0374978
+I0305 16:18:22.780936 28078 solver.cpp:188] Iteration 4060, loss = 1.50045
+I0305 16:18:22.781013 28078 solver.cpp:203]     Train net output #0: loss = 1.50045 (* 1 = 1.50045 loss)
+I0305 16:18:22.781036 28078 solver.cpp:454] Iteration 4060, lr = 0.0374978
+I0305 16:18:35.116976 28078 solver.cpp:188] Iteration 4080, loss = 1.32779
+I0305 16:18:35.117266 28078 solver.cpp:203]     Train net output #0: loss = 1.32779 (* 1 = 1.32779 loss)
+I0305 16:18:35.117292 28078 solver.cpp:454] Iteration 4080, lr = 0.0374978
+I0305 16:18:47.448403 28078 solver.cpp:188] Iteration 4100, loss = 1.57112
+I0305 16:18:47.448482 28078 solver.cpp:203]     Train net output #0: loss = 1.57112 (* 1 = 1.57112 loss)
+I0305 16:18:47.448503 28078 solver.cpp:454] Iteration 4100, lr = 0.0374978
+I0305 16:18:59.778002 28078 solver.cpp:188] Iteration 4120, loss = 1.47754
+I0305 16:18:59.778105 28078 solver.cpp:203]     Train net output #0: loss = 1.47754 (* 1 = 1.47754 loss)
+I0305 16:18:59.778126 28078 solver.cpp:454] Iteration 4120, lr = 0.0374978
+I0305 16:19:12.113739 28078 solver.cpp:188] Iteration 4140, loss = 1.51637
+I0305 16:19:12.114224 28078 solver.cpp:203]     Train net output #0: loss = 1.51637 (* 1 = 1.51637 loss)
+I0305 16:19:12.114255 28078 solver.cpp:454] Iteration 4140, lr = 0.0374978
+I0305 16:19:24.450234 28078 solver.cpp:188] Iteration 4160, loss = 1.36184
+I0305 16:19:24.450332 28078 solver.cpp:203]     Train net output #0: loss = 1.36184 (* 1 = 1.36184 loss)
+I0305 16:19:24.450353 28078 solver.cpp:454] Iteration 4160, lr = 0.0374978
+I0305 16:19:36.778205 28078 solver.cpp:188] Iteration 4180, loss = 1.52064
+I0305 16:19:36.778296 28078 solver.cpp:203]     Train net output #0: loss = 1.52064 (* 1 = 1.52064 loss)
+I0305 16:19:36.778317 28078 solver.cpp:454] Iteration 4180, lr = 0.0374978
+I0305 16:19:49.115576 28078 solver.cpp:188] Iteration 4200, loss = 1.32862
+I0305 16:19:49.115857 28078 solver.cpp:203]     Train net output #0: loss = 1.32862 (* 1 = 1.32862 loss)
+I0305 16:19:49.115882 28078 solver.cpp:454] Iteration 4200, lr = 0.0374978
+I0305 16:20:01.449378 28078 solver.cpp:188] Iteration 4220, loss = 1.43622
+I0305 16:20:01.449511 28078 solver.cpp:203]     Train net output #0: loss = 1.43622 (* 1 = 1.43622 loss)
+I0305 16:20:01.449553 28078 solver.cpp:454] Iteration 4220, lr = 0.0374978
+I0305 16:20:13.780092 28078 solver.cpp:188] Iteration 4240, loss = 1.70011
+I0305 16:20:13.780200 28078 solver.cpp:203]     Train net output #0: loss = 1.70011 (* 1 = 1.70011 loss)
+I0305 16:20:13.780220 28078 solver.cpp:454] Iteration 4240, lr = 0.0374978
+I0305 16:20:26.105988 28078 solver.cpp:188] Iteration 4260, loss = 1.64265
+I0305 16:20:26.106282 28078 solver.cpp:203]     Train net output #0: loss = 1.64265 (* 1 = 1.64265 loss)
+I0305 16:20:26.106307 28078 solver.cpp:454] Iteration 4260, lr = 0.0374978
+I0305 16:20:38.437413 28078 solver.cpp:188] Iteration 4280, loss = 1.24671
+I0305 16:20:38.437562 28078 solver.cpp:203]     Train net output #0: loss = 1.24671 (* 1 = 1.24671 loss)
+I0305 16:20:38.437608 28078 solver.cpp:454] Iteration 4280, lr = 0.0374978
+I0305 16:20:50.769440 28078 solver.cpp:188] Iteration 4300, loss = 1.41133
+I0305 16:20:50.769515 28078 solver.cpp:203]     Train net output #0: loss = 1.41133 (* 1 = 1.41133 loss)
+I0305 16:20:50.769536 28078 solver.cpp:454] Iteration 4300, lr = 0.0374978
+I0305 16:21:03.103009 28078 solver.cpp:188] Iteration 4320, loss = 1.27428
+I0305 16:21:03.103282 28078 solver.cpp:203]     Train net output #0: loss = 1.27428 (* 1 = 1.27428 loss)
+I0305 16:21:03.103384 28078 solver.cpp:454] Iteration 4320, lr = 0.0374978
+I0305 16:21:15.436812 28078 solver.cpp:188] Iteration 4340, loss = 1.36771
+I0305 16:21:15.436897 28078 solver.cpp:203]     Train net output #0: loss = 1.36771 (* 1 = 1.36771 loss)
+I0305 16:21:15.436918 28078 solver.cpp:454] Iteration 4340, lr = 0.0374978
+I0305 16:21:27.766314 28078 solver.cpp:188] Iteration 4360, loss = 1.23065
+I0305 16:21:27.766389 28078 solver.cpp:203]     Train net output #0: loss = 1.23065 (* 1 = 1.23065 loss)
+I0305 16:21:27.766412 28078 solver.cpp:454] Iteration 4360, lr = 0.0374978
+I0305 16:21:40.096984 28078 solver.cpp:188] Iteration 4380, loss = 1.50894
+I0305 16:21:40.097226 28078 solver.cpp:203]     Train net output #0: loss = 1.50894 (* 1 = 1.50894 loss)
+I0305 16:21:40.097254 28078 solver.cpp:454] Iteration 4380, lr = 0.0374978
+I0305 16:21:52.434819 28078 solver.cpp:188] Iteration 4400, loss = 1.20057
+I0305 16:21:52.434901 28078 solver.cpp:203]     Train net output #0: loss = 1.20057 (* 1 = 1.20057 loss)
+I0305 16:21:52.434921 28078 solver.cpp:454] Iteration 4400, lr = 0.0374978
+I0305 16:22:04.765389 28078 solver.cpp:188] Iteration 4420, loss = 1.44446
+I0305 16:22:04.765480 28078 solver.cpp:203]     Train net output #0: loss = 1.44446 (* 1 = 1.44446 loss)
+I0305 16:22:04.765501 28078 solver.cpp:454] Iteration 4420, lr = 0.0374978
+I0305 16:22:17.098340 28078 solver.cpp:188] Iteration 4440, loss = 1.31376
+I0305 16:22:17.098711 28078 solver.cpp:203]     Train net output #0: loss = 1.31376 (* 1 = 1.31376 loss)
+I0305 16:22:17.098736 28078 solver.cpp:454] Iteration 4440, lr = 0.0374978
+I0305 16:22:29.436617 28078 solver.cpp:188] Iteration 4460, loss = 1.32041
+I0305 16:22:29.436696 28078 solver.cpp:203]     Train net output #0: loss = 1.32041 (* 1 = 1.32041 loss)
+I0305 16:22:29.436717 28078 solver.cpp:454] Iteration 4460, lr = 0.0374978
+I0305 16:22:41.770274 28078 solver.cpp:188] Iteration 4480, loss = 1.58262
+I0305 16:22:41.770361 28078 solver.cpp:203]     Train net output #0: loss = 1.58262 (* 1 = 1.58262 loss)
+I0305 16:22:41.770391 28078 solver.cpp:454] Iteration 4480, lr = 0.0374978
+I0305 16:22:54.105566 28078 solver.cpp:188] Iteration 4500, loss = 1.34547
+I0305 16:22:54.107574 28078 solver.cpp:203]     Train net output #0: loss = 1.34547 (* 1 = 1.34547 loss)
+I0305 16:22:54.107651 28078 solver.cpp:454] Iteration 4500, lr = 0.0324731
+I0305 16:23:06.437639 28078 solver.cpp:188] Iteration 4520, loss = 1.39407
+I0305 16:23:06.437711 28078 solver.cpp:203]     Train net output #0: loss = 1.39407 (* 1 = 1.39407 loss)
+I0305 16:23:06.437736 28078 solver.cpp:454] Iteration 4520, lr = 0.0324731
+I0305 16:23:18.773169 28078 solver.cpp:188] Iteration 4540, loss = 1.40175
+I0305 16:23:18.773254 28078 solver.cpp:203]     Train net output #0: loss = 1.40175 (* 1 = 1.40175 loss)
+I0305 16:23:18.773277 28078 solver.cpp:454] Iteration 4540, lr = 0.0324731
+I0305 16:23:31.112990 28078 solver.cpp:188] Iteration 4560, loss = 1.51944
+I0305 16:23:31.113281 28078 solver.cpp:203]     Train net output #0: loss = 1.51944 (* 1 = 1.51944 loss)
+I0305 16:23:31.113307 28078 solver.cpp:454] Iteration 4560, lr = 0.0324731
+I0305 16:23:43.442692 28078 solver.cpp:188] Iteration 4580, loss = 1.42598
+I0305 16:23:43.442772 28078 solver.cpp:203]     Train net output #0: loss = 1.42598 (* 1 = 1.42598 loss)
+I0305 16:23:43.442793 28078 solver.cpp:454] Iteration 4580, lr = 0.0324731
+I0305 16:23:55.780166 28078 solver.cpp:188] Iteration 4600, loss = 1.18317
+I0305 16:23:55.780236 28078 solver.cpp:203]     Train net output #0: loss = 1.18317 (* 1 = 1.18317 loss)
+I0305 16:23:55.780261 28078 solver.cpp:454] Iteration 4600, lr = 0.0324731
+I0305 16:24:08.112824 28078 solver.cpp:188] Iteration 4620, loss = 1.13778
+I0305 16:24:08.113175 28078 solver.cpp:203]     Train net output #0: loss = 1.13778 (* 1 = 1.13778 loss)
+I0305 16:24:08.113205 28078 solver.cpp:454] Iteration 4620, lr = 0.0324731
+I0305 16:24:20.442920 28078 solver.cpp:188] Iteration 4640, loss = 1.19459
+I0305 16:24:20.442993 28078 solver.cpp:203]     Train net output #0: loss = 1.19459 (* 1 = 1.19459 loss)
+I0305 16:24:20.443018 28078 solver.cpp:454] Iteration 4640, lr = 0.0324731
+I0305 16:24:32.778214 28078 solver.cpp:188] Iteration 4660, loss = 1.31055
+I0305 16:24:32.778338 28078 solver.cpp:203]     Train net output #0: loss = 1.31055 (* 1 = 1.31055 loss)
+I0305 16:24:32.778360 28078 solver.cpp:454] Iteration 4660, lr = 0.0324731
+I0305 16:24:45.108618 28078 solver.cpp:188] Iteration 4680, loss = 1.4532
+I0305 16:24:45.108934 28078 solver.cpp:203]     Train net output #0: loss = 1.4532 (* 1 = 1.4532 loss)
+I0305 16:24:45.109006 28078 solver.cpp:454] Iteration 4680, lr = 0.0324731
+I0305 16:24:57.438525 28078 solver.cpp:188] Iteration 4700, loss = 1.35483
+I0305 16:24:57.438611 28078 solver.cpp:203]     Train net output #0: loss = 1.35483 (* 1 = 1.35483 loss)
+I0305 16:24:57.438630 28078 solver.cpp:454] Iteration 4700, lr = 0.0324731
+I0305 16:25:09.777928 28078 solver.cpp:188] Iteration 4720, loss = 1.32346
+I0305 16:25:09.778012 28078 solver.cpp:203]     Train net output #0: loss = 1.32346 (* 1 = 1.32346 loss)
+I0305 16:25:09.778033 28078 solver.cpp:454] Iteration 4720, lr = 0.0324731
+I0305 16:25:22.105816 28078 solver.cpp:188] Iteration 4740, loss = 1.29295
+I0305 16:25:22.106780 28078 solver.cpp:203]     Train net output #0: loss = 1.29295 (* 1 = 1.29295 loss)
+I0305 16:25:22.106829 28078 solver.cpp:454] Iteration 4740, lr = 0.0324731
+I0305 16:25:34.439435 28078 solver.cpp:188] Iteration 4760, loss = 1.33125
+I0305 16:25:34.439515 28078 solver.cpp:203]     Train net output #0: loss = 1.33125 (* 1 = 1.33125 loss)
+I0305 16:25:34.439541 28078 solver.cpp:454] Iteration 4760, lr = 0.0324731
+I0305 16:25:46.774029 28078 solver.cpp:188] Iteration 4780, loss = 1.0669
+I0305 16:25:46.774109 28078 solver.cpp:203]     Train net output #0: loss = 1.0669 (* 1 = 1.0669 loss)
+I0305 16:25:46.774132 28078 solver.cpp:454] Iteration 4780, lr = 0.0324731
+I0305 16:25:59.105389 28078 solver.cpp:188] Iteration 4800, loss = 1.50214
+I0305 16:25:59.105703 28078 solver.cpp:203]     Train net output #0: loss = 1.50214 (* 1 = 1.50214 loss)
+I0305 16:25:59.105731 28078 solver.cpp:454] Iteration 4800, lr = 0.0324731
+I0305 16:26:11.438359 28078 solver.cpp:188] Iteration 4820, loss = 1.40279
+I0305 16:26:11.438432 28078 solver.cpp:203]     Train net output #0: loss = 1.40279 (* 1 = 1.40279 loss)
+I0305 16:26:11.438457 28078 solver.cpp:454] Iteration 4820, lr = 0.0324731
+I0305 16:26:23.770818 28078 solver.cpp:188] Iteration 4840, loss = 1.27513
+I0305 16:26:23.770910 28078 solver.cpp:203]     Train net output #0: loss = 1.27513 (* 1 = 1.27513 loss)
+I0305 16:26:23.770931 28078 solver.cpp:454] Iteration 4840, lr = 0.0324731
+I0305 16:26:36.091367 28078 solver.cpp:188] Iteration 4860, loss = 1.26402
+I0305 16:26:36.091622 28078 solver.cpp:203]     Train net output #0: loss = 1.26402 (* 1 = 1.26402 loss)
+I0305 16:26:36.091670 28078 solver.cpp:454] Iteration 4860, lr = 0.0324731
+I0305 16:26:48.378049 28078 solver.cpp:188] Iteration 4880, loss = 1.24651
+I0305 16:26:48.378125 28078 solver.cpp:203]     Train net output #0: loss = 1.24651 (* 1 = 1.24651 loss)
+I0305 16:26:48.378150 28078 solver.cpp:454] Iteration 4880, lr = 0.0324731
+I0305 16:27:00.756850 28078 solver.cpp:188] Iteration 4900, loss = 1.42108
+I0305 16:27:00.756940 28078 solver.cpp:203]     Train net output #0: loss = 1.42108 (* 1 = 1.42108 loss)
+I0305 16:27:00.756963 28078 solver.cpp:454] Iteration 4900, lr = 0.0324731
+I0305 16:27:13.104609 28078 solver.cpp:188] Iteration 4920, loss = 1.20407
+I0305 16:27:13.104984 28078 solver.cpp:203]     Train net output #0: loss = 1.20407 (* 1 = 1.20407 loss)
+I0305 16:27:13.105010 28078 solver.cpp:454] Iteration 4920, lr = 0.0324731
+I0305 16:27:25.449997 28078 solver.cpp:188] Iteration 4940, loss = 1.32018
+I0305 16:27:25.450068 28078 solver.cpp:203]     Train net output #0: loss = 1.32018 (* 1 = 1.32018 loss)
+I0305 16:27:25.450088 28078 solver.cpp:454] Iteration 4940, lr = 0.0324731
+I0305 16:27:37.793145 28078 solver.cpp:188] Iteration 4960, loss = 1.28227
+I0305 16:27:37.793217 28078 solver.cpp:203]     Train net output #0: loss = 1.28227 (* 1 = 1.28227 loss)
+I0305 16:27:37.793241 28078 solver.cpp:454] Iteration 4960, lr = 0.0324731
+I0305 16:27:50.265326 28078 solver.cpp:188] Iteration 4980, loss = 1.3021
+I0305 16:27:50.265455 28078 solver.cpp:203]     Train net output #0: loss = 1.3021 (* 1 = 1.3021 loss)
+I0305 16:27:50.265488 28078 solver.cpp:454] Iteration 4980, lr = 0.0324731
+I0305 16:28:02.681560 28078 solver.cpp:188] Iteration 5000, loss = 1.36188
+I0305 16:28:02.681653 28078 solver.cpp:203]     Train net output #0: loss = 1.36188 (* 1 = 1.36188 loss)
+I0305 16:28:02.681676 28078 solver.cpp:454] Iteration 5000, lr = 0.0324731
+I0305 16:28:15.006067 28078 solver.cpp:188] Iteration 5020, loss = 1.43544
+I0305 16:28:15.006153 28078 solver.cpp:203]     Train net output #0: loss = 1.43544 (* 1 = 1.43544 loss)
+I0305 16:28:15.006176 28078 solver.cpp:454] Iteration 5020, lr = 0.0324731
+I0305 16:28:27.340950 28078 solver.cpp:188] Iteration 5040, loss = 1.26195
+I0305 16:28:27.341295 28078 solver.cpp:203]     Train net output #0: loss = 1.26195 (* 1 = 1.26195 loss)
+I0305 16:28:27.341341 28078 solver.cpp:454] Iteration 5040, lr = 0.0324731
+I0305 16:28:39.685621 28078 solver.cpp:188] Iteration 5060, loss = 1.49273
+I0305 16:28:39.685695 28078 solver.cpp:203]     Train net output #0: loss = 1.49273 (* 1 = 1.49273 loss)
+I0305 16:28:39.685717 28078 solver.cpp:454] Iteration 5060, lr = 0.0324731
+I0305 16:28:52.030006 28078 solver.cpp:188] Iteration 5080, loss = 1.42205
+I0305 16:28:52.030098 28078 solver.cpp:203]     Train net output #0: loss = 1.42205 (* 1 = 1.42205 loss)
+I0305 16:28:52.030122 28078 solver.cpp:454] Iteration 5080, lr = 0.0324731
+I0305 16:29:04.390847 28078 solver.cpp:188] Iteration 5100, loss = 1.19852
+I0305 16:29:04.391098 28078 solver.cpp:203]     Train net output #0: loss = 1.19852 (* 1 = 1.19852 loss)
+I0305 16:29:04.391124 28078 solver.cpp:454] Iteration 5100, lr = 0.0324731
+I0305 16:29:16.794335 28078 solver.cpp:188] Iteration 5120, loss = 1.57075
+I0305 16:29:16.794423 28078 solver.cpp:203]     Train net output #0: loss = 1.57075 (* 1 = 1.57075 loss)
+I0305 16:29:16.794447 28078 solver.cpp:454] Iteration 5120, lr = 0.0324731
+I0305 16:29:29.208364 28078 solver.cpp:188] Iteration 5140, loss = 1.33543
+I0305 16:29:29.208436 28078 solver.cpp:203]     Train net output #0: loss = 1.33543 (* 1 = 1.33543 loss)
+I0305 16:29:29.208461 28078 solver.cpp:454] Iteration 5140, lr = 0.0324731
+I0305 16:29:41.564108 28078 solver.cpp:188] Iteration 5160, loss = 1.36525
+I0305 16:29:41.564405 28078 solver.cpp:203]     Train net output #0: loss = 1.36525 (* 1 = 1.36525 loss)
+I0305 16:29:41.564431 28078 solver.cpp:454] Iteration 5160, lr = 0.0324731
+I0305 16:29:53.908077 28078 solver.cpp:188] Iteration 5180, loss = 1.16512
+I0305 16:29:53.908200 28078 solver.cpp:203]     Train net output #0: loss = 1.16512 (* 1 = 1.16512 loss)
+I0305 16:29:53.908242 28078 solver.cpp:454] Iteration 5180, lr = 0.0324731
+I0305 16:30:06.269675 28078 solver.cpp:188] Iteration 5200, loss = 1.39648
+I0305 16:30:06.269773 28078 solver.cpp:203]     Train net output #0: loss = 1.39648 (* 1 = 1.39648 loss)
+I0305 16:30:06.269798 28078 solver.cpp:454] Iteration 5200, lr = 0.0324731
+I0305 16:30:18.629376 28078 solver.cpp:188] Iteration 5220, loss = 1.40256
+I0305 16:30:18.629595 28078 solver.cpp:203]     Train net output #0: loss = 1.40256 (* 1 = 1.40256 loss)
+I0305 16:30:18.629629 28078 solver.cpp:454] Iteration 5220, lr = 0.0324731
+I0305 16:30:30.984980 28078 solver.cpp:188] Iteration 5240, loss = 1.29474
+I0305 16:30:30.985064 28078 solver.cpp:203]     Train net output #0: loss = 1.29474 (* 1 = 1.29474 loss)
+I0305 16:30:30.985085 28078 solver.cpp:454] Iteration 5240, lr = 0.0324731
+I0305 16:30:43.355598 28078 solver.cpp:188] Iteration 5260, loss = 1.38413
+I0305 16:30:43.355669 28078 solver.cpp:203]     Train net output #0: loss = 1.38413 (* 1 = 1.38413 loss)
+I0305 16:30:43.355692 28078 solver.cpp:454] Iteration 5260, lr = 0.0324731
+I0305 16:30:55.715874 28078 solver.cpp:188] Iteration 5280, loss = 1.2504
+I0305 16:30:55.716209 28078 solver.cpp:203]     Train net output #0: loss = 1.2504 (* 1 = 1.2504 loss)
+I0305 16:30:55.716234 28078 solver.cpp:454] Iteration 5280, lr = 0.0324731
+I0305 16:31:08.066007 28078 solver.cpp:188] Iteration 5300, loss = 1.48905
+I0305 16:31:08.066103 28078 solver.cpp:203]     Train net output #0: loss = 1.48905 (* 1 = 1.48905 loss)
+I0305 16:31:08.066125 28078 solver.cpp:454] Iteration 5300, lr = 0.0324731
+I0305 16:31:20.412113 28078 solver.cpp:188] Iteration 5320, loss = 1.23286
+I0305 16:31:20.412194 28078 solver.cpp:203]     Train net output #0: loss = 1.23286 (* 1 = 1.23286 loss)
+I0305 16:31:20.412217 28078 solver.cpp:454] Iteration 5320, lr = 0.0324731
+I0305 16:31:32.626528 28078 solver.cpp:188] Iteration 5340, loss = 1.23956
+I0305 16:31:32.626780 28078 solver.cpp:203]     Train net output #0: loss = 1.23956 (* 1 = 1.23956 loss)
+I0305 16:31:32.626808 28078 solver.cpp:454] Iteration 5340, lr = 0.0324731
+I0305 16:31:44.838841 28078 solver.cpp:188] Iteration 5360, loss = 1.3775
+I0305 16:31:44.838927 28078 solver.cpp:203]     Train net output #0: loss = 1.3775 (* 1 = 1.3775 loss)
+I0305 16:31:44.838948 28078 solver.cpp:454] Iteration 5360, lr = 0.0324731
+I0305 16:31:57.176017 28078 solver.cpp:188] Iteration 5380, loss = 1.31038
+I0305 16:31:57.176105 28078 solver.cpp:203]     Train net output #0: loss = 1.31038 (* 1 = 1.31038 loss)
+I0305 16:31:57.176126 28078 solver.cpp:454] Iteration 5380, lr = 0.0324731
+I0305 16:32:09.504390 28078 solver.cpp:188] Iteration 5400, loss = 1.21929
+I0305 16:32:09.504701 28078 solver.cpp:203]     Train net output #0: loss = 1.21929 (* 1 = 1.21929 loss)
+I0305 16:32:09.504729 28078 solver.cpp:454] Iteration 5400, lr = 0.0324731
+I0305 16:32:21.836911 28078 solver.cpp:188] Iteration 5420, loss = 1.4501
+I0305 16:32:21.836987 28078 solver.cpp:203]     Train net output #0: loss = 1.4501 (* 1 = 1.4501 loss)
+I0305 16:32:21.837008 28078 solver.cpp:454] Iteration 5420, lr = 0.0324731
+I0305 16:32:34.163017 28078 solver.cpp:188] Iteration 5440, loss = 1.39602
+I0305 16:32:34.163106 28078 solver.cpp:203]     Train net output #0: loss = 1.39602 (* 1 = 1.39602 loss)
+I0305 16:32:34.163130 28078 solver.cpp:454] Iteration 5440, lr = 0.0324731
+I0305 16:32:46.494148 28078 solver.cpp:188] Iteration 5460, loss = 1.44453
+I0305 16:32:46.494527 28078 solver.cpp:203]     Train net output #0: loss = 1.44453 (* 1 = 1.44453 loss)
+I0305 16:32:46.494588 28078 solver.cpp:454] Iteration 5460, lr = 0.0324731
+I0305 16:32:58.819181 28078 solver.cpp:188] Iteration 5480, loss = 1.35306
+I0305 16:32:58.819262 28078 solver.cpp:203]     Train net output #0: loss = 1.35306 (* 1 = 1.35306 loss)
+I0305 16:32:58.819283 28078 solver.cpp:454] Iteration 5480, lr = 0.0324731
+I0305 16:33:11.156666 28078 solver.cpp:188] Iteration 5500, loss = 1.36656
+I0305 16:33:11.156735 28078 solver.cpp:203]     Train net output #0: loss = 1.36656 (* 1 = 1.36656 loss)
+I0305 16:33:11.156757 28078 solver.cpp:454] Iteration 5500, lr = 0.0324731
+I0305 16:33:23.490989 28078 solver.cpp:188] Iteration 5520, loss = 1.13739
+I0305 16:33:23.491268 28078 solver.cpp:203]     Train net output #0: loss = 1.13739 (* 1 = 1.13739 loss)
+I0305 16:33:23.491292 28078 solver.cpp:454] Iteration 5520, lr = 0.0324731
+I0305 16:33:35.822020 28078 solver.cpp:188] Iteration 5540, loss = 1.25397
+I0305 16:33:35.822119 28078 solver.cpp:203]     Train net output #0: loss = 1.25397 (* 1 = 1.25397 loss)
+I0305 16:33:35.822140 28078 solver.cpp:454] Iteration 5540, lr = 0.0324731
+I0305 16:33:48.152390 28078 solver.cpp:188] Iteration 5560, loss = 1.30872
+I0305 16:33:48.152477 28078 solver.cpp:203]     Train net output #0: loss = 1.30872 (* 1 = 1.30872 loss)
+I0305 16:33:48.152498 28078 solver.cpp:454] Iteration 5560, lr = 0.0324731
+I0305 16:34:00.482235 28078 solver.cpp:188] Iteration 5580, loss = 1.58043
+I0305 16:34:00.482522 28078 solver.cpp:203]     Train net output #0: loss = 1.58043 (* 1 = 1.58043 loss)
+I0305 16:34:00.482547 28078 solver.cpp:454] Iteration 5580, lr = 0.0324731
+I0305 16:34:12.810425 28078 solver.cpp:188] Iteration 5600, loss = 1.45909
+I0305 16:34:12.810503 28078 solver.cpp:203]     Train net output #0: loss = 1.45909 (* 1 = 1.45909 loss)
+I0305 16:34:12.810528 28078 solver.cpp:454] Iteration 5600, lr = 0.0324731
+I0305 16:34:25.141086 28078 solver.cpp:188] Iteration 5620, loss = 1.27963
+I0305 16:34:25.141170 28078 solver.cpp:203]     Train net output #0: loss = 1.27963 (* 1 = 1.27963 loss)
+I0305 16:34:25.141188 28078 solver.cpp:454] Iteration 5620, lr = 0.0324731
+I0305 16:34:37.473767 28078 solver.cpp:188] Iteration 5640, loss = 1.16461
+I0305 16:34:37.474129 28078 solver.cpp:203]     Train net output #0: loss = 1.16461 (* 1 = 1.16461 loss)
+I0305 16:34:37.474180 28078 solver.cpp:454] Iteration 5640, lr = 0.0324731
+I0305 16:34:49.804656 28078 solver.cpp:188] Iteration 5660, loss = 1.47272
+I0305 16:34:49.804792 28078 solver.cpp:203]     Train net output #0: loss = 1.47272 (* 1 = 1.47272 loss)
+I0305 16:34:49.804834 28078 solver.cpp:454] Iteration 5660, lr = 0.0324731
+I0305 16:35:02.132542 28078 solver.cpp:188] Iteration 5680, loss = 1.47515
+I0305 16:35:02.132609 28078 solver.cpp:203]     Train net output #0: loss = 1.47515 (* 1 = 1.47515 loss)
+I0305 16:35:02.132632 28078 solver.cpp:454] Iteration 5680, lr = 0.0324731
+I0305 16:35:14.464666 28078 solver.cpp:188] Iteration 5700, loss = 1.27731
+I0305 16:35:14.465061 28078 solver.cpp:203]     Train net output #0: loss = 1.27731 (* 1 = 1.27731 loss)
+I0305 16:35:14.465086 28078 solver.cpp:454] Iteration 5700, lr = 0.0324731
+I0305 16:35:26.795264 28078 solver.cpp:188] Iteration 5720, loss = 1.09718
+I0305 16:35:26.795346 28078 solver.cpp:203]     Train net output #0: loss = 1.09718 (* 1 = 1.09718 loss)
+I0305 16:35:26.795368 28078 solver.cpp:454] Iteration 5720, lr = 0.0324731
+I0305 16:35:39.134277 28078 solver.cpp:188] Iteration 5740, loss = 1.1973
+I0305 16:35:39.134361 28078 solver.cpp:203]     Train net output #0: loss = 1.1973 (* 1 = 1.1973 loss)
+I0305 16:35:39.134382 28078 solver.cpp:454] Iteration 5740, lr = 0.0324731
+I0305 16:35:51.465747 28078 solver.cpp:188] Iteration 5760, loss = 1.23407
+I0305 16:35:51.466011 28078 solver.cpp:203]     Train net output #0: loss = 1.23407 (* 1 = 1.23407 loss)
+I0305 16:35:51.466035 28078 solver.cpp:454] Iteration 5760, lr = 0.0324731
+I0305 16:36:03.797894 28078 solver.cpp:188] Iteration 5780, loss = 1.11472
+I0305 16:36:03.797966 28078 solver.cpp:203]     Train net output #0: loss = 1.11472 (* 1 = 1.11472 loss)
+I0305 16:36:03.797991 28078 solver.cpp:454] Iteration 5780, lr = 0.0324731
+I0305 16:36:16.136420 28078 solver.cpp:188] Iteration 5800, loss = 1.23517
+I0305 16:36:16.136502 28078 solver.cpp:203]     Train net output #0: loss = 1.23517 (* 1 = 1.23517 loss)
+I0305 16:36:16.136523 28078 solver.cpp:454] Iteration 5800, lr = 0.0324731
+I0305 16:36:28.458055 28078 solver.cpp:188] Iteration 5820, loss = 1.35961
+I0305 16:36:28.458365 28078 solver.cpp:203]     Train net output #0: loss = 1.35961 (* 1 = 1.35961 loss)
+I0305 16:36:28.458392 28078 solver.cpp:454] Iteration 5820, lr = 0.0324731
+I0305 16:36:40.784068 28078 solver.cpp:188] Iteration 5840, loss = 1.14136
+I0305 16:36:40.784139 28078 solver.cpp:203]     Train net output #0: loss = 1.14136 (* 1 = 1.14136 loss)
+I0305 16:36:40.784162 28078 solver.cpp:454] Iteration 5840, lr = 0.0324731
+I0305 16:36:53.119468 28078 solver.cpp:188] Iteration 5860, loss = 1.29968
+I0305 16:36:53.119554 28078 solver.cpp:203]     Train net output #0: loss = 1.29968 (* 1 = 1.29968 loss)
+I0305 16:36:53.119577 28078 solver.cpp:454] Iteration 5860, lr = 0.0324731
+I0305 16:37:05.453701 28078 solver.cpp:188] Iteration 5880, loss = 1.29988
+I0305 16:37:05.453996 28078 solver.cpp:203]     Train net output #0: loss = 1.29988 (* 1 = 1.29988 loss)
+I0305 16:37:05.454023 28078 solver.cpp:454] Iteration 5880, lr = 0.0324731
+I0305 16:37:17.789602 28078 solver.cpp:188] Iteration 5900, loss = 1.47635
+I0305 16:37:17.789686 28078 solver.cpp:203]     Train net output #0: loss = 1.47635 (* 1 = 1.47635 loss)
+I0305 16:37:17.789707 28078 solver.cpp:454] Iteration 5900, lr = 0.0324731
+I0305 16:37:30.121939 28078 solver.cpp:188] Iteration 5920, loss = 1.50478
+I0305 16:37:30.122004 28078 solver.cpp:203]     Train net output #0: loss = 1.50478 (* 1 = 1.50478 loss)
+I0305 16:37:30.122022 28078 solver.cpp:454] Iteration 5920, lr = 0.0324731
+I0305 16:37:42.462400 28078 solver.cpp:188] Iteration 5940, loss = 1.44562
+I0305 16:37:42.462795 28078 solver.cpp:203]     Train net output #0: loss = 1.44562 (* 1 = 1.44562 loss)
+I0305 16:37:42.462849 28078 solver.cpp:454] Iteration 5940, lr = 0.0324731
+I0305 16:37:54.947556 28078 solver.cpp:188] Iteration 5960, loss = 1.39338
+I0305 16:37:54.947646 28078 solver.cpp:203]     Train net output #0: loss = 1.39338 (* 1 = 1.39338 loss)
+I0305 16:37:54.947670 28078 solver.cpp:454] Iteration 5960, lr = 0.0324731
+I0305 16:38:07.257695 28078 solver.cpp:188] Iteration 5980, loss = 1.25414
+I0305 16:38:07.257763 28078 solver.cpp:203]     Train net output #0: loss = 1.25414 (* 1 = 1.25414 loss)
+I0305 16:38:07.257788 28078 solver.cpp:454] Iteration 5980, lr = 0.0324731
+I0305 16:38:19.362378 28078 solver.cpp:337] Snapshotting to snapshots/model5_bn_realtime_aug_iter_6000.caffemodel
+I0305 16:38:19.616291 28078 solver.cpp:345] Snapshotting solver state to snapshots/model5_bn_realtime_aug_iter_6000.solverstate
+I0305 16:38:19.958961 28078 solver.cpp:188] Iteration 6000, loss = 1.40457
+I0305 16:38:19.959040 28078 solver.cpp:203]     Train net output #0: loss = 1.40457 (* 1 = 1.40457 loss)
+I0305 16:38:19.959064 28078 solver.cpp:454] Iteration 6000, lr = 0.0281217
+I0305 16:38:32.253870 28078 solver.cpp:188] Iteration 6020, loss = 1.30317
+I0305 16:38:32.253955 28078 solver.cpp:203]     Train net output #0: loss = 1.30317 (* 1 = 1.30317 loss)
+I0305 16:38:32.253979 28078 solver.cpp:454] Iteration 6020, lr = 0.0281217
+I0305 16:38:44.692174 28078 solver.cpp:188] Iteration 6040, loss = 1.29398
+I0305 16:38:44.692261 28078 solver.cpp:203]     Train net output #0: loss = 1.29398 (* 1 = 1.29398 loss)
+I0305 16:38:44.692284 28078 solver.cpp:454] Iteration 6040, lr = 0.0281217
+I0305 16:38:57.020007 28078 solver.cpp:188] Iteration 6060, loss = 1.36285
+I0305 16:38:57.020298 28078 solver.cpp:203]     Train net output #0: loss = 1.36285 (* 1 = 1.36285 loss)
+I0305 16:38:57.020328 28078 solver.cpp:454] Iteration 6060, lr = 0.0281217
+I0305 16:39:09.227288 28078 solver.cpp:188] Iteration 6080, loss = 1.3689
+I0305 16:39:09.227385 28078 solver.cpp:203]     Train net output #0: loss = 1.3689 (* 1 = 1.3689 loss)
+I0305 16:39:09.227406 28078 solver.cpp:454] Iteration 6080, lr = 0.0281217
+I0305 16:39:21.496090 28078 solver.cpp:188] Iteration 6100, loss = 1.1067
+I0305 16:39:21.496171 28078 solver.cpp:203]     Train net output #0: loss = 1.1067 (* 1 = 1.1067 loss)
+I0305 16:39:21.496193 28078 solver.cpp:454] Iteration 6100, lr = 0.0281217
+I0305 16:39:33.821514 28078 solver.cpp:188] Iteration 6120, loss = 1.26352
+I0305 16:39:33.821785 28078 solver.cpp:203]     Train net output #0: loss = 1.26352 (* 1 = 1.26352 loss)
+I0305 16:39:33.821827 28078 solver.cpp:454] Iteration 6120, lr = 0.0281217
+I0305 16:39:46.154338 28078 solver.cpp:188] Iteration 6140, loss = 1.286
+I0305 16:39:46.154423 28078 solver.cpp:203]     Train net output #0: loss = 1.286 (* 1 = 1.286 loss)
+I0305 16:39:46.154443 28078 solver.cpp:454] Iteration 6140, lr = 0.0281217
+I0305 16:39:58.508522 28078 solver.cpp:188] Iteration 6160, loss = 1.41563
+I0305 16:39:58.508616 28078 solver.cpp:203]     Train net output #0: loss = 1.41563 (* 1 = 1.41563 loss)
+I0305 16:39:58.508641 28078 solver.cpp:454] Iteration 6160, lr = 0.0281217
+I0305 16:40:10.876194 28078 solver.cpp:188] Iteration 6180, loss = 1.14618
+I0305 16:40:10.876509 28078 solver.cpp:203]     Train net output #0: loss = 1.14618 (* 1 = 1.14618 loss)
+I0305 16:40:10.876548 28078 solver.cpp:454] Iteration 6180, lr = 0.0281217
+I0305 16:40:23.215905 28078 solver.cpp:188] Iteration 6200, loss = 1.35822
+I0305 16:40:23.216016 28078 solver.cpp:203]     Train net output #0: loss = 1.35822 (* 1 = 1.35822 loss)
+I0305 16:40:23.216039 28078 solver.cpp:454] Iteration 6200, lr = 0.0281217
+I0305 16:40:35.544375 28078 solver.cpp:188] Iteration 6220, loss = 1.20148
+I0305 16:40:35.544448 28078 solver.cpp:203]     Train net output #0: loss = 1.20148 (* 1 = 1.20148 loss)
+I0305 16:40:35.544471 28078 solver.cpp:454] Iteration 6220, lr = 0.0281217
+I0305 16:40:47.878401 28078 solver.cpp:188] Iteration 6240, loss = 1.20051
+I0305 16:40:47.878692 28078 solver.cpp:203]     Train net output #0: loss = 1.20051 (* 1 = 1.20051 loss)
+I0305 16:40:47.878718 28078 solver.cpp:454] Iteration 6240, lr = 0.0281217
+I0305 16:41:00.224541 28078 solver.cpp:188] Iteration 6260, loss = 1.38889
+I0305 16:41:00.224637 28078 solver.cpp:203]     Train net output #0: loss = 1.38889 (* 1 = 1.38889 loss)
+I0305 16:41:00.224660 28078 solver.cpp:454] Iteration 6260, lr = 0.0281217
+I0305 16:41:12.565418 28078 solver.cpp:188] Iteration 6280, loss = 1.38299
+I0305 16:41:12.565495 28078 solver.cpp:203]     Train net output #0: loss = 1.38299 (* 1 = 1.38299 loss)
+I0305 16:41:12.565521 28078 solver.cpp:454] Iteration 6280, lr = 0.0281217
+I0305 16:41:24.896303 28078 solver.cpp:188] Iteration 6300, loss = 1.24887
+I0305 16:41:24.896626 28078 solver.cpp:203]     Train net output #0: loss = 1.24887 (* 1 = 1.24887 loss)
+I0305 16:41:24.896653 28078 solver.cpp:454] Iteration 6300, lr = 0.0281217
+I0305 16:41:37.239981 28078 solver.cpp:188] Iteration 6320, loss = 1.29248
+I0305 16:41:37.240082 28078 solver.cpp:203]     Train net output #0: loss = 1.29248 (* 1 = 1.29248 loss)
+I0305 16:41:37.240105 28078 solver.cpp:454] Iteration 6320, lr = 0.0281217
+I0305 16:41:49.594981 28078 solver.cpp:188] Iteration 6340, loss = 1.16115
+I0305 16:41:49.595069 28078 solver.cpp:203]     Train net output #0: loss = 1.16115 (* 1 = 1.16115 loss)
+I0305 16:41:49.595093 28078 solver.cpp:454] Iteration 6340, lr = 0.0281217
+I0305 16:42:02.013067 28078 solver.cpp:188] Iteration 6360, loss = 1.40097
+I0305 16:42:02.013437 28078 solver.cpp:203]     Train net output #0: loss = 1.40097 (* 1 = 1.40097 loss)
+I0305 16:42:02.013465 28078 solver.cpp:454] Iteration 6360, lr = 0.0281217
+I0305 16:42:14.321231 28078 solver.cpp:188] Iteration 6380, loss = 0.963571
+I0305 16:42:14.321305 28078 solver.cpp:203]     Train net output #0: loss = 0.963571 (* 1 = 0.963571 loss)
+I0305 16:42:14.321331 28078 solver.cpp:454] Iteration 6380, lr = 0.0281217
+I0305 16:42:26.598654 28078 solver.cpp:188] Iteration 6400, loss = 1.06485
+I0305 16:42:26.598741 28078 solver.cpp:203]     Train net output #0: loss = 1.06485 (* 1 = 1.06485 loss)
+I0305 16:42:26.598763 28078 solver.cpp:454] Iteration 6400, lr = 0.0281217
+I0305 16:42:38.950403 28078 solver.cpp:188] Iteration 6420, loss = 1.26507
+I0305 16:42:38.950536 28078 solver.cpp:203]     Train net output #0: loss = 1.26507 (* 1 = 1.26507 loss)
+I0305 16:42:38.950562 28078 solver.cpp:454] Iteration 6420, lr = 0.0281217
+I0305 16:42:51.346101 28078 solver.cpp:188] Iteration 6440, loss = 1.2862
+I0305 16:42:51.346171 28078 solver.cpp:203]     Train net output #0: loss = 1.2862 (* 1 = 1.2862 loss)
+I0305 16:42:51.346196 28078 solver.cpp:454] Iteration 6440, lr = 0.0281217
+I0305 16:43:03.861712 28078 solver.cpp:188] Iteration 6460, loss = 1.07952
+I0305 16:43:03.861783 28078 solver.cpp:203]     Train net output #0: loss = 1.07952 (* 1 = 1.07952 loss)
+I0305 16:43:03.861805 28078 solver.cpp:454] Iteration 6460, lr = 0.0281217
+I0305 16:43:16.252161 28078 solver.cpp:188] Iteration 6480, loss = 1.34388
+I0305 16:43:16.252439 28078 solver.cpp:203]     Train net output #0: loss = 1.34388 (* 1 = 1.34388 loss)
+I0305 16:43:16.252468 28078 solver.cpp:454] Iteration 6480, lr = 0.0281217
+I0305 16:43:28.515506 28078 solver.cpp:188] Iteration 6500, loss = 1.39634
+I0305 16:43:28.515578 28078 solver.cpp:203]     Train net output #0: loss = 1.39634 (* 1 = 1.39634 loss)
+I0305 16:43:28.515609 28078 solver.cpp:454] Iteration 6500, lr = 0.0281217
+I0305 16:43:40.768046 28078 solver.cpp:188] Iteration 6520, loss = 1.44961
+I0305 16:43:40.768141 28078 solver.cpp:203]     Train net output #0: loss = 1.44961 (* 1 = 1.44961 loss)
+I0305 16:43:40.768167 28078 solver.cpp:454] Iteration 6520, lr = 0.0281217
+I0305 16:43:53.118618 28078 solver.cpp:188] Iteration 6540, loss = 1.40287
+I0305 16:43:53.118947 28078 solver.cpp:203]     Train net output #0: loss = 1.40287 (* 1 = 1.40287 loss)
+I0305 16:43:53.118975 28078 solver.cpp:454] Iteration 6540, lr = 0.0281217
+I0305 16:44:05.456681 28078 solver.cpp:188] Iteration 6560, loss = 1.17448
+I0305 16:44:05.456753 28078 solver.cpp:203]     Train net output #0: loss = 1.17448 (* 1 = 1.17448 loss)
+I0305 16:44:05.456784 28078 solver.cpp:454] Iteration 6560, lr = 0.0281217
+I0305 16:44:17.870765 28078 solver.cpp:188] Iteration 6580, loss = 1.19508
+I0305 16:44:17.870874 28078 solver.cpp:203]     Train net output #0: loss = 1.19508 (* 1 = 1.19508 loss)
+I0305 16:44:17.870903 28078 solver.cpp:454] Iteration 6580, lr = 0.0281217
+I0305 16:44:30.263176 28078 solver.cpp:188] Iteration 6600, loss = 1.36357
+I0305 16:44:30.263407 28078 solver.cpp:203]     Train net output #0: loss = 1.36357 (* 1 = 1.36357 loss)
+I0305 16:44:30.263433 28078 solver.cpp:454] Iteration 6600, lr = 0.0281217
+I0305 16:44:42.545801 28078 solver.cpp:188] Iteration 6620, loss = 1.22616
+I0305 16:44:42.545883 28078 solver.cpp:203]     Train net output #0: loss = 1.22616 (* 1 = 1.22616 loss)
+I0305 16:44:42.545909 28078 solver.cpp:454] Iteration 6620, lr = 0.0281217
+I0305 16:44:54.776273 28078 solver.cpp:188] Iteration 6640, loss = 1.30482
+I0305 16:44:54.776366 28078 solver.cpp:203]     Train net output #0: loss = 1.30482 (* 1 = 1.30482 loss)
+I0305 16:44:54.776389 28078 solver.cpp:454] Iteration 6640, lr = 0.0281217
+I0305 16:45:07.074970 28078 solver.cpp:188] Iteration 6660, loss = 1.23725
+I0305 16:45:07.075327 28078 solver.cpp:203]     Train net output #0: loss = 1.23725 (* 1 = 1.23725 loss)
+I0305 16:45:07.075352 28078 solver.cpp:454] Iteration 6660, lr = 0.0281217
+I0305 16:45:19.438428 28078 solver.cpp:188] Iteration 6680, loss = 1.19241
+I0305 16:45:19.438503 28078 solver.cpp:203]     Train net output #0: loss = 1.19241 (* 1 = 1.19241 loss)
+I0305 16:45:19.438531 28078 solver.cpp:454] Iteration 6680, lr = 0.0281217
+I0305 16:45:31.793167 28078 solver.cpp:188] Iteration 6700, loss = 1.56269
+I0305 16:45:31.793299 28078 solver.cpp:203]     Train net output #0: loss = 1.56269 (* 1 = 1.56269 loss)
+I0305 16:45:31.793341 28078 solver.cpp:454] Iteration 6700, lr = 0.0281217
+I0305 16:45:44.147975 28078 solver.cpp:188] Iteration 6720, loss = 1.27012
+I0305 16:45:44.148350 28078 solver.cpp:203]     Train net output #0: loss = 1.27012 (* 1 = 1.27012 loss)
+I0305 16:45:44.148401 28078 solver.cpp:454] Iteration 6720, lr = 0.0281217
+I0305 16:45:56.513733 28078 solver.cpp:188] Iteration 6740, loss = 1.13984
+I0305 16:45:56.513814 28078 solver.cpp:203]     Train net output #0: loss = 1.13984 (* 1 = 1.13984 loss)
+I0305 16:45:56.513844 28078 solver.cpp:454] Iteration 6740, lr = 0.0281217
+I0305 16:46:08.930598 28078 solver.cpp:188] Iteration 6760, loss = 1.12166
+I0305 16:46:08.930692 28078 solver.cpp:203]     Train net output #0: loss = 1.12166 (* 1 = 1.12166 loss)
+I0305 16:46:08.930718 28078 solver.cpp:454] Iteration 6760, lr = 0.0281217
+I0305 16:46:21.170884 28078 solver.cpp:188] Iteration 6780, loss = 1.32101
+I0305 16:46:21.171144 28078 solver.cpp:203]     Train net output #0: loss = 1.32101 (* 1 = 1.32101 loss)
+I0305 16:46:21.171169 28078 solver.cpp:454] Iteration 6780, lr = 0.0281217
+I0305 16:46:33.427076 28078 solver.cpp:188] Iteration 6800, loss = 1.26751
+I0305 16:46:33.427150 28078 solver.cpp:203]     Train net output #0: loss = 1.26751 (* 1 = 1.26751 loss)
+I0305 16:46:33.427178 28078 solver.cpp:454] Iteration 6800, lr = 0.0281217
+I0305 16:46:45.787384 28078 solver.cpp:188] Iteration 6820, loss = 1.29525
+I0305 16:46:45.787473 28078 solver.cpp:203]     Train net output #0: loss = 1.29525 (* 1 = 1.29525 loss)
+I0305 16:46:45.787497 28078 solver.cpp:454] Iteration 6820, lr = 0.0281217
+I0305 16:46:58.449872 28078 solver.cpp:188] Iteration 6840, loss = 1.28778
+I0305 16:46:58.450234 28078 solver.cpp:203]     Train net output #0: loss = 1.28778 (* 1 = 1.28778 loss)
+I0305 16:46:58.450287 28078 solver.cpp:454] Iteration 6840, lr = 0.0281217
+I0305 16:47:10.867585 28078 solver.cpp:188] Iteration 6860, loss = 1.22525
+I0305 16:47:10.867671 28078 solver.cpp:203]     Train net output #0: loss = 1.22525 (* 1 = 1.22525 loss)
+I0305 16:47:10.867699 28078 solver.cpp:454] Iteration 6860, lr = 0.0281217
+I0305 16:47:23.480607 28078 solver.cpp:188] Iteration 6880, loss = 1.39971
+I0305 16:47:23.480742 28078 solver.cpp:203]     Train net output #0: loss = 1.39971 (* 1 = 1.39971 loss)
+I0305 16:47:23.480787 28078 solver.cpp:454] Iteration 6880, lr = 0.0281217
+I0305 16:47:35.813256 28078 solver.cpp:188] Iteration 6900, loss = 1.06981
+I0305 16:47:35.813627 28078 solver.cpp:203]     Train net output #0: loss = 1.06981 (* 1 = 1.06981 loss)
+I0305 16:47:35.813668 28078 solver.cpp:454] Iteration 6900, lr = 0.0281217
+I0305 16:47:48.156131 28078 solver.cpp:188] Iteration 6920, loss = 1.1086
+I0305 16:47:48.156206 28078 solver.cpp:203]     Train net output #0: loss = 1.1086 (* 1 = 1.1086 loss)
+I0305 16:47:48.156252 28078 solver.cpp:454] Iteration 6920, lr = 0.0281217
+I0305 16:48:00.454223 28078 solver.cpp:188] Iteration 6940, loss = 1.30953
+I0305 16:48:00.454306 28078 solver.cpp:203]     Train net output #0: loss = 1.30953 (* 1 = 1.30953 loss)
+I0305 16:48:00.454332 28078 solver.cpp:454] Iteration 6940, lr = 0.0281217
+I0305 16:48:12.838939 28078 solver.cpp:188] Iteration 6960, loss = 1.30634
+I0305 16:48:12.839155 28078 solver.cpp:203]     Train net output #0: loss = 1.30634 (* 1 = 1.30634 loss)
+I0305 16:48:12.839180 28078 solver.cpp:454] Iteration 6960, lr = 0.0281217
+I0305 16:48:25.358598 28078 solver.cpp:188] Iteration 6980, loss = 1.27017
+I0305 16:48:25.358678 28078 solver.cpp:203]     Train net output #0: loss = 1.27017 (* 1 = 1.27017 loss)
+I0305 16:48:25.358702 28078 solver.cpp:454] Iteration 6980, lr = 0.0281217
+I0305 16:48:37.852536 28078 solver.cpp:188] Iteration 7000, loss = 1.37401
+I0305 16:48:37.852628 28078 solver.cpp:203]     Train net output #0: loss = 1.37401 (* 1 = 1.37401 loss)
+I0305 16:48:37.852651 28078 solver.cpp:454] Iteration 7000, lr = 0.0281217
+I0305 16:48:50.153595 28078 solver.cpp:188] Iteration 7020, loss = 1.32354
+I0305 16:48:50.153916 28078 solver.cpp:203]     Train net output #0: loss = 1.32354 (* 1 = 1.32354 loss)
+I0305 16:48:50.153964 28078 solver.cpp:454] Iteration 7020, lr = 0.0281217
+I0305 16:49:02.424886 28078 solver.cpp:188] Iteration 7040, loss = 1.3456
+I0305 16:49:02.424989 28078 solver.cpp:203]     Train net output #0: loss = 1.3456 (* 1 = 1.3456 loss)
+I0305 16:49:02.425015 28078 solver.cpp:454] Iteration 7040, lr = 0.0281217
+I0305 16:49:14.764885 28078 solver.cpp:188] Iteration 7060, loss = 1.2338
+I0305 16:49:14.764976 28078 solver.cpp:203]     Train net output #0: loss = 1.2338 (* 1 = 1.2338 loss)
+I0305 16:49:14.764999 28078 solver.cpp:454] Iteration 7060, lr = 0.0281217
+I0305 16:49:27.122953 28078 solver.cpp:188] Iteration 7080, loss = 1.12674
+I0305 16:49:27.123224 28078 solver.cpp:203]     Train net output #0: loss = 1.12674 (* 1 = 1.12674 loss)
+I0305 16:49:27.123250 28078 solver.cpp:454] Iteration 7080, lr = 0.0281217
+I0305 16:49:39.513275 28078 solver.cpp:188] Iteration 7100, loss = 1.18468
+I0305 16:49:39.513368 28078 solver.cpp:203]     Train net output #0: loss = 1.18468 (* 1 = 1.18468 loss)
+I0305 16:49:39.513391 28078 solver.cpp:454] Iteration 7100, lr = 0.0281217
+I0305 16:49:51.930850 28078 solver.cpp:188] Iteration 7120, loss = 1.2003
+I0305 16:49:51.930946 28078 solver.cpp:203]     Train net output #0: loss = 1.2003 (* 1 = 1.2003 loss)
+I0305 16:49:51.930969 28078 solver.cpp:454] Iteration 7120, lr = 0.0281217
+I0305 16:50:04.389165 28078 solver.cpp:188] Iteration 7140, loss = 1.483
+I0305 16:50:04.389472 28078 solver.cpp:203]     Train net output #0: loss = 1.483 (* 1 = 1.483 loss)
+I0305 16:50:04.389500 28078 solver.cpp:454] Iteration 7140, lr = 0.0281217
+I0305 16:50:16.718317 28078 solver.cpp:188] Iteration 7160, loss = 1.3168
+I0305 16:50:16.718400 28078 solver.cpp:203]     Train net output #0: loss = 1.3168 (* 1 = 1.3168 loss)
+I0305 16:50:16.718423 28078 solver.cpp:454] Iteration 7160, lr = 0.0281217
+I0305 16:50:28.961423 28078 solver.cpp:188] Iteration 7180, loss = 1.26418
+I0305 16:50:28.961516 28078 solver.cpp:203]     Train net output #0: loss = 1.26418 (* 1 = 1.26418 loss)
+I0305 16:50:28.961534 28078 solver.cpp:454] Iteration 7180, lr = 0.0281217
+I0305 16:50:41.226367 28078 solver.cpp:188] Iteration 7200, loss = 1.13702
+I0305 16:50:41.226682 28078 solver.cpp:203]     Train net output #0: loss = 1.13702 (* 1 = 1.13702 loss)
+I0305 16:50:41.226708 28078 solver.cpp:454] Iteration 7200, lr = 0.0281217
+I0305 16:50:53.560566 28078 solver.cpp:188] Iteration 7220, loss = 1.21514
+I0305 16:50:53.560639 28078 solver.cpp:203]     Train net output #0: loss = 1.21514 (* 1 = 1.21514 loss)
+I0305 16:50:53.560663 28078 solver.cpp:454] Iteration 7220, lr = 0.0281217
+I0305 16:51:05.956677 28078 solver.cpp:188] Iteration 7240, loss = 1.41199
+I0305 16:51:05.956800 28078 solver.cpp:203]     Train net output #0: loss = 1.41199 (* 1 = 1.41199 loss)
+I0305 16:51:05.956825 28078 solver.cpp:454] Iteration 7240, lr = 0.0281217
+I0305 16:51:18.378188 28078 solver.cpp:188] Iteration 7260, loss = 1.24893
+I0305 16:51:18.378455 28078 solver.cpp:203]     Train net output #0: loss = 1.24893 (* 1 = 1.24893 loss)
+I0305 16:51:18.378482 28078 solver.cpp:454] Iteration 7260, lr = 0.0281217
+I0305 16:51:30.697232 28078 solver.cpp:188] Iteration 7280, loss = 1.02399
+I0305 16:51:30.697412 28078 solver.cpp:203]     Train net output #0: loss = 1.02399 (* 1 = 1.02399 loss)
+I0305 16:51:30.697459 28078 solver.cpp:454] Iteration 7280, lr = 0.0281217
+I0305 16:51:42.901290 28078 solver.cpp:188] Iteration 7300, loss = 1.26043
+I0305 16:51:42.901371 28078 solver.cpp:203]     Train net output #0: loss = 1.26043 (* 1 = 1.26043 loss)
+I0305 16:51:42.901396 28078 solver.cpp:454] Iteration 7300, lr = 0.0281217
+I0305 16:51:55.157090 28078 solver.cpp:188] Iteration 7320, loss = 1.18816
+I0305 16:51:55.157488 28078 solver.cpp:203]     Train net output #0: loss = 1.18816 (* 1 = 1.18816 loss)
+I0305 16:51:55.157536 28078 solver.cpp:454] Iteration 7320, lr = 0.0281217
+I0305 16:52:07.484869 28078 solver.cpp:188] Iteration 7340, loss = 1.09913
+I0305 16:52:07.484951 28078 solver.cpp:203]     Train net output #0: loss = 1.09913 (* 1 = 1.09913 loss)
+I0305 16:52:07.484973 28078 solver.cpp:454] Iteration 7340, lr = 0.0281217
+I0305 16:52:19.811439 28078 solver.cpp:188] Iteration 7360, loss = 0.990838
+I0305 16:52:19.811521 28078 solver.cpp:203]     Train net output #0: loss = 0.990838 (* 1 = 0.990838 loss)
+I0305 16:52:19.811544 28078 solver.cpp:454] Iteration 7360, lr = 0.0281217
+I0305 16:52:32.138149 28078 solver.cpp:188] Iteration 7380, loss = 1.33728
+I0305 16:52:32.138424 28078 solver.cpp:203]     Train net output #0: loss = 1.33728 (* 1 = 1.33728 loss)
+I0305 16:52:32.138454 28078 solver.cpp:454] Iteration 7380, lr = 0.0281217
+I0305 16:52:44.460532 28078 solver.cpp:188] Iteration 7400, loss = 1.47857
+I0305 16:52:44.460611 28078 solver.cpp:203]     Train net output #0: loss = 1.47857 (* 1 = 1.47857 loss)
+I0305 16:52:44.460636 28078 solver.cpp:454] Iteration 7400, lr = 0.0281217
+I0305 16:52:56.778033 28078 solver.cpp:188] Iteration 7420, loss = 1.29002
+I0305 16:52:56.778122 28078 solver.cpp:203]     Train net output #0: loss = 1.29002 (* 1 = 1.29002 loss)
+I0305 16:52:56.778142 28078 solver.cpp:454] Iteration 7420, lr = 0.0281217
+I0305 16:53:09.081647 28078 solver.cpp:188] Iteration 7440, loss = 1.19907
+I0305 16:53:09.082036 28078 solver.cpp:203]     Train net output #0: loss = 1.19907 (* 1 = 1.19907 loss)
+I0305 16:53:09.082062 28078 solver.cpp:454] Iteration 7440, lr = 0.0281217
+I0305 16:53:21.288141 28078 solver.cpp:188] Iteration 7460, loss = 1.55509
+I0305 16:53:21.288224 28078 solver.cpp:203]     Train net output #0: loss = 1.55509 (* 1 = 1.55509 loss)
+I0305 16:53:21.288245 28078 solver.cpp:454] Iteration 7460, lr = 0.0281217
+I0305 16:53:33.490607 28078 solver.cpp:188] Iteration 7480, loss = 0.897279
+I0305 16:53:33.490705 28078 solver.cpp:203]     Train net output #0: loss = 0.897279 (* 1 = 0.897279 loss)
+I0305 16:53:33.490725 28078 solver.cpp:454] Iteration 7480, lr = 0.0281217
+I0305 16:53:45.789456 28078 solver.cpp:188] Iteration 7500, loss = 1.17765
+I0305 16:53:45.789830 28078 solver.cpp:203]     Train net output #0: loss = 1.17765 (* 1 = 1.17765 loss)
+I0305 16:53:45.789860 28078 solver.cpp:454] Iteration 7500, lr = 0.0243534
+I0305 16:53:58.117427 28078 solver.cpp:188] Iteration 7520, loss = 1.57904
+I0305 16:53:58.117569 28078 solver.cpp:203]     Train net output #0: loss = 1.57904 (* 1 = 1.57904 loss)
+I0305 16:53:58.117606 28078 solver.cpp:454] Iteration 7520, lr = 0.0243534
+I0305 16:54:10.450626 28078 solver.cpp:188] Iteration 7540, loss = 1.08269
+I0305 16:54:10.450783 28078 solver.cpp:203]     Train net output #0: loss = 1.08269 (* 1 = 1.08269 loss)
+I0305 16:54:10.450829 28078 solver.cpp:454] Iteration 7540, lr = 0.0243534
+I0305 16:54:22.774420 28078 solver.cpp:188] Iteration 7560, loss = 0.996841
+I0305 16:54:22.774796 28078 solver.cpp:203]     Train net output #0: loss = 0.996841 (* 1 = 0.996841 loss)
+I0305 16:54:22.774857 28078 solver.cpp:454] Iteration 7560, lr = 0.0243534
+I0305 16:54:35.121529 28078 solver.cpp:188] Iteration 7580, loss = 1.0511
+I0305 16:54:35.121672 28078 solver.cpp:203]     Train net output #0: loss = 1.0511 (* 1 = 1.0511 loss)
+I0305 16:54:35.121718 28078 solver.cpp:454] Iteration 7580, lr = 0.0243534
+I0305 16:54:47.465850 28078 solver.cpp:188] Iteration 7600, loss = 1.20884
+I0305 16:54:47.465930 28078 solver.cpp:203]     Train net output #0: loss = 1.20884 (* 1 = 1.20884 loss)
+I0305 16:54:47.465955 28078 solver.cpp:454] Iteration 7600, lr = 0.0243534
+I0305 16:54:59.815035 28078 solver.cpp:188] Iteration 7620, loss = 1.0766
+I0305 16:54:59.815598 28078 solver.cpp:203]     Train net output #0: loss = 1.0766 (* 1 = 1.0766 loss)
+I0305 16:54:59.815691 28078 solver.cpp:454] Iteration 7620, lr = 0.0243534
+I0305 16:55:12.088356 28078 solver.cpp:188] Iteration 7640, loss = 1.01054
+I0305 16:55:12.088433 28078 solver.cpp:203]     Train net output #0: loss = 1.01054 (* 1 = 1.01054 loss)
+I0305 16:55:12.088456 28078 solver.cpp:454] Iteration 7640, lr = 0.0243534
+I0305 16:55:24.310888 28078 solver.cpp:188] Iteration 7660, loss = 1.10775
+I0305 16:55:24.310962 28078 solver.cpp:203]     Train net output #0: loss = 1.10775 (* 1 = 1.10775 loss)
+I0305 16:55:24.310986 28078 solver.cpp:454] Iteration 7660, lr = 0.0243534
+I0305 16:55:36.629894 28078 solver.cpp:188] Iteration 7680, loss = 1.22091
+I0305 16:55:36.630174 28078 solver.cpp:203]     Train net output #0: loss = 1.22091 (* 1 = 1.22091 loss)
+I0305 16:55:36.630203 28078 solver.cpp:454] Iteration 7680, lr = 0.0243534
+I0305 16:55:48.951530 28078 solver.cpp:188] Iteration 7700, loss = 1.14888
+I0305 16:55:48.951620 28078 solver.cpp:203]     Train net output #0: loss = 1.14888 (* 1 = 1.14888 loss)
+I0305 16:55:48.951645 28078 solver.cpp:454] Iteration 7700, lr = 0.0243534
+I0305 16:56:01.384752 28078 solver.cpp:188] Iteration 7720, loss = 1.1253
+I0305 16:56:01.384855 28078 solver.cpp:203]     Train net output #0: loss = 1.1253 (* 1 = 1.1253 loss)
+I0305 16:56:01.384881 28078 solver.cpp:454] Iteration 7720, lr = 0.0243534
+I0305 16:56:13.805940 28078 solver.cpp:188] Iteration 7740, loss = 1.03706
+I0305 16:56:13.808006 28078 solver.cpp:203]     Train net output #0: loss = 1.03706 (* 1 = 1.03706 loss)
+I0305 16:56:13.808037 28078 solver.cpp:454] Iteration 7740, lr = 0.0243534
+I0305 16:56:26.204700 28078 solver.cpp:188] Iteration 7760, loss = 1.31367
+I0305 16:56:26.204794 28078 solver.cpp:203]     Train net output #0: loss = 1.31367 (* 1 = 1.31367 loss)
+I0305 16:56:26.204818 28078 solver.cpp:454] Iteration 7760, lr = 0.0243534
+I0305 16:56:38.503168 28078 solver.cpp:188] Iteration 7780, loss = 0.92532
+I0305 16:56:38.503286 28078 solver.cpp:203]     Train net output #0: loss = 0.92532 (* 1 = 0.92532 loss)
+I0305 16:56:38.503311 28078 solver.cpp:454] Iteration 7780, lr = 0.0243534
+I0305 16:56:50.787168 28078 solver.cpp:188] Iteration 7800, loss = 1.20715
+I0305 16:56:50.792003 28078 solver.cpp:203]     Train net output #0: loss = 1.20715 (* 1 = 1.20715 loss)
+I0305 16:56:50.792033 28078 solver.cpp:454] Iteration 7800, lr = 0.0243534
+I0305 16:57:03.211732 28078 solver.cpp:188] Iteration 7820, loss = 1.2152
+I0305 16:57:03.211827 28078 solver.cpp:203]     Train net output #0: loss = 1.2152 (* 1 = 1.2152 loss)
+I0305 16:57:03.211851 28078 solver.cpp:454] Iteration 7820, lr = 0.0243534
+I0305 16:57:15.621095 28078 solver.cpp:188] Iteration 7840, loss = 1.07168
+I0305 16:57:15.621167 28078 solver.cpp:203]     Train net output #0: loss = 1.07168 (* 1 = 1.07168 loss)
+I0305 16:57:15.621189 28078 solver.cpp:454] Iteration 7840, lr = 0.0243534
+I0305 16:57:28.082190 28078 solver.cpp:188] Iteration 7860, loss = 1.24882
+I0305 16:57:28.082319 28078 solver.cpp:203]     Train net output #0: loss = 1.24882 (* 1 = 1.24882 loss)
+I0305 16:57:28.082340 28078 solver.cpp:454] Iteration 7860, lr = 0.0243534
+I0305 16:57:40.480154 28078 solver.cpp:188] Iteration 7880, loss = 1.05417
+I0305 16:57:40.480245 28078 solver.cpp:203]     Train net output #0: loss = 1.05417 (* 1 = 1.05417 loss)
+I0305 16:57:40.480272 28078 solver.cpp:454] Iteration 7880, lr = 0.0243534
+I0305 16:57:52.778098 28078 solver.cpp:188] Iteration 7900, loss = 1.22519
+I0305 16:57:52.778188 28078 solver.cpp:203]     Train net output #0: loss = 1.22519 (* 1 = 1.22519 loss)
+I0305 16:57:52.778213 28078 solver.cpp:454] Iteration 7900, lr = 0.0243534
+I0305 16:58:05.078233 28078 solver.cpp:188] Iteration 7920, loss = 1.1676
+I0305 16:58:05.078924 28078 solver.cpp:203]     Train net output #0: loss = 1.1676 (* 1 = 1.1676 loss)
+I0305 16:58:05.078946 28078 solver.cpp:454] Iteration 7920, lr = 0.0243534
+I0305 16:58:17.508874 28078 solver.cpp:188] Iteration 7940, loss = 1.2139
+I0305 16:58:17.508978 28078 solver.cpp:203]     Train net output #0: loss = 1.2139 (* 1 = 1.2139 loss)
+I0305 16:58:17.509003 28078 solver.cpp:454] Iteration 7940, lr = 0.0243534
+I0305 16:58:29.891005 28078 solver.cpp:188] Iteration 7960, loss = 1.18738
+I0305 16:58:29.891105 28078 solver.cpp:203]     Train net output #0: loss = 1.18738 (* 1 = 1.18738 loss)
+I0305 16:58:29.891124 28078 solver.cpp:454] Iteration 7960, lr = 0.0243534
+I0305 16:58:42.266995 28078 solver.cpp:188] Iteration 7980, loss = 1.2179
+I0305 16:58:42.267313 28078 solver.cpp:203]     Train net output #0: loss = 1.2179 (* 1 = 1.2179 loss)
+I0305 16:58:42.267339 28078 solver.cpp:454] Iteration 7980, lr = 0.0243534
+I0305 16:58:54.840239 28078 solver.cpp:188] Iteration 8000, loss = 0.883614
+I0305 16:58:54.840327 28078 solver.cpp:203]     Train net output #0: loss = 0.883614 (* 1 = 0.883614 loss)
+I0305 16:58:54.840355 28078 solver.cpp:454] Iteration 8000, lr = 0.0243534
+I0305 16:59:07.422987 28078 solver.cpp:188] Iteration 8020, loss = 1.32335
+I0305 16:59:07.423109 28078 solver.cpp:203]     Train net output #0: loss = 1.32335 (* 1 = 1.32335 loss)
+I0305 16:59:07.423140 28078 solver.cpp:454] Iteration 8020, lr = 0.0243534
+I0305 16:59:20.006202 28078 solver.cpp:188] Iteration 8040, loss = 0.940913
+I0305 16:59:20.006340 28078 solver.cpp:203]     Train net output #0: loss = 0.940913 (* 1 = 0.940913 loss)
+I0305 16:59:20.006362 28078 solver.cpp:454] Iteration 8040, lr = 0.0243534
+I0305 16:59:32.831876 28078 solver.cpp:188] Iteration 8060, loss = 1.16683
+I0305 16:59:32.831977 28078 solver.cpp:203]     Train net output #0: loss = 1.16683 (* 1 = 1.16683 loss)
+I0305 16:59:32.832005 28078 solver.cpp:454] Iteration 8060, lr = 0.0243534
+I0305 16:59:45.590044 28078 solver.cpp:188] Iteration 8080, loss = 1.33228
+I0305 16:59:45.590129 28078 solver.cpp:203]     Train net output #0: loss = 1.33228 (* 1 = 1.33228 loss)
+I0305 16:59:45.590158 28078 solver.cpp:454] Iteration 8080, lr = 0.0243534
+I0305 16:59:58.313205 28078 solver.cpp:188] Iteration 8100, loss = 1.15663
+I0305 16:59:58.313350 28078 solver.cpp:203]     Train net output #0: loss = 1.15663 (* 1 = 1.15663 loss)
+I0305 16:59:58.313371 28078 solver.cpp:454] Iteration 8100, lr = 0.0243534
+I0305 17:00:11.049065 28078 solver.cpp:188] Iteration 8120, loss = 1.02659
+I0305 17:00:11.049147 28078 solver.cpp:203]     Train net output #0: loss = 1.02659 (* 1 = 1.02659 loss)
+I0305 17:00:11.049175 28078 solver.cpp:454] Iteration 8120, lr = 0.0243534
+I0305 17:00:23.662201 28078 solver.cpp:188] Iteration 8140, loss = 1.11631
+I0305 17:00:23.662302 28078 solver.cpp:203]     Train net output #0: loss = 1.11631 (* 1 = 1.11631 loss)
+I0305 17:00:23.662330 28078 solver.cpp:454] Iteration 8140, lr = 0.0243534
+I0305 17:00:36.290046 28078 solver.cpp:188] Iteration 8160, loss = 1.28989
+I0305 17:00:36.290416 28078 solver.cpp:203]     Train net output #0: loss = 1.28989 (* 1 = 1.28989 loss)
+I0305 17:00:36.290443 28078 solver.cpp:454] Iteration 8160, lr = 0.0243534
+I0305 17:00:48.957396 28078 solver.cpp:188] Iteration 8180, loss = 1.30339
+I0305 17:00:48.957481 28078 solver.cpp:203]     Train net output #0: loss = 1.30339 (* 1 = 1.30339 loss)
+I0305 17:00:48.957506 28078 solver.cpp:454] Iteration 8180, lr = 0.0243534
+I0305 17:01:01.654235 28078 solver.cpp:188] Iteration 8200, loss = 1.31239
+I0305 17:01:01.654319 28078 solver.cpp:203]     Train net output #0: loss = 1.31239 (* 1 = 1.31239 loss)
+I0305 17:01:01.654347 28078 solver.cpp:454] Iteration 8200, lr = 0.0243534
+I0305 17:01:14.161352 28078 solver.cpp:188] Iteration 8220, loss = 1.34401
+I0305 17:01:14.161489 28078 solver.cpp:203]     Train net output #0: loss = 1.34401 (* 1 = 1.34401 loss)
+I0305 17:01:14.161515 28078 solver.cpp:454] Iteration 8220, lr = 0.0243534
+I0305 17:01:26.723495 28078 solver.cpp:188] Iteration 8240, loss = 1.25249
+I0305 17:01:26.723575 28078 solver.cpp:203]     Train net output #0: loss = 1.25249 (* 1 = 1.25249 loss)
+I0305 17:01:26.723601 28078 solver.cpp:454] Iteration 8240, lr = 0.0243534
+I0305 17:01:39.313408 28078 solver.cpp:188] Iteration 8260, loss = 1.39202
+I0305 17:01:39.313496 28078 solver.cpp:203]     Train net output #0: loss = 1.39202 (* 1 = 1.39202 loss)
+I0305 17:01:39.313521 28078 solver.cpp:454] Iteration 8260, lr = 0.0243534
+I0305 17:01:51.965854 28078 solver.cpp:188] Iteration 8280, loss = 1.25392
+I0305 17:01:51.966219 28078 solver.cpp:203]     Train net output #0: loss = 1.25392 (* 1 = 1.25392 loss)
+I0305 17:01:51.966253 28078 solver.cpp:454] Iteration 8280, lr = 0.0243534
+I0305 17:02:04.568475 28078 solver.cpp:188] Iteration 8300, loss = 1.31127
+I0305 17:02:04.568557 28078 solver.cpp:203]     Train net output #0: loss = 1.31127 (* 1 = 1.31127 loss)
+I0305 17:02:04.568583 28078 solver.cpp:454] Iteration 8300, lr = 0.0243534
+I0305 17:02:17.211743 28078 solver.cpp:188] Iteration 8320, loss = 1.3505
+I0305 17:02:17.211853 28078 solver.cpp:203]     Train net output #0: loss = 1.3505 (* 1 = 1.3505 loss)
+I0305 17:02:17.211876 28078 solver.cpp:454] Iteration 8320, lr = 0.0243534
+I0305 17:02:29.867449 28078 solver.cpp:188] Iteration 8340, loss = 1.23567
+I0305 17:02:29.867674 28078 solver.cpp:203]     Train net output #0: loss = 1.23567 (* 1 = 1.23567 loss)
+I0305 17:02:29.867702 28078 solver.cpp:454] Iteration 8340, lr = 0.0243534
+I0305 17:02:42.410202 28078 solver.cpp:188] Iteration 8360, loss = 1.15805
+I0305 17:02:42.410325 28078 solver.cpp:203]     Train net output #0: loss = 1.15805 (* 1 = 1.15805 loss)
+I0305 17:02:42.410349 28078 solver.cpp:454] Iteration 8360, lr = 0.0243534
+I0305 17:02:54.941596 28078 solver.cpp:188] Iteration 8380, loss = 1.24382
+I0305 17:02:54.941675 28078 solver.cpp:203]     Train net output #0: loss = 1.24382 (* 1 = 1.24382 loss)
+I0305 17:02:54.941699 28078 solver.cpp:454] Iteration 8380, lr = 0.0243534
+I0305 17:03:07.263845 28078 solver.cpp:188] Iteration 8400, loss = 1.0174
+I0305 17:03:07.264164 28078 solver.cpp:203]     Train net output #0: loss = 1.0174 (* 1 = 1.0174 loss)
+I0305 17:03:07.264191 28078 solver.cpp:454] Iteration 8400, lr = 0.0243534
+I0305 17:03:19.592614 28078 solver.cpp:188] Iteration 8420, loss = 1.17649
+I0305 17:03:19.592686 28078 solver.cpp:203]     Train net output #0: loss = 1.17649 (* 1 = 1.17649 loss)
+I0305 17:03:19.592710 28078 solver.cpp:454] Iteration 8420, lr = 0.0243534
+I0305 17:03:31.928232 28078 solver.cpp:188] Iteration 8440, loss = 1.16994
+I0305 17:03:31.928309 28078 solver.cpp:203]     Train net output #0: loss = 1.16994 (* 1 = 1.16994 loss)
+I0305 17:03:31.928333 28078 solver.cpp:454] Iteration 8440, lr = 0.0243534
+I0305 17:03:44.226047 28078 solver.cpp:188] Iteration 8460, loss = 0.926472
+I0305 17:03:44.226363 28078 solver.cpp:203]     Train net output #0: loss = 0.926472 (* 1 = 0.926472 loss)
+I0305 17:03:44.226392 28078 solver.cpp:454] Iteration 8460, lr = 0.0243534
+I0305 17:03:56.457336 28078 solver.cpp:188] Iteration 8480, loss = 1.21956
+I0305 17:03:56.457429 28078 solver.cpp:203]     Train net output #0: loss = 1.21956 (* 1 = 1.21956 loss)
+I0305 17:03:56.457450 28078 solver.cpp:454] Iteration 8480, lr = 0.0243534
+I0305 17:04:08.673813 28078 solver.cpp:188] Iteration 8500, loss = 1.35781
+I0305 17:04:08.673895 28078 solver.cpp:203]     Train net output #0: loss = 1.35781 (* 1 = 1.35781 loss)
+I0305 17:04:08.673918 28078 solver.cpp:454] Iteration 8500, lr = 0.0243534
+I0305 17:04:20.999541 28078 solver.cpp:188] Iteration 8520, loss = 0.934605
+I0305 17:04:20.999850 28078 solver.cpp:203]     Train net output #0: loss = 0.934605 (* 1 = 0.934605 loss)
+I0305 17:04:20.999904 28078 solver.cpp:454] Iteration 8520, lr = 0.0243534
+I0305 17:04:33.326910 28078 solver.cpp:188] Iteration 8540, loss = 1.04596
+I0305 17:04:33.327000 28078 solver.cpp:203]     Train net output #0: loss = 1.04596 (* 1 = 1.04596 loss)
+I0305 17:04:33.327023 28078 solver.cpp:454] Iteration 8540, lr = 0.0243534
+I0305 17:04:45.671037 28078 solver.cpp:188] Iteration 8560, loss = 1.50257
+I0305 17:04:45.671128 28078 solver.cpp:203]     Train net output #0: loss = 1.50257 (* 1 = 1.50257 loss)
+I0305 17:04:45.671150 28078 solver.cpp:454] Iteration 8560, lr = 0.0243534
+I0305 17:04:57.940436 28078 solver.cpp:188] Iteration 8580, loss = 1.08317
+I0305 17:04:57.940968 28078 solver.cpp:203]     Train net output #0: loss = 1.08317 (* 1 = 1.08317 loss)
+I0305 17:04:57.941026 28078 solver.cpp:454] Iteration 8580, lr = 0.0243534
+I0305 17:05:10.158138 28078 solver.cpp:188] Iteration 8600, loss = 1.20745
+I0305 17:05:10.158287 28078 solver.cpp:203]     Train net output #0: loss = 1.20745 (* 1 = 1.20745 loss)
+I0305 17:05:10.158334 28078 solver.cpp:454] Iteration 8600, lr = 0.0243534
+I0305 17:05:22.378098 28078 solver.cpp:188] Iteration 8620, loss = 1.15301
+I0305 17:05:22.378178 28078 solver.cpp:203]     Train net output #0: loss = 1.15301 (* 1 = 1.15301 loss)
+I0305 17:05:22.378202 28078 solver.cpp:454] Iteration 8620, lr = 0.0243534
+I0305 17:05:34.656157 28078 solver.cpp:188] Iteration 8640, loss = 1.32424
+I0305 17:05:34.656551 28078 solver.cpp:203]     Train net output #0: loss = 1.32424 (* 1 = 1.32424 loss)
+I0305 17:05:34.656627 28078 solver.cpp:454] Iteration 8640, lr = 0.0243534
+I0305 17:05:46.993733 28078 solver.cpp:188] Iteration 8660, loss = 0.977527
+I0305 17:05:46.993831 28078 solver.cpp:203]     Train net output #0: loss = 0.977527 (* 1 = 0.977527 loss)
+I0305 17:05:46.993852 28078 solver.cpp:454] Iteration 8660, lr = 0.0243534
+I0305 17:05:59.327155 28078 solver.cpp:188] Iteration 8680, loss = 1.06188
+I0305 17:05:59.327275 28078 solver.cpp:203]     Train net output #0: loss = 1.06188 (* 1 = 1.06188 loss)
+I0305 17:05:59.327296 28078 solver.cpp:454] Iteration 8680, lr = 0.0243534
+I0305 17:06:11.652674 28078 solver.cpp:188] Iteration 8700, loss = 1.27331
+I0305 17:06:11.653038 28078 solver.cpp:203]     Train net output #0: loss = 1.27331 (* 1 = 1.27331 loss)
+I0305 17:06:11.653065 28078 solver.cpp:454] Iteration 8700, lr = 0.0243534
+I0305 17:06:23.957418 28078 solver.cpp:188] Iteration 8720, loss = 1.04457
+I0305 17:06:23.957506 28078 solver.cpp:203]     Train net output #0: loss = 1.04457 (* 1 = 1.04457 loss)
+I0305 17:06:23.957527 28078 solver.cpp:454] Iteration 8720, lr = 0.0243534
+I0305 17:06:36.188783 28078 solver.cpp:188] Iteration 8740, loss = 1.2735
+I0305 17:06:36.188875 28078 solver.cpp:203]     Train net output #0: loss = 1.2735 (* 1 = 1.2735 loss)
+I0305 17:06:36.188899 28078 solver.cpp:454] Iteration 8740, lr = 0.0243534
+I0305 17:06:48.386327 28078 solver.cpp:188] Iteration 8760, loss = 1.38904
+I0305 17:06:48.386610 28078 solver.cpp:203]     Train net output #0: loss = 1.38904 (* 1 = 1.38904 loss)
+I0305 17:06:48.386637 28078 solver.cpp:454] Iteration 8760, lr = 0.0243534
+I0305 17:07:00.618744 28078 solver.cpp:188] Iteration 8780, loss = 1.13672
+I0305 17:07:00.618834 28078 solver.cpp:203]     Train net output #0: loss = 1.13672 (* 1 = 1.13672 loss)
+I0305 17:07:00.618859 28078 solver.cpp:454] Iteration 8780, lr = 0.0243534
+I0305 17:07:12.949728 28078 solver.cpp:188] Iteration 8800, loss = 1.0238
+I0305 17:07:12.949828 28078 solver.cpp:203]     Train net output #0: loss = 1.0238 (* 1 = 1.0238 loss)
+I0305 17:07:12.949849 28078 solver.cpp:454] Iteration 8800, lr = 0.0243534
+I0305 17:07:25.280081 28078 solver.cpp:188] Iteration 8820, loss = 1.20236
+I0305 17:07:25.280386 28078 solver.cpp:203]     Train net output #0: loss = 1.20236 (* 1 = 1.20236 loss)
+I0305 17:07:25.280413 28078 solver.cpp:454] Iteration 8820, lr = 0.0243534
+I0305 17:07:37.605310 28078 solver.cpp:188] Iteration 8840, loss = 1.14391
+I0305 17:07:37.605387 28078 solver.cpp:203]     Train net output #0: loss = 1.14391 (* 1 = 1.14391 loss)
+I0305 17:07:37.605412 28078 solver.cpp:454] Iteration 8840, lr = 0.0243534
+I0305 17:07:49.926137 28078 solver.cpp:188] Iteration 8860, loss = 1.04919
+I0305 17:07:49.926224 28078 solver.cpp:203]     Train net output #0: loss = 1.04919 (* 1 = 1.04919 loss)
+I0305 17:07:49.926244 28078 solver.cpp:454] Iteration 8860, lr = 0.0243534
+I0305 17:08:02.169109 28078 solver.cpp:188] Iteration 8880, loss = 1.33727
+I0305 17:08:02.169384 28078 solver.cpp:203]     Train net output #0: loss = 1.33727 (* 1 = 1.33727 loss)
+I0305 17:08:02.169414 28078 solver.cpp:454] Iteration 8880, lr = 0.0243534
+I0305 17:08:14.374140 28078 solver.cpp:188] Iteration 8900, loss = 1.22693
+I0305 17:08:14.374219 28078 solver.cpp:203]     Train net output #0: loss = 1.22693 (* 1 = 1.22693 loss)
+I0305 17:08:14.374243 28078 solver.cpp:454] Iteration 8900, lr = 0.0243534
+I0305 17:08:26.592329 28078 solver.cpp:188] Iteration 8920, loss = 1.19159
+I0305 17:08:26.592416 28078 solver.cpp:203]     Train net output #0: loss = 1.19159 (* 1 = 1.19159 loss)
+I0305 17:08:26.592438 28078 solver.cpp:454] Iteration 8920, lr = 0.0243534
+I0305 17:08:38.916586 28078 solver.cpp:188] Iteration 8940, loss = 1.21996
+I0305 17:08:38.916954 28078 solver.cpp:203]     Train net output #0: loss = 1.21996 (* 1 = 1.21996 loss)
+I0305 17:08:38.916980 28078 solver.cpp:454] Iteration 8940, lr = 0.0243534
+I0305 17:08:51.248484 28078 solver.cpp:188] Iteration 8960, loss = 1.26027
+I0305 17:08:51.248569 28078 solver.cpp:203]     Train net output #0: loss = 1.26027 (* 1 = 1.26027 loss)
+I0305 17:08:51.248592 28078 solver.cpp:454] Iteration 8960, lr = 0.0243534
+I0305 17:09:03.572207 28078 solver.cpp:188] Iteration 8980, loss = 1.10608
+I0305 17:09:03.572319 28078 solver.cpp:203]     Train net output #0: loss = 1.10608 (* 1 = 1.10608 loss)
+I0305 17:09:03.572341 28078 solver.cpp:454] Iteration 8980, lr = 0.0243534
+I0305 17:09:15.904492 28078 solver.cpp:188] Iteration 9000, loss = 1.2905
+I0305 17:09:15.904748 28078 solver.cpp:203]     Train net output #0: loss = 1.2905 (* 1 = 1.2905 loss)
+I0305 17:09:15.904777 28078 solver.cpp:454] Iteration 9000, lr = 0.02109
+I0305 17:09:28.231914 28078 solver.cpp:188] Iteration 9020, loss = 1.15664
+I0305 17:09:28.232019 28078 solver.cpp:203]     Train net output #0: loss = 1.15664 (* 1 = 1.15664 loss)
+I0305 17:09:28.232046 28078 solver.cpp:454] Iteration 9020, lr = 0.02109
+I0305 17:09:40.489810 28078 solver.cpp:188] Iteration 9040, loss = 1.21322
+I0305 17:09:40.489883 28078 solver.cpp:203]     Train net output #0: loss = 1.21322 (* 1 = 1.21322 loss)
+I0305 17:09:40.489907 28078 solver.cpp:454] Iteration 9040, lr = 0.02109
+I0305 17:09:52.694772 28078 solver.cpp:188] Iteration 9060, loss = 1.0735
+I0305 17:09:52.695091 28078 solver.cpp:203]     Train net output #0: loss = 1.0735 (* 1 = 1.0735 loss)
+I0305 17:09:52.695117 28078 solver.cpp:454] Iteration 9060, lr = 0.02109
+I0305 17:10:04.894155 28078 solver.cpp:188] Iteration 9080, loss = 1.09874
+I0305 17:10:04.894239 28078 solver.cpp:203]     Train net output #0: loss = 1.09874 (* 1 = 1.09874 loss)
+I0305 17:10:04.894260 28078 solver.cpp:454] Iteration 9080, lr = 0.02109
+I0305 17:10:17.189224 28078 solver.cpp:188] Iteration 9100, loss = 1.11541
+I0305 17:10:17.189317 28078 solver.cpp:203]     Train net output #0: loss = 1.11541 (* 1 = 1.11541 loss)
+I0305 17:10:17.189338 28078 solver.cpp:454] Iteration 9100, lr = 0.02109
+I0305 17:10:29.516396 28078 solver.cpp:188] Iteration 9120, loss = 1.32833
+I0305 17:10:29.516690 28078 solver.cpp:203]     Train net output #0: loss = 1.32833 (* 1 = 1.32833 loss)
+I0305 17:10:29.516716 28078 solver.cpp:454] Iteration 9120, lr = 0.02109
+I0305 17:10:41.849256 28078 solver.cpp:188] Iteration 9140, loss = 1.08985
+I0305 17:10:41.849350 28078 solver.cpp:203]     Train net output #0: loss = 1.08985 (* 1 = 1.08985 loss)
+I0305 17:10:41.849370 28078 solver.cpp:454] Iteration 9140, lr = 0.02109
+I0305 17:10:54.175307 28078 solver.cpp:188] Iteration 9160, loss = 1.21819
+I0305 17:10:54.175392 28078 solver.cpp:203]     Train net output #0: loss = 1.21819 (* 1 = 1.21819 loss)
+I0305 17:10:54.175415 28078 solver.cpp:454] Iteration 9160, lr = 0.02109
+I0305 17:11:06.536628 28078 solver.cpp:188] Iteration 9180, loss = 1.02825
+I0305 17:11:06.536919 28078 solver.cpp:203]     Train net output #0: loss = 1.02825 (* 1 = 1.02825 loss)
+I0305 17:11:06.536947 28078 solver.cpp:454] Iteration 9180, lr = 0.02109
+I0305 17:11:18.906807 28078 solver.cpp:188] Iteration 9200, loss = 1.06161
+I0305 17:11:18.906895 28078 solver.cpp:203]     Train net output #0: loss = 1.06161 (* 1 = 1.06161 loss)
+I0305 17:11:18.906919 28078 solver.cpp:454] Iteration 9200, lr = 0.02109
+I0305 17:11:31.256769 28078 solver.cpp:188] Iteration 9220, loss = 1.06126
+I0305 17:11:31.256852 28078 solver.cpp:203]     Train net output #0: loss = 1.06126 (* 1 = 1.06126 loss)
+I0305 17:11:31.256876 28078 solver.cpp:454] Iteration 9220, lr = 0.02109
+I0305 17:11:43.525377 28078 solver.cpp:188] Iteration 9240, loss = 1.14904
+I0305 17:11:43.525744 28078 solver.cpp:203]     Train net output #0: loss = 1.14904 (* 1 = 1.14904 loss)
+I0305 17:11:43.525771 28078 solver.cpp:454] Iteration 9240, lr = 0.02109
+I0305 17:11:55.853757 28078 solver.cpp:188] Iteration 9260, loss = 1.09855
+I0305 17:11:55.853855 28078 solver.cpp:203]     Train net output #0: loss = 1.09855 (* 1 = 1.09855 loss)
+I0305 17:11:55.853876 28078 solver.cpp:454] Iteration 9260, lr = 0.02109
+I0305 17:12:08.195333 28078 solver.cpp:188] Iteration 9280, loss = 1.29856
+I0305 17:12:08.195417 28078 solver.cpp:203]     Train net output #0: loss = 1.29856 (* 1 = 1.29856 loss)
+I0305 17:12:08.195442 28078 solver.cpp:454] Iteration 9280, lr = 0.02109
+I0305 17:12:20.578357 28078 solver.cpp:188] Iteration 9300, loss = 1.19587
+I0305 17:12:20.578654 28078 solver.cpp:203]     Train net output #0: loss = 1.19587 (* 1 = 1.19587 loss)
+I0305 17:12:20.578688 28078 solver.cpp:454] Iteration 9300, lr = 0.02109
+I0305 17:12:32.905102 28078 solver.cpp:188] Iteration 9320, loss = 1.16881
+I0305 17:12:32.905175 28078 solver.cpp:203]     Train net output #0: loss = 1.16881 (* 1 = 1.16881 loss)
+I0305 17:12:32.905200 28078 solver.cpp:454] Iteration 9320, lr = 0.02109
+I0305 17:12:45.380960 28078 solver.cpp:188] Iteration 9340, loss = 1.00082
+I0305 17:12:45.381055 28078 solver.cpp:203]     Train net output #0: loss = 1.00082 (* 1 = 1.00082 loss)
+I0305 17:12:45.381078 28078 solver.cpp:454] Iteration 9340, lr = 0.02109
+I0305 17:12:57.668596 28078 solver.cpp:188] Iteration 9360, loss = 0.965881
+I0305 17:12:57.668889 28078 solver.cpp:203]     Train net output #0: loss = 0.965881 (* 1 = 0.965881 loss)
+I0305 17:12:57.668915 28078 solver.cpp:454] Iteration 9360, lr = 0.02109
+I0305 17:13:09.893079 28078 solver.cpp:188] Iteration 9380, loss = 1.26775
+I0305 17:13:09.893168 28078 solver.cpp:203]     Train net output #0: loss = 1.26775 (* 1 = 1.26775 loss)
+I0305 17:13:09.893190 28078 solver.cpp:454] Iteration 9380, lr = 0.02109
+I0305 17:13:22.217764 28078 solver.cpp:188] Iteration 9400, loss = 1.01269
+I0305 17:13:22.217834 28078 solver.cpp:203]     Train net output #0: loss = 1.01269 (* 1 = 1.01269 loss)
+I0305 17:13:22.217859 28078 solver.cpp:454] Iteration 9400, lr = 0.02109
+I0305 17:13:34.546785 28078 solver.cpp:188] Iteration 9420, loss = 1.0506
+I0305 17:13:34.547152 28078 solver.cpp:203]     Train net output #0: loss = 1.0506 (* 1 = 1.0506 loss)
+I0305 17:13:34.547206 28078 solver.cpp:454] Iteration 9420, lr = 0.02109
+I0305 17:13:46.872406 28078 solver.cpp:188] Iteration 9440, loss = 1.19651
+I0305 17:13:46.872504 28078 solver.cpp:203]     Train net output #0: loss = 1.19651 (* 1 = 1.19651 loss)
+I0305 17:13:46.872524 28078 solver.cpp:454] Iteration 9440, lr = 0.02109
+I0305 17:13:59.198709 28078 solver.cpp:188] Iteration 9460, loss = 1.0742
+I0305 17:13:59.198789 28078 solver.cpp:203]     Train net output #0: loss = 1.0742 (* 1 = 1.0742 loss)
+I0305 17:13:59.198811 28078 solver.cpp:454] Iteration 9460, lr = 0.02109
+I0305 17:14:11.487479 28078 solver.cpp:188] Iteration 9480, loss = 1.19841
+I0305 17:14:11.487730 28078 solver.cpp:203]     Train net output #0: loss = 1.19841 (* 1 = 1.19841 loss)
+I0305 17:14:11.487756 28078 solver.cpp:454] Iteration 9480, lr = 0.02109
+I0305 17:14:23.687125 28078 solver.cpp:188] Iteration 9500, loss = 0.9001
+I0305 17:14:23.687221 28078 solver.cpp:203]     Train net output #0: loss = 0.9001 (* 1 = 0.9001 loss)
+I0305 17:14:23.687243 28078 solver.cpp:454] Iteration 9500, lr = 0.02109
+I0305 17:14:35.926525 28078 solver.cpp:188] Iteration 9520, loss = 1.26857
+I0305 17:14:35.926611 28078 solver.cpp:203]     Train net output #0: loss = 1.26857 (* 1 = 1.26857 loss)
+I0305 17:14:35.926636 28078 solver.cpp:454] Iteration 9520, lr = 0.02109
+I0305 17:14:48.289659 28078 solver.cpp:188] Iteration 9540, loss = 1.18444
+I0305 17:14:48.290055 28078 solver.cpp:203]     Train net output #0: loss = 1.18444 (* 1 = 1.18444 loss)
+I0305 17:14:48.290122 28078 solver.cpp:454] Iteration 9540, lr = 0.02109
+I0305 17:15:00.670367 28078 solver.cpp:188] Iteration 9560, loss = 0.859852
+I0305 17:15:00.670449 28078 solver.cpp:203]     Train net output #0: loss = 0.859852 (* 1 = 0.859852 loss)
+I0305 17:15:00.670474 28078 solver.cpp:454] Iteration 9560, lr = 0.02109
+I0305 17:15:13.045558 28078 solver.cpp:188] Iteration 9580, loss = 1.15738
+I0305 17:15:13.045639 28078 solver.cpp:203]     Train net output #0: loss = 1.15738 (* 1 = 1.15738 loss)
+I0305 17:15:13.045661 28078 solver.cpp:454] Iteration 9580, lr = 0.02109
+I0305 17:15:25.406182 28078 solver.cpp:188] Iteration 9600, loss = 1.26342
+I0305 17:15:25.406448 28078 solver.cpp:203]     Train net output #0: loss = 1.26342 (* 1 = 1.26342 loss)
+I0305 17:15:25.406479 28078 solver.cpp:454] Iteration 9600, lr = 0.02109
+I0305 17:15:37.725965 28078 solver.cpp:188] Iteration 9620, loss = 1.10853
+I0305 17:15:37.726049 28078 solver.cpp:203]     Train net output #0: loss = 1.10853 (* 1 = 1.10853 loss)
+I0305 17:15:37.726073 28078 solver.cpp:454] Iteration 9620, lr = 0.02109
+I0305 17:15:50.000171 28078 solver.cpp:188] Iteration 9640, loss = 1.18329
+I0305 17:15:50.000243 28078 solver.cpp:203]     Train net output #0: loss = 1.18329 (* 1 = 1.18329 loss)
+I0305 17:15:50.000265 28078 solver.cpp:454] Iteration 9640, lr = 0.02109
+I0305 17:16:02.256705 28078 solver.cpp:188] Iteration 9660, loss = 0.997369
+I0305 17:16:02.256973 28078 solver.cpp:203]     Train net output #0: loss = 0.997369 (* 1 = 0.997369 loss)
+I0305 17:16:02.257004 28078 solver.cpp:454] Iteration 9660, lr = 0.02109
+I0305 17:16:14.575382 28078 solver.cpp:188] Iteration 9680, loss = 1.19056
+I0305 17:16:14.575479 28078 solver.cpp:203]     Train net output #0: loss = 1.19056 (* 1 = 1.19056 loss)
+I0305 17:16:14.575502 28078 solver.cpp:454] Iteration 9680, lr = 0.02109
+I0305 17:16:26.952409 28078 solver.cpp:188] Iteration 9700, loss = 1.21915
+I0305 17:16:26.952525 28078 solver.cpp:203]     Train net output #0: loss = 1.21915 (* 1 = 1.21915 loss)
+I0305 17:16:26.952569 28078 solver.cpp:454] Iteration 9700, lr = 0.02109
+I0305 17:16:39.322226 28078 solver.cpp:188] Iteration 9720, loss = 1.06933
+I0305 17:16:39.322520 28078 solver.cpp:203]     Train net output #0: loss = 1.06933 (* 1 = 1.06933 loss)
+I0305 17:16:39.322547 28078 solver.cpp:454] Iteration 9720, lr = 0.02109
+I0305 17:16:51.699656 28078 solver.cpp:188] Iteration 9740, loss = 1.27999
+I0305 17:16:51.699741 28078 solver.cpp:203]     Train net output #0: loss = 1.27999 (* 1 = 1.27999 loss)
+I0305 17:16:51.699764 28078 solver.cpp:454] Iteration 9740, lr = 0.02109
+I0305 17:17:03.979393 28078 solver.cpp:188] Iteration 9760, loss = 1.04881
+I0305 17:17:03.979503 28078 solver.cpp:203]     Train net output #0: loss = 1.04881 (* 1 = 1.04881 loss)
+I0305 17:17:03.979526 28078 solver.cpp:454] Iteration 9760, lr = 0.02109
+I0305 17:17:16.220199 28078 solver.cpp:188] Iteration 9780, loss = 1.01192
+I0305 17:17:16.220551 28078 solver.cpp:203]     Train net output #0: loss = 1.01192 (* 1 = 1.01192 loss)
+I0305 17:17:16.220578 28078 solver.cpp:454] Iteration 9780, lr = 0.02109
+I0305 17:17:28.469060 28078 solver.cpp:188] Iteration 9800, loss = 1.10308
+I0305 17:17:28.469167 28078 solver.cpp:203]     Train net output #0: loss = 1.10308 (* 1 = 1.10308 loss)
+I0305 17:17:28.469192 28078 solver.cpp:454] Iteration 9800, lr = 0.02109
+I0305 17:17:40.815654 28078 solver.cpp:188] Iteration 9820, loss = 1.05669
+I0305 17:17:40.815748 28078 solver.cpp:203]     Train net output #0: loss = 1.05669 (* 1 = 1.05669 loss)
+I0305 17:17:40.815769 28078 solver.cpp:454] Iteration 9820, lr = 0.02109
+I0305 17:17:53.181229 28078 solver.cpp:188] Iteration 9840, loss = 1.1143
+I0305 17:17:53.181571 28078 solver.cpp:203]     Train net output #0: loss = 1.1143 (* 1 = 1.1143 loss)
+I0305 17:17:53.181598 28078 solver.cpp:454] Iteration 9840, lr = 0.02109
+I0305 17:18:05.505622 28078 solver.cpp:188] Iteration 9860, loss = 1.18351
+I0305 17:18:05.505722 28078 solver.cpp:203]     Train net output #0: loss = 1.18351 (* 1 = 1.18351 loss)
+I0305 17:18:05.505745 28078 solver.cpp:454] Iteration 9860, lr = 0.02109
+I0305 17:18:17.838506 28078 solver.cpp:188] Iteration 9880, loss = 1.06189
+I0305 17:18:17.838579 28078 solver.cpp:203]     Train net output #0: loss = 1.06189 (* 1 = 1.06189 loss)
+I0305 17:18:17.838603 28078 solver.cpp:454] Iteration 9880, lr = 0.02109
+I0305 17:18:30.172122 28078 solver.cpp:188] Iteration 9900, loss = 1.17459
+I0305 17:18:30.172538 28078 solver.cpp:203]     Train net output #0: loss = 1.17459 (* 1 = 1.17459 loss)
+I0305 17:18:30.172572 28078 solver.cpp:454] Iteration 9900, lr = 0.02109
+I0305 17:18:42.471144 28078 solver.cpp:188] Iteration 9920, loss = 1.25418
+I0305 17:18:42.471225 28078 solver.cpp:203]     Train net output #0: loss = 1.25418 (* 1 = 1.25418 loss)
+I0305 17:18:42.471248 28078 solver.cpp:454] Iteration 9920, lr = 0.02109
+I0305 17:18:54.854666 28078 solver.cpp:188] Iteration 9940, loss = 1.15696
+I0305 17:18:54.854737 28078 solver.cpp:203]     Train net output #0: loss = 1.15696 (* 1 = 1.15696 loss)
+I0305 17:18:54.854761 28078 solver.cpp:454] Iteration 9940, lr = 0.02109
+I0305 17:19:07.214076 28078 solver.cpp:188] Iteration 9960, loss = 0.966588
+I0305 17:19:07.214440 28078 solver.cpp:203]     Train net output #0: loss = 0.966588 (* 1 = 0.966588 loss)
+I0305 17:19:07.214468 28078 solver.cpp:454] Iteration 9960, lr = 0.02109
+I0305 17:19:19.440168 28078 solver.cpp:188] Iteration 9980, loss = 1.10996
+I0305 17:19:19.440250 28078 solver.cpp:203]     Train net output #0: loss = 1.10996 (* 1 = 1.10996 loss)
+I0305 17:19:19.440273 28078 solver.cpp:454] Iteration 9980, lr = 0.02109
+I0305 17:19:31.747445 28078 solver.cpp:188] Iteration 10000, loss = 0.98351
+I0305 17:19:31.747534 28078 solver.cpp:203]     Train net output #0: loss = 0.98351 (* 1 = 0.98351 loss)
+I0305 17:19:31.747555 28078 solver.cpp:454] Iteration 10000, lr = 0.02109
+I0305 17:19:44.103770 28078 solver.cpp:188] Iteration 10020, loss = 1.25908
+I0305 17:19:44.104913 28078 solver.cpp:203]     Train net output #0: loss = 1.25908 (* 1 = 1.25908 loss)
+I0305 17:19:44.104950 28078 solver.cpp:454] Iteration 10020, lr = 0.02109
+I0305 17:19:56.464232 28078 solver.cpp:188] Iteration 10040, loss = 1.05428
+I0305 17:19:56.464309 28078 solver.cpp:203]     Train net output #0: loss = 1.05428 (* 1 = 1.05428 loss)
+I0305 17:19:56.464334 28078 solver.cpp:454] Iteration 10040, lr = 0.02109
+I0305 17:20:08.859655 28078 solver.cpp:188] Iteration 10060, loss = 1.02357
+I0305 17:20:08.859724 28078 solver.cpp:203]     Train net output #0: loss = 1.02357 (* 1 = 1.02357 loss)
+I0305 17:20:08.859750 28078 solver.cpp:454] Iteration 10060, lr = 0.02109
+I0305 17:20:21.126978 28078 solver.cpp:188] Iteration 10080, loss = 1.09738
+I0305 17:20:21.127272 28078 solver.cpp:203]     Train net output #0: loss = 1.09738 (* 1 = 1.09738 loss)
+I0305 17:20:21.127305 28078 solver.cpp:454] Iteration 10080, lr = 0.02109
+I0305 17:20:33.395767 28078 solver.cpp:188] Iteration 10100, loss = 1.29203
+I0305 17:20:33.395862 28078 solver.cpp:203]     Train net output #0: loss = 1.29203 (* 1 = 1.29203 loss)
+I0305 17:20:33.395885 28078 solver.cpp:454] Iteration 10100, lr = 0.02109
+I0305 17:20:45.765972 28078 solver.cpp:188] Iteration 10120, loss = 1.07096
+I0305 17:20:45.766063 28078 solver.cpp:203]     Train net output #0: loss = 1.07096 (* 1 = 1.07096 loss)
+I0305 17:20:45.766085 28078 solver.cpp:454] Iteration 10120, lr = 0.02109
+I0305 17:20:58.266131 28078 solver.cpp:188] Iteration 10140, loss = 0.846294
+I0305 17:20:58.266396 28078 solver.cpp:203]     Train net output #0: loss = 0.846294 (* 1 = 0.846294 loss)
+I0305 17:20:58.266425 28078 solver.cpp:454] Iteration 10140, lr = 0.02109
+I0305 17:21:10.692020 28078 solver.cpp:188] Iteration 10160, loss = 1.19391
+I0305 17:21:10.692144 28078 solver.cpp:203]     Train net output #0: loss = 1.19391 (* 1 = 1.19391 loss)
+I0305 17:21:10.692196 28078 solver.cpp:454] Iteration 10160, lr = 0.02109
+I0305 17:21:22.942736 28078 solver.cpp:188] Iteration 10180, loss = 1.05522
+I0305 17:21:22.942817 28078 solver.cpp:203]     Train net output #0: loss = 1.05522 (* 1 = 1.05522 loss)
+I0305 17:21:22.942842 28078 solver.cpp:454] Iteration 10180, lr = 0.02109
+I0305 17:21:35.148219 28078 solver.cpp:188] Iteration 10200, loss = 0.999681
+I0305 17:21:35.148530 28078 solver.cpp:203]     Train net output #0: loss = 0.999681 (* 1 = 0.999681 loss)
+I0305 17:21:35.148560 28078 solver.cpp:454] Iteration 10200, lr = 0.02109
+I0305 17:21:47.375727 28078 solver.cpp:188] Iteration 10220, loss = 1.12085
+I0305 17:21:47.375797 28078 solver.cpp:203]     Train net output #0: loss = 1.12085 (* 1 = 1.12085 loss)
+I0305 17:21:47.375820 28078 solver.cpp:454] Iteration 10220, lr = 0.02109
+I0305 17:21:59.821627 28078 solver.cpp:188] Iteration 10240, loss = 1.27909
+I0305 17:21:59.821776 28078 solver.cpp:203]     Train net output #0: loss = 1.27909 (* 1 = 1.27909 loss)
+I0305 17:21:59.821821 28078 solver.cpp:454] Iteration 10240, lr = 0.02109
+I0305 17:22:12.117480 28078 solver.cpp:188] Iteration 10260, loss = 1.1268
+I0305 17:22:12.117791 28078 solver.cpp:203]     Train net output #0: loss = 1.1268 (* 1 = 1.1268 loss)
+I0305 17:22:12.117818 28078 solver.cpp:454] Iteration 10260, lr = 0.02109
+I0305 17:22:24.326800 28078 solver.cpp:188] Iteration 10280, loss = 0.92588
+I0305 17:22:24.326892 28078 solver.cpp:203]     Train net output #0: loss = 0.92588 (* 1 = 0.92588 loss)
+I0305 17:22:24.326916 28078 solver.cpp:454] Iteration 10280, lr = 0.02109
+I0305 17:22:36.535456 28078 solver.cpp:188] Iteration 10300, loss = 1.26746
+I0305 17:22:36.535548 28078 solver.cpp:203]     Train net output #0: loss = 1.26746 (* 1 = 1.26746 loss)
+I0305 17:22:36.535572 28078 solver.cpp:454] Iteration 10300, lr = 0.02109
+I0305 17:22:48.828683 28078 solver.cpp:188] Iteration 10320, loss = 1.1979
+I0305 17:22:48.829010 28078 solver.cpp:203]     Train net output #0: loss = 1.1979 (* 1 = 1.1979 loss)
+I0305 17:22:48.829038 28078 solver.cpp:454] Iteration 10320, lr = 0.02109
+I0305 17:23:01.202002 28078 solver.cpp:188] Iteration 10340, loss = 1.20771
+I0305 17:23:01.202093 28078 solver.cpp:203]     Train net output #0: loss = 1.20771 (* 1 = 1.20771 loss)
+I0305 17:23:01.202116 28078 solver.cpp:454] Iteration 10340, lr = 0.02109
+I0305 17:23:13.593587 28078 solver.cpp:188] Iteration 10360, loss = 1.04173
+I0305 17:23:13.593680 28078 solver.cpp:203]     Train net output #0: loss = 1.04173 (* 1 = 1.04173 loss)
+I0305 17:23:13.593703 28078 solver.cpp:454] Iteration 10360, lr = 0.02109
+I0305 17:23:25.938283 28078 solver.cpp:188] Iteration 10380, loss = 1.23166
+I0305 17:23:25.938598 28078 solver.cpp:203]     Train net output #0: loss = 1.23166 (* 1 = 1.23166 loss)
+I0305 17:23:25.938627 28078 solver.cpp:454] Iteration 10380, lr = 0.02109
+I0305 17:23:38.236238 28078 solver.cpp:188] Iteration 10400, loss = 1.16485
+I0305 17:23:38.236312 28078 solver.cpp:203]     Train net output #0: loss = 1.16485 (* 1 = 1.16485 loss)
+I0305 17:23:38.236336 28078 solver.cpp:454] Iteration 10400, lr = 0.02109
+I0305 17:23:50.509456 28078 solver.cpp:188] Iteration 10420, loss = 1.3794
+I0305 17:23:50.509541 28078 solver.cpp:203]     Train net output #0: loss = 1.3794 (* 1 = 1.3794 loss)
+I0305 17:23:50.509563 28078 solver.cpp:454] Iteration 10420, lr = 0.02109
+I0305 17:24:02.769765 28078 solver.cpp:188] Iteration 10440, loss = 1.20675
+I0305 17:24:02.770066 28078 solver.cpp:203]     Train net output #0: loss = 1.20675 (* 1 = 1.20675 loss)
+I0305 17:24:02.770093 28078 solver.cpp:454] Iteration 10440, lr = 0.02109
+I0305 17:24:15.093621 28078 solver.cpp:188] Iteration 10460, loss = 1.17502
+I0305 17:24:15.093721 28078 solver.cpp:203]     Train net output #0: loss = 1.17502 (* 1 = 1.17502 loss)
+I0305 17:24:15.093744 28078 solver.cpp:454] Iteration 10460, lr = 0.02109
+I0305 17:24:27.453004 28078 solver.cpp:188] Iteration 10480, loss = 1.13595
+I0305 17:24:27.453099 28078 solver.cpp:203]     Train net output #0: loss = 1.13595 (* 1 = 1.13595 loss)
+I0305 17:24:27.453119 28078 solver.cpp:454] Iteration 10480, lr = 0.02109
+I0305 17:24:39.780650 28078 solver.cpp:188] Iteration 10500, loss = 0.969397
+I0305 17:24:39.780900 28078 solver.cpp:203]     Train net output #0: loss = 0.969397 (* 1 = 0.969397 loss)
+I0305 17:24:39.780927 28078 solver.cpp:454] Iteration 10500, lr = 0.018264
+I0305 17:24:52.112725 28078 solver.cpp:188] Iteration 10520, loss = 1.27609
+I0305 17:24:52.112792 28078 solver.cpp:203]     Train net output #0: loss = 1.27609 (* 1 = 1.27609 loss)
+I0305 17:24:52.112814 28078 solver.cpp:454] Iteration 10520, lr = 0.018264
+I0305 17:25:04.444377 28078 solver.cpp:188] Iteration 10540, loss = 1.11773
+I0305 17:25:04.444457 28078 solver.cpp:203]     Train net output #0: loss = 1.11773 (* 1 = 1.11773 loss)
+I0305 17:25:04.444480 28078 solver.cpp:454] Iteration 10540, lr = 0.018264
+I0305 17:25:16.766862 28078 solver.cpp:188] Iteration 10560, loss = 0.98173
+I0305 17:25:16.767298 28078 solver.cpp:203]     Train net output #0: loss = 0.98173 (* 1 = 0.98173 loss)
+I0305 17:25:16.767333 28078 solver.cpp:454] Iteration 10560, lr = 0.018264
+I0305 17:25:28.983397 28078 solver.cpp:188] Iteration 10580, loss = 1.20443
+I0305 17:25:28.983467 28078 solver.cpp:203]     Train net output #0: loss = 1.20443 (* 1 = 1.20443 loss)
+I0305 17:25:28.983491 28078 solver.cpp:454] Iteration 10580, lr = 0.018264
+I0305 17:25:41.190320 28078 solver.cpp:188] Iteration 10600, loss = 1.19829
+I0305 17:25:41.190438 28078 solver.cpp:203]     Train net output #0: loss = 1.19829 (* 1 = 1.19829 loss)
+I0305 17:25:41.190464 28078 solver.cpp:454] Iteration 10600, lr = 0.018264
+I0305 17:25:53.428503 28078 solver.cpp:188] Iteration 10620, loss = 1.23723
+I0305 17:25:53.428756 28078 solver.cpp:203]     Train net output #0: loss = 1.23723 (* 1 = 1.23723 loss)
+I0305 17:25:53.428781 28078 solver.cpp:454] Iteration 10620, lr = 0.018264
+I0305 17:26:05.767171 28078 solver.cpp:188] Iteration 10640, loss = 1.15028
+I0305 17:26:05.767266 28078 solver.cpp:203]     Train net output #0: loss = 1.15028 (* 1 = 1.15028 loss)
+I0305 17:26:05.767290 28078 solver.cpp:454] Iteration 10640, lr = 0.018264
+I0305 17:26:18.098494 28078 solver.cpp:188] Iteration 10660, loss = 1.37995
+I0305 17:26:18.098565 28078 solver.cpp:203]     Train net output #0: loss = 1.37995 (* 1 = 1.37995 loss)
+I0305 17:26:18.098587 28078 solver.cpp:454] Iteration 10660, lr = 0.018264
+I0305 17:26:30.346599 28078 solver.cpp:188] Iteration 10680, loss = 1.12255
+I0305 17:26:30.346869 28078 solver.cpp:203]     Train net output #0: loss = 1.12255 (* 1 = 1.12255 loss)
+I0305 17:26:30.346899 28078 solver.cpp:454] Iteration 10680, lr = 0.018264
+I0305 17:26:42.578855 28078 solver.cpp:188] Iteration 10700, loss = 1.09096
+I0305 17:26:42.578935 28078 solver.cpp:203]     Train net output #0: loss = 1.09096 (* 1 = 1.09096 loss)
+I0305 17:26:42.578959 28078 solver.cpp:454] Iteration 10700, lr = 0.018264
+I0305 17:26:54.821483 28078 solver.cpp:188] Iteration 10720, loss = 0.992828
+I0305 17:26:54.821610 28078 solver.cpp:203]     Train net output #0: loss = 0.992828 (* 1 = 0.992828 loss)
+I0305 17:26:54.821635 28078 solver.cpp:454] Iteration 10720, lr = 0.018264
+I0305 17:27:07.124992 28078 solver.cpp:188] Iteration 10740, loss = 1.10163
+I0305 17:27:07.125228 28078 solver.cpp:203]     Train net output #0: loss = 1.10163 (* 1 = 1.10163 loss)
+I0305 17:27:07.125255 28078 solver.cpp:454] Iteration 10740, lr = 0.018264
+I0305 17:27:19.555629 28078 solver.cpp:188] Iteration 10760, loss = 1.23633
+I0305 17:27:19.555753 28078 solver.cpp:203]     Train net output #0: loss = 1.23633 (* 1 = 1.23633 loss)
+I0305 17:27:19.555799 28078 solver.cpp:454] Iteration 10760, lr = 0.018264
+I0305 17:27:31.972671 28078 solver.cpp:188] Iteration 10780, loss = 1.08699
+I0305 17:27:31.972744 28078 solver.cpp:203]     Train net output #0: loss = 1.08699 (* 1 = 1.08699 loss)
+I0305 17:27:31.972765 28078 solver.cpp:454] Iteration 10780, lr = 0.018264
+I0305 17:27:44.284216 28078 solver.cpp:188] Iteration 10800, loss = 1.39573
+I0305 17:27:44.284545 28078 solver.cpp:203]     Train net output #0: loss = 1.39573 (* 1 = 1.39573 loss)
+I0305 17:27:44.284574 28078 solver.cpp:454] Iteration 10800, lr = 0.018264
+I0305 17:27:56.496162 28078 solver.cpp:188] Iteration 10820, loss = 1.06548
+I0305 17:27:56.496245 28078 solver.cpp:203]     Train net output #0: loss = 1.06548 (* 1 = 1.06548 loss)
+I0305 17:27:56.496268 28078 solver.cpp:454] Iteration 10820, lr = 0.018264
+I0305 17:28:08.702687 28078 solver.cpp:188] Iteration 10840, loss = 1.00489
+I0305 17:28:08.702759 28078 solver.cpp:203]     Train net output #0: loss = 1.00489 (* 1 = 1.00489 loss)
+I0305 17:28:08.702785 28078 solver.cpp:454] Iteration 10840, lr = 0.018264
+I0305 17:28:20.985896 28078 solver.cpp:188] Iteration 10860, loss = 1.2048
+I0305 17:28:20.986255 28078 solver.cpp:203]     Train net output #0: loss = 1.2048 (* 1 = 1.2048 loss)
+I0305 17:28:20.986282 28078 solver.cpp:454] Iteration 10860, lr = 0.018264
+I0305 17:28:33.312044 28078 solver.cpp:188] Iteration 10880, loss = 1.09614
+I0305 17:28:33.312116 28078 solver.cpp:203]     Train net output #0: loss = 1.09614 (* 1 = 1.09614 loss)
+I0305 17:28:33.312139 28078 solver.cpp:454] Iteration 10880, lr = 0.018264
+I0305 17:28:45.660397 28078 solver.cpp:188] Iteration 10900, loss = 1.16125
+I0305 17:28:45.660497 28078 solver.cpp:203]     Train net output #0: loss = 1.16125 (* 1 = 1.16125 loss)
+I0305 17:28:45.660522 28078 solver.cpp:454] Iteration 10900, lr = 0.018264
+I0305 17:28:57.990206 28078 solver.cpp:188] Iteration 10920, loss = 1.12803
+I0305 17:28:57.990576 28078 solver.cpp:203]     Train net output #0: loss = 1.12803 (* 1 = 1.12803 loss)
+I0305 17:28:57.990629 28078 solver.cpp:454] Iteration 10920, lr = 0.018264
+I0305 17:29:10.241710 28078 solver.cpp:188] Iteration 10940, loss = 0.972206
+I0305 17:29:10.241788 28078 solver.cpp:203]     Train net output #0: loss = 0.972206 (* 1 = 0.972206 loss)
+I0305 17:29:10.241811 28078 solver.cpp:454] Iteration 10940, lr = 0.018264
+I0305 17:29:22.447489 28078 solver.cpp:188] Iteration 10960, loss = 1.00894
+I0305 17:29:22.447571 28078 solver.cpp:203]     Train net output #0: loss = 1.00894 (* 1 = 1.00894 loss)
+I0305 17:29:22.447592 28078 solver.cpp:454] Iteration 10960, lr = 0.018264
+I0305 17:29:34.665863 28078 solver.cpp:188] Iteration 10980, loss = 1.2329
+I0305 17:29:34.666139 28078 solver.cpp:203]     Train net output #0: loss = 1.2329 (* 1 = 1.2329 loss)
+I0305 17:29:34.666170 28078 solver.cpp:454] Iteration 10980, lr = 0.018264
+I0305 17:29:46.971020 28078 solver.cpp:188] Iteration 11000, loss = 0.987279
+I0305 17:29:46.971096 28078 solver.cpp:203]     Train net output #0: loss = 0.987279 (* 1 = 0.987279 loss)
+I0305 17:29:46.971122 28078 solver.cpp:454] Iteration 11000, lr = 0.018264
+I0305 17:29:59.319583 28078 solver.cpp:188] Iteration 11020, loss = 0.962267
+I0305 17:29:59.319713 28078 solver.cpp:203]     Train net output #0: loss = 0.962267 (* 1 = 0.962267 loss)
+I0305 17:29:59.319757 28078 solver.cpp:454] Iteration 11020, lr = 0.018264
+I0305 17:30:11.674350 28078 solver.cpp:188] Iteration 11040, loss = 1.25743
+I0305 17:30:11.674672 28078 solver.cpp:203]     Train net output #0: loss = 1.25743 (* 1 = 1.25743 loss)
+I0305 17:30:11.674711 28078 solver.cpp:454] Iteration 11040, lr = 0.018264
+I0305 17:30:24.038650 28078 solver.cpp:188] Iteration 11060, loss = 1.17751
+I0305 17:30:24.038719 28078 solver.cpp:203]     Train net output #0: loss = 1.17751 (* 1 = 1.17751 loss)
+I0305 17:30:24.038744 28078 solver.cpp:454] Iteration 11060, lr = 0.018264
+I0305 17:30:36.278235 28078 solver.cpp:188] Iteration 11080, loss = 0.980762
+I0305 17:30:36.278324 28078 solver.cpp:203]     Train net output #0: loss = 0.980762 (* 1 = 0.980762 loss)
+I0305 17:30:36.278347 28078 solver.cpp:454] Iteration 11080, lr = 0.018264
+I0305 17:30:48.524147 28078 solver.cpp:188] Iteration 11100, loss = 1.26408
+I0305 17:30:48.524437 28078 solver.cpp:203]     Train net output #0: loss = 1.26408 (* 1 = 1.26408 loss)
+I0305 17:30:48.524467 28078 solver.cpp:454] Iteration 11100, lr = 0.018264
+I0305 17:31:00.767314 28078 solver.cpp:188] Iteration 11120, loss = 0.971551
+I0305 17:31:00.767390 28078 solver.cpp:203]     Train net output #0: loss = 0.971551 (* 1 = 0.971551 loss)
+I0305 17:31:00.767415 28078 solver.cpp:454] Iteration 11120, lr = 0.018264
+I0305 17:31:13.035730 28078 solver.cpp:188] Iteration 11140, loss = 1.06966
+I0305 17:31:13.035892 28078 solver.cpp:203]     Train net output #0: loss = 1.06966 (* 1 = 1.06966 loss)
+I0305 17:31:13.035961 28078 solver.cpp:454] Iteration 11140, lr = 0.018264
+I0305 17:31:25.338592 28078 solver.cpp:188] Iteration 11160, loss = 1.0818
+I0305 17:31:25.338879 28078 solver.cpp:203]     Train net output #0: loss = 1.0818 (* 1 = 1.0818 loss)
+I0305 17:31:25.338909 28078 solver.cpp:454] Iteration 11160, lr = 0.018264
+I0305 17:31:37.700289 28078 solver.cpp:188] Iteration 11180, loss = 1.0842
+I0305 17:31:37.700424 28078 solver.cpp:203]     Train net output #0: loss = 1.0842 (* 1 = 1.0842 loss)
+I0305 17:31:37.700448 28078 solver.cpp:454] Iteration 11180, lr = 0.018264
+I0305 17:31:50.083034 28078 solver.cpp:188] Iteration 11200, loss = 1.14289
+I0305 17:31:50.083104 28078 solver.cpp:203]     Train net output #0: loss = 1.14289 (* 1 = 1.14289 loss)
+I0305 17:31:50.083127 28078 solver.cpp:454] Iteration 11200, lr = 0.018264
+I0305 17:32:02.396245 28078 solver.cpp:188] Iteration 11220, loss = 1.11477
+I0305 17:32:02.396586 28078 solver.cpp:203]     Train net output #0: loss = 1.11477 (* 1 = 1.11477 loss)
+I0305 17:32:02.396641 28078 solver.cpp:454] Iteration 11220, lr = 0.018264
+I0305 17:32:14.617221 28078 solver.cpp:188] Iteration 11240, loss = 1.22363
+I0305 17:32:14.617316 28078 solver.cpp:203]     Train net output #0: loss = 1.22363 (* 1 = 1.22363 loss)
+I0305 17:32:14.617338 28078 solver.cpp:454] Iteration 11240, lr = 0.018264
+I0305 17:32:26.844027 28078 solver.cpp:188] Iteration 11260, loss = 1.07256
+I0305 17:32:26.844172 28078 solver.cpp:203]     Train net output #0: loss = 1.07256 (* 1 = 1.07256 loss)
+I0305 17:32:26.844216 28078 solver.cpp:454] Iteration 11260, lr = 0.018264
+I0305 17:32:39.168890 28078 solver.cpp:188] Iteration 11280, loss = 1.10492
+I0305 17:32:39.169147 28078 solver.cpp:203]     Train net output #0: loss = 1.10492 (* 1 = 1.10492 loss)
+I0305 17:32:39.169175 28078 solver.cpp:454] Iteration 11280, lr = 0.018264
+I0305 17:32:51.379801 28078 solver.cpp:188] Iteration 11300, loss = 1.14875
+I0305 17:32:51.379885 28078 solver.cpp:203]     Train net output #0: loss = 1.14875 (* 1 = 1.14875 loss)
+I0305 17:32:51.379907 28078 solver.cpp:454] Iteration 11300, lr = 0.018264
+I0305 17:33:03.725462 28078 solver.cpp:188] Iteration 11320, loss = 1.11959
+I0305 17:33:03.725548 28078 solver.cpp:203]     Train net output #0: loss = 1.11959 (* 1 = 1.11959 loss)
+I0305 17:33:03.725569 28078 solver.cpp:454] Iteration 11320, lr = 0.018264
+I0305 17:33:16.182822 28078 solver.cpp:188] Iteration 11340, loss = 0.964788
+I0305 17:33:16.183085 28078 solver.cpp:203]     Train net output #0: loss = 0.964788 (* 1 = 0.964788 loss)
+I0305 17:33:16.183120 28078 solver.cpp:454] Iteration 11340, lr = 0.018264
+I0305 17:33:28.569396 28078 solver.cpp:188] Iteration 11360, loss = 0.958233
+I0305 17:33:28.569576 28078 solver.cpp:203]     Train net output #0: loss = 0.958233 (* 1 = 0.958233 loss)
+I0305 17:33:28.569625 28078 solver.cpp:454] Iteration 11360, lr = 0.018264
+I0305 17:33:40.829488 28078 solver.cpp:188] Iteration 11380, loss = 1.04196
+I0305 17:33:40.829561 28078 solver.cpp:203]     Train net output #0: loss = 1.04196 (* 1 = 1.04196 loss)
+I0305 17:33:40.829586 28078 solver.cpp:454] Iteration 11380, lr = 0.018264
+I0305 17:33:53.077828 28078 solver.cpp:188] Iteration 11400, loss = 1.05016
+I0305 17:33:53.078193 28078 solver.cpp:203]     Train net output #0: loss = 1.05016 (* 1 = 1.05016 loss)
+I0305 17:33:53.078220 28078 solver.cpp:454] Iteration 11400, lr = 0.018264
+I0305 17:34:05.282264 28078 solver.cpp:188] Iteration 11420, loss = 0.867185
+I0305 17:34:05.282346 28078 solver.cpp:203]     Train net output #0: loss = 0.867185 (* 1 = 0.867185 loss)
+I0305 17:34:05.282366 28078 solver.cpp:454] Iteration 11420, lr = 0.018264
+I0305 17:34:17.520802 28078 solver.cpp:188] Iteration 11440, loss = 1.11
+I0305 17:34:17.520887 28078 solver.cpp:203]     Train net output #0: loss = 1.11 (* 1 = 1.11 loss)
+I0305 17:34:17.520910 28078 solver.cpp:454] Iteration 11440, lr = 0.018264
+I0305 17:34:29.864853 28078 solver.cpp:188] Iteration 11460, loss = 1.07166
+I0305 17:34:29.865238 28078 solver.cpp:203]     Train net output #0: loss = 1.07166 (* 1 = 1.07166 loss)
+I0305 17:34:29.865267 28078 solver.cpp:454] Iteration 11460, lr = 0.018264
+I0305 17:34:42.244459 28078 solver.cpp:188] Iteration 11480, loss = 0.840531
+I0305 17:34:42.244540 28078 solver.cpp:203]     Train net output #0: loss = 0.840531 (* 1 = 0.840531 loss)
+I0305 17:34:42.244566 28078 solver.cpp:454] Iteration 11480, lr = 0.018264
+I0305 17:34:54.601040 28078 solver.cpp:188] Iteration 11500, loss = 1.02352
+I0305 17:34:54.601200 28078 solver.cpp:203]     Train net output #0: loss = 1.02352 (* 1 = 1.02352 loss)
+I0305 17:34:54.601248 28078 solver.cpp:454] Iteration 11500, lr = 0.018264
+I0305 17:35:06.847795 28078 solver.cpp:188] Iteration 11520, loss = 1.09528
+I0305 17:35:06.848208 28078 solver.cpp:203]     Train net output #0: loss = 1.09528 (* 1 = 1.09528 loss)
+I0305 17:35:06.848243 28078 solver.cpp:454] Iteration 11520, lr = 0.018264
+I0305 17:35:19.100181 28078 solver.cpp:188] Iteration 11540, loss = 0.884124
+I0305 17:35:19.100265 28078 solver.cpp:203]     Train net output #0: loss = 0.884124 (* 1 = 0.884124 loss)
+I0305 17:35:19.100289 28078 solver.cpp:454] Iteration 11540, lr = 0.018264
+I0305 17:35:31.349055 28078 solver.cpp:188] Iteration 11560, loss = 1.04173
+I0305 17:35:31.349135 28078 solver.cpp:203]     Train net output #0: loss = 1.04173 (* 1 = 1.04173 loss)
+I0305 17:35:31.349158 28078 solver.cpp:454] Iteration 11560, lr = 0.018264
+I0305 17:35:43.639400 28078 solver.cpp:188] Iteration 11580, loss = 0.81815
+I0305 17:35:43.639647 28078 solver.cpp:203]     Train net output #0: loss = 0.81815 (* 1 = 0.81815 loss)
+I0305 17:35:43.639674 28078 solver.cpp:454] Iteration 11580, lr = 0.018264
+I0305 17:35:56.003046 28078 solver.cpp:188] Iteration 11600, loss = 1.08999
+I0305 17:35:56.003129 28078 solver.cpp:203]     Train net output #0: loss = 1.08999 (* 1 = 1.08999 loss)
+I0305 17:35:56.003151 28078 solver.cpp:454] Iteration 11600, lr = 0.018264
+I0305 17:36:08.356816 28078 solver.cpp:188] Iteration 11620, loss = 1.08773
+I0305 17:36:08.356920 28078 solver.cpp:203]     Train net output #0: loss = 1.08773 (* 1 = 1.08773 loss)
+I0305 17:36:08.356945 28078 solver.cpp:454] Iteration 11620, lr = 0.018264
+I0305 17:36:20.695852 28078 solver.cpp:188] Iteration 11640, loss = 0.897721
+I0305 17:36:20.696213 28078 solver.cpp:203]     Train net output #0: loss = 0.897721 (* 1 = 0.897721 loss)
+I0305 17:36:20.696243 28078 solver.cpp:454] Iteration 11640, lr = 0.018264
+I0305 17:36:32.883167 28078 solver.cpp:188] Iteration 11660, loss = 0.963426
+I0305 17:36:32.883265 28078 solver.cpp:203]     Train net output #0: loss = 0.963426 (* 1 = 0.963426 loss)
+I0305 17:36:32.883287 28078 solver.cpp:454] Iteration 11660, lr = 0.018264
+I0305 17:36:45.089184 28078 solver.cpp:188] Iteration 11680, loss = 1.08068
+I0305 17:36:45.089254 28078 solver.cpp:203]     Train net output #0: loss = 1.08068 (* 1 = 1.08068 loss)
+I0305 17:36:45.089278 28078 solver.cpp:454] Iteration 11680, lr = 0.018264
+I0305 17:36:57.644315 28078 solver.cpp:188] Iteration 11700, loss = 0.998149
+I0305 17:36:57.644559 28078 solver.cpp:203]     Train net output #0: loss = 0.998149 (* 1 = 0.998149 loss)
+I0305 17:36:57.644589 28078 solver.cpp:454] Iteration 11700, lr = 0.018264
+I0305 17:37:10.027933 28078 solver.cpp:188] Iteration 11720, loss = 0.945952
+I0305 17:37:10.028050 28078 solver.cpp:203]     Train net output #0: loss = 0.945952 (* 1 = 0.945952 loss)
+I0305 17:37:10.028074 28078 solver.cpp:454] Iteration 11720, lr = 0.018264
+I0305 17:37:22.418207 28078 solver.cpp:188] Iteration 11740, loss = 1.09116
+I0305 17:37:22.418295 28078 solver.cpp:203]     Train net output #0: loss = 1.09116 (* 1 = 1.09116 loss)
+I0305 17:37:22.418321 28078 solver.cpp:454] Iteration 11740, lr = 0.018264
+I0305 17:37:34.710392 28078 solver.cpp:188] Iteration 11760, loss = 1.05292
+I0305 17:37:34.712002 28078 solver.cpp:203]     Train net output #0: loss = 1.05292 (* 1 = 1.05292 loss)
+I0305 17:37:34.712031 28078 solver.cpp:454] Iteration 11760, lr = 0.018264
+I0305 17:37:46.980934 28078 solver.cpp:188] Iteration 11780, loss = 1.16162
+I0305 17:37:46.981020 28078 solver.cpp:203]     Train net output #0: loss = 1.16162 (* 1 = 1.16162 loss)
+I0305 17:37:46.981050 28078 solver.cpp:454] Iteration 11780, lr = 0.018264
+I0305 17:37:59.254220 28078 solver.cpp:188] Iteration 11800, loss = 1.08655
+I0305 17:37:59.254309 28078 solver.cpp:203]     Train net output #0: loss = 1.08655 (* 1 = 1.08655 loss)
+I0305 17:37:59.254334 28078 solver.cpp:454] Iteration 11800, lr = 0.018264
+I0305 17:38:11.595350 28078 solver.cpp:188] Iteration 11820, loss = 0.902347
+I0305 17:38:11.600013 28078 solver.cpp:203]     Train net output #0: loss = 0.902347 (* 1 = 0.902347 loss)
+I0305 17:38:11.600049 28078 solver.cpp:454] Iteration 11820, lr = 0.018264
+I0305 17:38:23.999485 28078 solver.cpp:188] Iteration 11840, loss = 1.02285
+I0305 17:38:23.999586 28078 solver.cpp:203]     Train net output #0: loss = 1.02285 (* 1 = 1.02285 loss)
+I0305 17:38:23.999614 28078 solver.cpp:454] Iteration 11840, lr = 0.018264
+I0305 17:38:36.361842 28078 solver.cpp:188] Iteration 11860, loss = 1.10348
+I0305 17:38:36.361949 28078 solver.cpp:203]     Train net output #0: loss = 1.10348 (* 1 = 1.10348 loss)
+I0305 17:38:36.361974 28078 solver.cpp:454] Iteration 11860, lr = 0.018264
+I0305 17:38:48.615679 28078 solver.cpp:188] Iteration 11880, loss = 1.17551
+I0305 17:38:48.620012 28078 solver.cpp:203]     Train net output #0: loss = 1.17551 (* 1 = 1.17551 loss)
+I0305 17:38:48.620044 28078 solver.cpp:454] Iteration 11880, lr = 0.018264
+I0305 17:39:00.914046 28078 solver.cpp:188] Iteration 11900, loss = 1.01073
+I0305 17:39:00.914147 28078 solver.cpp:203]     Train net output #0: loss = 1.01073 (* 1 = 1.01073 loss)
+I0305 17:39:00.914170 28078 solver.cpp:454] Iteration 11900, lr = 0.018264
+I0305 17:39:13.259198 28078 solver.cpp:188] Iteration 11920, loss = 1.19507
+I0305 17:39:13.259305 28078 solver.cpp:203]     Train net output #0: loss = 1.19507 (* 1 = 1.19507 loss)
+I0305 17:39:13.259328 28078 solver.cpp:454] Iteration 11920, lr = 0.018264
+I0305 17:39:25.583421 28078 solver.cpp:188] Iteration 11940, loss = 0.904929
+I0305 17:39:25.583647 28078 solver.cpp:203]     Train net output #0: loss = 0.904929 (* 1 = 0.904929 loss)
+I0305 17:39:25.583667 28078 solver.cpp:454] Iteration 11940, lr = 0.018264
+I0305 17:39:37.862814 28078 solver.cpp:188] Iteration 11960, loss = 0.948932
+I0305 17:39:37.862910 28078 solver.cpp:203]     Train net output #0: loss = 0.948932 (* 1 = 0.948932 loss)
+I0305 17:39:37.862932 28078 solver.cpp:454] Iteration 11960, lr = 0.018264
+I0305 17:39:50.191722 28078 solver.cpp:188] Iteration 11980, loss = 1.12006
+I0305 17:39:50.191826 28078 solver.cpp:203]     Train net output #0: loss = 1.12006 (* 1 = 1.12006 loss)
+I0305 17:39:50.191850 28078 solver.cpp:454] Iteration 11980, lr = 0.018264
+I0305 17:40:02.446244 28078 solver.cpp:337] Snapshotting to snapshots/model5_bn_realtime_aug_iter_12000.caffemodel
+I0305 17:40:02.632936 28078 solver.cpp:345] Snapshotting solver state to snapshots/model5_bn_realtime_aug_iter_12000.solverstate
+I0305 17:40:02.974093 28078 solver.cpp:188] Iteration 12000, loss = 0.905234
+I0305 17:40:02.974196 28078 solver.cpp:203]     Train net output #0: loss = 0.905234 (* 1 = 0.905234 loss)
+I0305 17:40:02.974221 28078 solver.cpp:454] Iteration 12000, lr = 0.0158166
+I0305 17:40:15.140135 28078 solver.cpp:188] Iteration 12020, loss = 1.09661
+I0305 17:40:15.140235 28078 solver.cpp:203]     Train net output #0: loss = 1.09661 (* 1 = 1.09661 loss)
+I0305 17:40:15.140259 28078 solver.cpp:454] Iteration 12020, lr = 0.0158166
+I0305 17:40:27.746320 28078 solver.cpp:188] Iteration 12040, loss = 1.19302
+I0305 17:40:27.746417 28078 solver.cpp:203]     Train net output #0: loss = 1.19302 (* 1 = 1.19302 loss)
+I0305 17:40:27.746439 28078 solver.cpp:454] Iteration 12040, lr = 0.0158166
+I0305 17:40:40.188782 28078 solver.cpp:188] Iteration 12060, loss = 1.25999
+I0305 17:40:40.192109 28078 solver.cpp:203]     Train net output #0: loss = 1.25999 (* 1 = 1.25999 loss)
+I0305 17:40:40.192138 28078 solver.cpp:454] Iteration 12060, lr = 0.0158166
+I0305 17:40:52.542418 28078 solver.cpp:188] Iteration 12080, loss = 1.34694
+I0305 17:40:52.542527 28078 solver.cpp:203]     Train net output #0: loss = 1.34694 (* 1 = 1.34694 loss)
+I0305 17:40:52.542554 28078 solver.cpp:454] Iteration 12080, lr = 0.0158166
+I0305 17:41:04.798960 28078 solver.cpp:188] Iteration 12100, loss = 1.07144
+I0305 17:41:04.799065 28078 solver.cpp:203]     Train net output #0: loss = 1.07144 (* 1 = 1.07144 loss)
+I0305 17:41:04.799089 28078 solver.cpp:454] Iteration 12100, lr = 0.0158166
+I0305 17:41:17.086205 28078 solver.cpp:188] Iteration 12120, loss = 1.03611
+I0305 17:41:17.088632 28078 solver.cpp:203]     Train net output #0: loss = 1.03611 (* 1 = 1.03611 loss)
+I0305 17:41:17.088659 28078 solver.cpp:454] Iteration 12120, lr = 0.0158166
+I0305 17:41:29.363414 28078 solver.cpp:188] Iteration 12140, loss = 1.24059
+I0305 17:41:29.363515 28078 solver.cpp:203]     Train net output #0: loss = 1.24059 (* 1 = 1.24059 loss)
+I0305 17:41:29.363539 28078 solver.cpp:454] Iteration 12140, lr = 0.0158166
+I0305 17:41:41.709868 28078 solver.cpp:188] Iteration 12160, loss = 1.12772
+I0305 17:41:41.709945 28078 solver.cpp:203]     Train net output #0: loss = 1.12772 (* 1 = 1.12772 loss)
+I0305 17:41:41.709966 28078 solver.cpp:454] Iteration 12160, lr = 0.0158166
+I0305 17:41:54.118221 28078 solver.cpp:188] Iteration 12180, loss = 1.00166
+I0305 17:41:54.120087 28078 solver.cpp:203]     Train net output #0: loss = 1.00166 (* 1 = 1.00166 loss)
+I0305 17:41:54.120142 28078 solver.cpp:454] Iteration 12180, lr = 0.0158166
+I0305 17:42:06.449512 28078 solver.cpp:188] Iteration 12200, loss = 1.05183
+I0305 17:42:06.449601 28078 solver.cpp:203]     Train net output #0: loss = 1.05183 (* 1 = 1.05183 loss)
+I0305 17:42:06.449622 28078 solver.cpp:454] Iteration 12200, lr = 0.0158166
+I0305 17:42:18.720036 28078 solver.cpp:188] Iteration 12220, loss = 1.15926
+I0305 17:42:18.720115 28078 solver.cpp:203]     Train net output #0: loss = 1.15926 (* 1 = 1.15926 loss)
+I0305 17:42:18.720137 28078 solver.cpp:454] Iteration 12220, lr = 0.0158166
+I0305 17:42:31.005053 28078 solver.cpp:188] Iteration 12240, loss = 1.224

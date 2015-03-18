@@ -1,0 +1,66 @@
+#!/bin/bash
+#To prepare a Kaggle sumbission:
+# Usage:
+#  ./labels2csv_jhlim filelist.txt labelsfile.txt prediction.csv submission.csv
+
+##################
+#filelist=/home/jaehyun/kaggle/nationalDataScienceBowl/data/orig/filelist_test.txt
+filelist=$1
+
+cat $filelist | sed 's/.*\///' > filelist_test.txt.tmp
+
+cut -d " " -f 1 filelist_test.txt.tmp  > filelist_test.txt.tmp2
+
+sed -i '1s/^/image\n/' filelist_test.txt.tmp2
+
+##################
+
+#labelsfile=/home/jaehyun/kaggle/nationalDataScienceBowl/data/ndsb_labels.txt
+labelsfile=$2
+
+declare -A num2label
+declare -A label2num
+i=0
+while read line
+do
+  index=$(echo $line | cut -d ' ' -f 1)
+  label=$(echo $line | cut -d ' ' -f 2)
+  num2label[$index]=$label
+  label2num[$label]=$index
+  #echo num2label\[$index\]=${num2label[$i]}
+  #echo label2num\[$label\]=${label2num[$label]}
+  let "i+=1"
+done < $labelsfile
+
+#echo i = $i
+#echo \# of label = ${#num2label[@]}
+
+if [ ${#num2label[@]} != $i ]
+then
+  echo something wrong with labels. label indices do not match with number of lines in the text file.
+  exit
+fi
+
+replacementline=""
+n=${#num2label[@]}-1
+replacementline+=${num2label[0]}
+for ((i=1; i<=$n; i++)) do
+  replacementline+=','
+  replacementline+=${num2label[$i]}
+done
+
+#echo $replacementline
+
+#sed '1s/.*/'$replacementline'/' predictions.probs > predictions.probs.tmp
+#sed -e '1s/^/'$replacementline'\n/' prediction.csv > prediction.csv.tmp
+prediction=$3
+sed -e '1s/^/'$replacementline'\n/' $prediction > prediction.csv.tmp
+
+##############################################
+#paste -d , filelist_test.txt.tmp prediction.csv.tmp > submission.csv
+outfile=$4
+paste -d , filelist_test.txt.tmp2 prediction.csv.tmp > $outfile
+
+rm filelist_test.txt.tmp2
+rm filelist_test.txt.tmp 
+rm prediction.csv.tmp

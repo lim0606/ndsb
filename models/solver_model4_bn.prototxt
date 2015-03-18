@@ -1,0 +1,30 @@
+# model4 with batch normalization
+net: "model/train_val_model4_bn.prototxt"
+test_iter: 40
+test_interval: 500
+
+# solver type
+solver_type: SGD
+
+# learning rate policy
+base_lr: 0.1
+momentum: 0.9
+# learning rate scheduling
+lr_policy: "step"
+gamma: 0.8660
+stepsize: 1500
+#lr_policy: "inv"
+#gamma: 0.0001
+#power: 0.75
+
+# weight decay
+weight_decay: 0.0005
+
+# display option
+display: 20
+
+# the maximum number of iteration
+max_iter: 600000
+snapshot: 6000
+snapshot_prefix: "snapshots/model4_bn"
+solver_mode: GPU

@@ -1,0 +1,17 @@
+# GoogLeNet
+net: "model/train_val_googlenet_bn.prototxt"
+test_iter: 50
+test_interval: 4000
+test_initialization: false
+display: 40
+average_loss: 40
+base_lr: 0.01
+lr_policy: "step"
+stepsize: 320000
+gamma: 0.96
+max_iter: 10000000
+momentum: 0.9
+weight_decay: 0.0002
+snapshot: 4000
+snapshot_prefix: "snapshots/googlenet_bn"
+solver_mode: GPU

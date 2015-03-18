@@ -1,0 +1,28 @@
+# model5 wit batch normalization
+net: "model/train_model5_bn_realtime_aug.prototxt"
+
+# solver type
+solver_type: SGD
+
+# learning rate policy
+base_lr: 0.05
+momentum: 0.9
+# learning rate scheduling
+lr_policy: "step"
+gamma: 0.8660
+stepsize: 3000
+#lr_policy: "inv"
+#gamma: 0.0001
+#power: 0.75
+
+# weight decay
+weight_decay: 0.0005
+
+# display option
+display: 20
+
+# the maximum number of iteration
+max_iter: 600000
+snapshot: 6000
+snapshot_prefix: "snapshots/model5_bn_realtime_aug"
+solver_mode: GPU

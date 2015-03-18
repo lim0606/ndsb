@@ -1,0 +1,24 @@
+# sparseConvNet
+net: "model/train_sparseConvNet.prototxt"
+
+# solver type
+solver_type: SGD
+
+# learning rate policy
+lr_policy: "step2"
+base_lr: 0.015
+momentum: 0.9
+alpha: -0.005
+stepsize: 900
+
+# weight decay
+weight_decay: 0.0005
+
+# display option
+display: 20
+
+# the maximum number of iteration
+max_iter: 450000
+snapshot: 9000
+snapshot_prefix: "snapshots/sparseConvNet"
+solver_mode: GPU
