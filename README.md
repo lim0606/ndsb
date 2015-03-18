@@ -1,4 +1,4 @@
-# Kaggle NDSB compettision with deep learning
+# Kaggle NDSB competition with deep learning
 
 I finished the competition with 22nd position (with small difference(?) from the winning solution)! 
 I participated this competition to wrap-up and study the recent deep learning techniques, so I want to share my experiences.
