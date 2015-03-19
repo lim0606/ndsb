@@ -33,6 +33,8 @@ I will explain my approach in following order (like the blog post of the winning
   * Change interpolation methods in image transformation (in Caffe) from linear interpolation to cubic. 
 6. Final submissions
   * Model averaging of 18 GoogLeNets (for NDSB) and 14 cxx\_net variants. 
+7. Hardwares
+  * Three local machines, each having either one or two NVIDIA GTX titan black graphic cards, and five Amazon EC2 servers supporting NVIDIA gpu.
 
 ### Data preprocessing and Data augmentation
 * Scaling
@@ -100,3 +102,9 @@ I will explain my approach in following order (like the blog post of the winning
 6. For single model of GoogLeNet for NDSB produced about 75% accuracy and 0.80 loss. 
 7. For single model of GoogLeNet for NDSB and a single model of model5 (cxx\_net variant) with online augmentation and multiple inference (8 inference) produced 0.68 loss. 
 8. Model averaging of 18 GoogLeNets (for NDSB) and 14 cxx\_net variants produced 0.639206 loss. 
+
+### Hardwares
+  * Three local machines, each having either one or two NVIDIA GTX titan black graphic cards, and five Amazon EC2 servers supporting NVIDIA gpu.
+  
+  During the competition, I've used a single desktop installed a single NVIDIA GTX titan black. For the last week of the competition, two desktops and five Amazon EC2 servers supporting NVIDIA gpu to train models parallely. To use Amazon EC2 servers, I followed instructions of this post, https://github.com/duguyue100/awsdlgpu/blob/master/aws_for_dl.md. 
+  
