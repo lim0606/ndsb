@@ -106,5 +106,5 @@ I will explain my approach in following order (like the blog post of the winning
 ### Hardwares
   * Three local machines, each having either one or two NVIDIA GTX titan black graphic cards, and five Amazon EC2 servers supporting NVIDIA gpu.
   
-  During the competition, I've used a single desktop installed a single NVIDIA GTX titan black. For the last week of the competition, two desktops and five Amazon EC2 servers supporting NVIDIA gpu to train models parallely. To use Amazon EC2 servers, I followed instructions of this post, https://github.com/duguyue100/awsdlgpu/blob/master/aws_for_dl.md. 
+  During the competition, I've used a single desktop installed a single NVIDIA GTX titan black. For the last week of the competition, two desktops and five Amazon EC2 servers supporting NVIDIA gpu were added to train models parallely. To use Amazon EC2 servers, I followed instructions of this post, https://github.com/duguyue100/awsdlgpu/blob/master/aws_for_dl.md. 
   
